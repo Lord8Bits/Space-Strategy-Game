@@ -3,4 +3,6 @@ project(Space-Strategy-Game)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_executable(Space_Game main.cpp)
+file(GLOB src_files "src/*.cpp")
+
+add_executable(Space_Game main.cpp ${src_files})
