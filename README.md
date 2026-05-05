@@ -3,7 +3,7 @@
 ## Team Responsibilities
 
 ### Core Logic & Entities
-**Ilyas**
+**Ilyas** (FengMin-000)
 *   **Ship Hierarchy**: Development of the base `Ship` class and specialized subclasses (`DestroyerShip`, `CruiserShip`, `MinerShip`).
 *   **Skill System**: Implementation of a numerical ID-based skill mechanic.
 *   **Action Framework**: Creation of a modular action system using IDs to allow for scalable ship capabilities.
