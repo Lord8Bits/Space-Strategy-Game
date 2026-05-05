@@ -8,8 +8,7 @@ Map::Map() = default;
 
 Map::~Map() = default;
 
-void Map::render()
+void Map::addSector(const Sector& sector)
 {
-    for (int i = 0; i < sectors.size(); i++)
-        sectors[i].
+    _sectors.push_back(sector);
 }

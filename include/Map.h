@@ -10,14 +10,14 @@
 
 
 class Map {
+    friend class Render;
 private:
-    std::vector<Sector> sectors;
-    int selected_sector{};
+    std::vector<Sector> _sectors;
+    int _selected_sector{};
 public:
     Map();
     ~Map();
-
-    void render();
+    void addSector(const Sector& sector);
 };
 
 
