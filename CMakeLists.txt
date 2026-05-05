@@ -3,4 +3,10 @@ project(Space-Strategy-Game)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_executable(Space_Game main.cpp)
+
+include_directories(include)
+include_directories(src)
+
+file(GLOB_RECURSE SOURCES "src/*.cpp")
+
+add_executable(Space_Game ${SOURCES})
