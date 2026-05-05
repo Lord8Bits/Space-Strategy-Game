@@ -12,13 +12,25 @@ struct Vec2 {
     int y{};
 };
 
-class SpaceEntity {
-private:
-    Vec2 pos{};
+enum Color {
+    White,
+    Red,
+    Blue,
+    Green,
+};
+
+struct Cell {
     char symbol;
-    std::string color;
+    Color color;
+};
+
+class SpaceEntity {
+    friend class Render;
+private:
+    Vec2 _pos{0,0};
+    Cell _cell{'.', White};
 public:
-    SpaceEntity();
+    SpaceEntity(Vec2 new_pos, Cell new_cell);
     virtual ~SpaceEntity();
 };
 
