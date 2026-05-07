@@ -4,22 +4,18 @@
 
 #include "../include/Sector.h"
 
-Sector::Sector(const int x_s, const int x_e, const int y_s, const int y_e) : _x_start(x_s), _y_start(y_s), _x_end(x_e),  _y_end(y_e) {};
+Chunk::Chunk() = default;
 
-Sector::~Sector()
+Chunk::~Chunk() = default;
+
+void Chunk::addEntity(const int entity_id, std::unique_ptr<Entity> entity)
 {
-    for (const Entity* entity : _entities)
-        delete entity;
+    _entities.insert({entity_id, std::move(entity)});
 }
 
-void Sector::addEntity(Entity* entity)
+void Chunk::removeEntity(const int entity_id)
 {
-    _entities.push_back(entity);
-}
-
-void Sector::removeEntity(Entity* entity)
-{
-    std::erase(_entities, entity);
+    _entities.erase(entity_id);
 }
 
 
