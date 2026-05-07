@@ -20,6 +20,11 @@
 *   **Coordinate Translation**: Creation of the `ViewPort` system to map input coordinates to internal memory indices.
 *   **Input Parsing**: Development of the `InputParser` to translate user strings into executable `SpaceEntity` actions.
 
+**Reda Gachouch**
+* **Player State Management**: Implementation of the `Player` class to track individual ships, unique identifiers, and fleet status.
+* **Perception & Fog of War**: Development of a bitset-based discovery system (`std::bitset<WORLD_SIZE>`) to track explored areas and current visibility ranges.
+* **Subjective Rendering Logic**: Engineering the filtering layer that ensures the `Render` class only displays entities currently known or visible to the active player.
+
 **Aymane Larhrissi (Lead)**
 *   **Spatial Partitioning**: Development of the `Sector` class to manage local $(x, y)$ coordinate ranges.
 *   **World Mapping**: Creation of the `Map` class to track all sectors and manage the current active player view.
