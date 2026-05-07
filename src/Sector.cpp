@@ -8,16 +8,16 @@ Sector::Sector(const int x_s, const int x_e, const int y_s, const int y_e) : _x_
 
 Sector::~Sector()
 {
-    for (const SpaceEntity* entity : _entities)
+    for (const Entity* entity : _entities)
         delete entity;
 }
 
-void Sector::addEntity(SpaceEntity* entity)
+void Sector::addEntity(Entity* entity)
 {
     _entities.push_back(entity);
 }
 
-void Sector::removeEntity(SpaceEntity* entity)
+void Sector::removeEntity(Entity* entity)
 {
     std::erase(_entities, entity);
 }
