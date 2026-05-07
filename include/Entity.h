@@ -30,7 +30,12 @@ private:
     static int _next_id; //Unique id for each entity
     int _id;
     std::string _name;
-    Vec2 _pos{0,0};              ///< Current position of the entity
+
+    /// Position: [ABSOLUTE world coordinates]
+    /// Range: [0..WORLD_WIDTH) × [0..WORLD_HEIGHT)
+    /// Note: These are independent of which chunk the entity is in
+    Vec2 _pos{0,0};
+
     Cell _cell{'.', GameUI::Color::WHITE};      ///< Visual representation of the entity
 public:
     /// @brief Constructor for SpaceEntity

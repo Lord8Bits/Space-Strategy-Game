@@ -12,31 +12,36 @@
 
 /// @brief Represents a bounded region of the game world containing entities
 ///
-/// A Sector is a rectangular area defined by starting and ending coordinates.
-/// It manages a collection of SpaceEntity objects within its boundaries.
+/// A Chunk is a spatial partition (like Minecraft chunks) that:
+/// - Covers a rectangular area [_idx_start to _idx_end] in the world buffer
+/// - Stores entities efficiently in a map<entity_id, unique_ptr<Entity>>
+/// - Enables O(1) entity lookups and removals by ID
 class Chunk {
     friend class Render;
 private:
+    /// Starting index in the world buffer (absolute position in _world array)
     const int _idx_start{};
+
+    /// Ending index in the world buffer
     const int _idx_end{};
-    std::map<const int, std::unique_ptr<Entity>> _entities; ///< Entities contained in this sector using a hash table
+
+    /// Map of entities by ID for efficient O(log n) lookup and O(log n) removal
+    std::map<const int, std::unique_ptr<Entity>> _entities;
+
 public:
-    /// @brief Constructor for Sector
-    /// @param x_s Starting X coordinate
-    /// @param x_e Ending X coordinate
-    /// @param y_s Starting Y coordinate
-    /// @param y_e Ending Y coordinate
+    /// @brief Constructor for Chunk
     Chunk();
 
-    /// @brief Destructor for Sector
+    /// @brief Destructor (automatic cleanup via unique_ptr)
     ~Chunk();
 
-    /// @brief Add an entity to this sector
-    /// @param entity Pointer to the SpaceEntity to add
+    /// @brief Add an entity to this chunk
+    /// @param entity_id Unique identifier for the entity
+    /// @param entity Unique pointer to Entity (ownership transferred to Chunk)
     void addEntity(int entity_id, std::unique_ptr<Entity> entity);
 
-    /// @brief Remove an entity from this sector
-    /// @param entity_id key to the Entity to remove
+    /// @brief Remove an entity from this chunk by ID
+    /// @param entity_id ID of entity to remove
     void removeEntity(int entity_id);
 };
 
