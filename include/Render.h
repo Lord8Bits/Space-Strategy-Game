@@ -5,7 +5,7 @@
 #ifndef SPACE_STRATEGY_GAME_RENDER_H
 #define SPACE_STRATEGY_GAME_RENDER_H
 #include <array>
-#include "Sector.h"
+#include "Chunk.h"
 #include "Entity.h"
 #include "Map.h"
 

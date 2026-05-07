@@ -30,15 +30,24 @@ private:
 
 public:
     /// @brief Constructor for Chunk
-    Chunk();
+    Chunk(int idx_start, int idx_end);
 
     /// @brief Destructor (automatic cleanup via unique_ptr)
     ~Chunk();
 
+    /// Move constructor - allows Chunk to be moved
+    Chunk(Chunk&& other) noexcept = default;
+
+    /// Delete copy constructor - prevent accidental copying
+    Chunk(const Chunk&) = delete;
+
+    /// Delete copy assignment - prevent accidental copying
+    Chunk& operator=(const Chunk&) = delete;
+
     /// @brief Add an entity to this chunk
     /// @param entity_id Unique identifier for the entity
     /// @param entity Unique pointer to Entity (ownership transferred to Chunk)
-    void addEntity(int entity_id, std::unique_ptr<Entity> entity);
+    void addEntity(std::unique_ptr<Entity> entity);
 
     /// @brief Remove an entity from this chunk by ID
     /// @param entity_id ID of entity to remove

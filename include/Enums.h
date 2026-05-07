@@ -22,7 +22,7 @@ namespace GameUI{
     /// @brief Convert a color enum to ANSI terminal color code
     /// @param color The Color enum value
     /// @return ANSI escape sequence string for the color
-    static constexpr std::string_view toAnsi(const Color color){
+    inline constexpr std::string_view toAnsi(const Color color){
         switch(color){
             case Color::CYAN : return "\x1b[36m";
             case Color::RED : return "\x1b[31m";
@@ -31,7 +31,7 @@ namespace GameUI{
             case Color::YELLOW : return "\x1b[33m";
             case Color::GREEN : return "\x1b[32m";
             case Color::RESET : return "\x1b[0m";
-            default : return "\x1b[0m";
+            default : return "";
         }
     }
 }

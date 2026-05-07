@@ -26,10 +26,11 @@ struct Cell {
 /// Entities have a position and a visual representation (cell).
 class Entity {
     friend class Render;
+    friend class Chunk;
 private:
     static int _next_id; //Unique id for each entity
     int _id;
-    std::string _name;
+    std::string _name{};
 
     /// Position: [ABSOLUTE world coordinates]
     /// Range: [0..WORLD_WIDTH) × [0..WORLD_HEIGHT)

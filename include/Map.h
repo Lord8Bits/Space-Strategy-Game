@@ -6,7 +6,7 @@
 #define SPACE_STRATEGY_GAME_MAP_H
 #include <vector>
 
-#include "Sector.h"
+#include "Chunk.h"
 
 /// @brief World layout and chunk mapping
 ///
@@ -19,8 +19,8 @@
 class Map {
     friend class Render;
 private:
-    std::vector<Chunk> _sectors;   ///< Collection of all sectors in the game world
-    int _selected_sector{};         ///< Index of the currently active sector
+    std::vector<Chunk> _chunks;   ///< Collection of all sectors in the game world
+    int _selected_chunk{};         ///< Index of the currently active sector
 public:
     /// @brief Constructor for Map
     Map();
@@ -29,11 +29,13 @@ public:
     ~Map();
 
     /// Find which chunk contains an entity at world position pos
-    int findChunk(const Vec2& pos) const;
+    //int findChunk(const Vec2& pos) const;
 
     /// @brief Add a sector to the map
-    /// @param sector The Sector to add to the map
-    void addSector(const Chunk& sector);
+    /// @param chunk The Chunk to add to the map
+    void addChunk(Chunk&& chunk);
+
+    void changeSelectedChunk(const int new_selected_chunk);
 };
 
 

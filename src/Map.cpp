@@ -8,7 +8,13 @@ Map::Map() = default;
 
 Map::~Map() = default;
 
-void Map::addSector(const Chunk& sector)
+void Map::addChunk(Chunk&& chunk)
 {
-    _sectors.push_back(sector);
+    _chunks.push_back(std::move(chunk));
 }
+
+void Map::changeSelectedChunk(const int new_selected_chunk)
+{
+    _selected_chunk = (new_selected_chunk < _chunks.size()) ? new_selected_chunk : 0;
+}
+
