@@ -6,7 +6,7 @@
 #define SPACE_STRATEGY_GAME_SECTOR_H
 
 #include <vector>
-
+#include <memory>
 #include "SpaceEntity.h"
 
 /// @brief Represents a bounded region of the game world containing entities
@@ -20,7 +20,7 @@ private:
     int _x_end;                         ///< Ending X coordinate of the sector
     int _y_start;                       ///< Starting Y coordinate of the sector
     int _y_end;                         ///< Ending Y coordinate of the sector
-    std::vector<SpaceEntity*> _entities; ///< Entities contained in this sector
+    std::vector<std::unique_ptr<Entity>> _entities; ///< Entities contained in this sector
 public:
     /// @brief Constructor for Sector
     /// @param x_s Starting X coordinate
@@ -34,11 +34,11 @@ public:
 
     /// @brief Add an entity to this sector
     /// @param entity Pointer to the SpaceEntity to add
-    void addEntity(SpaceEntity* entity);
+    void addEntity(Entity* entity);
 
     /// @brief Remove an entity from this sector
     /// @param entity Pointer to the SpaceEntity to remove
-    void removeEntity(SpaceEntity* entity);
+    void removeEntity(Entity* entity);
 };
 
 
