@@ -5,4 +5,4 @@ set(CMAKE_CXX_STANDARD 23)
 
 file(GLOB src_files "src/*.cpp")
 
-add_executable(Space_Game main.cpp ${src_files})
+add_executable(Space_Game ${src_files})
