@@ -14,13 +14,13 @@ Render::Render()
 
 Render::~Render() = default;
 
-void Render::draw(const Map& map)
+void Render::drawWorld(const Map& map)
 {
     const Sector& sector = map._sectors[map._selected_sector];
 
     std::fill_n(_world.begin() + sector._y_start * VIEWPORT_WIDTH + sector._x_start, VIEWPORT_HEIGHT*VIEWPORT_WIDTH, Cell{'.', White});
 
-    for (const SpaceEntity* entity : sector._entities) {
+    for (const auto& entity : sector._entities) {
         if (entity == nullptr) continue;
         
         const int x{entity->_pos.x - sector._x_start};
