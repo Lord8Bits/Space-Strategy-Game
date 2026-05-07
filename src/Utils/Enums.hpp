@@ -1,10 +1,13 @@
 #pragma once
 
 enum class EntityType{
+    SHIP,
+    PLANET
+};
+enum class ShipType{
     FIGHTER,
     CRUISER,
-    TRANSPORT,
-    PLANET
+    TRANSPORT
 };
 
 enum class CivilizationType{
