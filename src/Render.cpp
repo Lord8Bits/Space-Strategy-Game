@@ -8,7 +8,7 @@
 #include <algorithm>
 Render::Render()
 {
-    _world.fill({'.', White});
+    _world.fill({'.', GameUI::Color::WHITE});
     _frame_buffer.reserve(MAX_BUFFER);
 }
 
@@ -16,33 +16,33 @@ Render::~Render() = default;
 
 void Render::drawWorld(const Map& map)
 {
-    const Sector& sector = map._sectors[map._selected_sector];
+    const Chunk& sector = map._sectors[map._selected_sector];
 
-    std::fill_n(_world.begin() + sector._y_start * VIEWPORT_WIDTH + sector._x_start, VIEWPORT_HEIGHT*VIEWPORT_WIDTH, Cell{'.', White});
+    std::fill_n(_world.begin() + sector._idx_start, sector._idx_end, Cell{'.', GameUI::Color::WHITE});
 
-    for (const auto& entity : sector._entities) {
+    for (const auto& [entity_id, entity] : sector._entities) {
         if (entity == nullptr) continue;
-        
-        const int x{entity->_pos.x - sector._x_start};
+
+        const int x{entity->_pos.x};
         const int y{entity->_pos.y};
-        const int idx{y * VIEWPORT_WIDTH + x};
+        const int idx{y * VIEWPORT_WIDTH + x + sector._idx_start};
 
         _world[idx] = entity->_cell;
     }
 
 
-    Color last_color{White};
+    GameUI::Color last_color{GameUI::Color::WHITE};
     constexpr std::string_view return_code{"\033[H"};
 
     _frame_buffer =  return_code;
-    _frame_buffer += colorFormat(last_color);
+    _frame_buffer += GameUI::toAnsi(last_color);
 
     for (int y = 0; y < VIEWPORT_HEIGHT; y++) {
         for (int x = 0; x < VIEWPORT_WIDTH; x++){
             const int idx{coordTranslation(x, y, map._selected_sector)};
 
             if (last_color != _world[idx].color) {
-                _frame_buffer += colorFormat(_world[idx].color);
+                _frame_buffer += GameUI::toAnsi(_world[idx].color);
                 last_color = _world[idx].color;
             }
             _frame_buffer += _world[idx].symbol;
@@ -50,26 +50,10 @@ void Render::drawWorld(const Map& map)
         _frame_buffer += '\n';
     }
 
-    _frame_buffer += colorFormat(White);
+    _frame_buffer += GameUI::toAnsi(GameUI::Color::RESET);
 
     std::cout << _frame_buffer;
     std::cout.flush();
-}
-
-std::string_view Render::colorFormat(const Color color)
-{
-    switch (color) {
-        case White :
-            return "\x1b[0m";
-        case Red :
-            return "\x1b[31m";
-        case Blue :
-            return "\x1b[34m";
-        case Green :
-            return "\x1b[32m";
-        default:
-            return "";
-    }
 }
 
 int Render::coordTranslation(const int x, const int y, const int selected_sector)
