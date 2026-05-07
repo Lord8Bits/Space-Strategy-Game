@@ -31,14 +31,14 @@ public:
     // adds "value" to sodium
 
     //CONSUME FUNCTIONS 
-    bool consumeGold(int value);    
+    void consumeGold(int value);    
     //decreases the gold value
-    //returns true if successful, false otherwise
+    
 
-    bool consumeSilver(int value);  
+    void consumeSilver(int value);  
     // same logic as gold
 
-    bool consumeSodium(int value);  
+    void consumeSodium(int value);  
     // same logic as gold
 };
 
