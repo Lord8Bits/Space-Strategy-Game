@@ -8,7 +8,7 @@ Map::Map() = default;
 
 Map::~Map() = default;
 
-void Map::addSector(const Sector& sector)
+void Map::addSector(const Chunk& sector)
 {
     _sectors.push_back(sector);
 }

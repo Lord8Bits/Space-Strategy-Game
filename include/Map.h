@@ -15,7 +15,7 @@
 class Map {
     friend class Render;
 private:
-    std::vector<Sector> _sectors;   ///< Collection of all sectors in the game world
+    std::vector<Chunk> _sectors;   ///< Collection of all sectors in the game world
     int _selected_sector{};         ///< Index of the currently active sector
 public:
     /// @brief Constructor for Map
@@ -26,7 +26,7 @@ public:
 
     /// @brief Add a sector to the map
     /// @param sector The Sector to add to the map
-    void addSector(const Sector& sector);
+    void addSector(const Chunk& sector);
 };
 
 

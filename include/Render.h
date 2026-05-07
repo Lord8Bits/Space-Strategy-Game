@@ -6,7 +6,7 @@
 #define SPACE_STRATEGY_GAME_RENDER_H
 #include <array>
 #include "Sector.h"
-#include "SpaceEntity.h"
+#include "Entity.h"
 #include "Map.h"
 
 class Map;
@@ -48,11 +48,6 @@ public:
     ///
     /// @param map The Map object containing sectors to render
     void drawWorld(const Map& map);
-
-    /// @brief Convert a color enum to ANSI terminal color code
-    /// @param color The Color enum value
-    /// @return ANSI escape sequence string for the color
-    static std::string_view colorFormat(Color color);
 
     /// @brief Translate 2D viewport coordinates to world buffer index
     ///
