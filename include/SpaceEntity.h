@@ -31,7 +31,7 @@ struct Cell {
 /// 
 /// Represents any entity that exists in the space strategy game world.
 /// Entities have a position and a visual representation (cell).
-class SpaceEntity {
+class Entity {
     friend class Render;
 private:
     Vec2 _pos{0,0};              ///< Current position of the entity
@@ -40,10 +40,10 @@ public:
     /// @brief Constructor for SpaceEntity
     /// @param new_pos Initial position of the entity
     /// @param new_cell Visual representation of the entity
-    SpaceEntity(Vec2 new_pos, Cell new_cell);
+    Entity(Vec2 new_pos, Cell new_cell);
     
     /// @brief Virtual destructor for proper cleanup of derived classes
-    virtual ~SpaceEntity();
+    virtual ~Entity();
 };
 
 
