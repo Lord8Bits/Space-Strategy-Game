@@ -20,10 +20,11 @@ class Map;
 /// - Translating coordinate systems
 class Render {
 public:
-    static constexpr int WORLD_SIZE = 2400;         ///< Total size of the world buffer
-    static constexpr int VIEWPORT_WIDTH = 20;       ///< Width of visible viewport
-    static constexpr int VIEWPORT_HEIGHT = 20;      ///< Height of visible viewport
-    static constexpr int MAX_BUFFER = 8000;         ///< Maximum frame buffer size
+    static constexpr int VIEWPORT_WIDTH = 80;                                                   ///< Width of visible viewport
+    static constexpr int VIEWPORT_HEIGHT = 20;                                                 ///< Height of visible viewport
+    static constexpr int SECTOR_COUNT = 6;                                                    ///< Number of Sectors
+    static constexpr int WORLD_SIZE = VIEWPORT_HEIGHT*VIEWPORT_WIDTH * SECTOR_COUNT;         ///< Total size of the world buffer
+    static constexpr int MAX_BUFFER = WORLD_SIZE * 3;                                       ///< Maximum frame buffer size
 
 private:
     std::array<Cell, WORLD_SIZE> _world{};          ///< World buffer containing all cell data
@@ -46,7 +47,7 @@ public:
     /// - Sends the frame buffer to stdout
     ///
     /// @param map The Map object containing sectors to render
-    void draw(const Map& map);
+    void drawWorld(const Map& map);
 
     /// @brief Convert a color enum to ANSI terminal color code
     /// @param color The Color enum value
