@@ -6,8 +6,8 @@
 
 class Entity{
 protected:
-    static int unique_id; //Unique id for each entity
-    int id;
+    static int _next_id;
+    const int _id;
     std::string name;
     Position position;
     Civilization* owner;
