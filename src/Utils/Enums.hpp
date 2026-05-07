@@ -25,7 +25,7 @@ enum class ShipState{
 };
 
 enum class PlanetType{
-    TERRAN,
+    TERRAIN,
     MINERAL,
     ENERGY
 };
