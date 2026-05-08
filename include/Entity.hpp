@@ -4,7 +4,7 @@
 #include "../src/Utils/Enums.hpp"
 #include "Civilization.hpp"
 
-class Entity{
+class Entity : public Updatable{
 protected:
     static int _next_id; //Unique id for each entity
     int _id;
@@ -17,7 +17,6 @@ public:
     virtual ~Entity() = default;    
     
     //Pure virtual functions
-    virtual void update() = 0;
     virtual char getSymbol() const = 0;
     virtual EntityType getType() const = 0;
     virtual void interactEntity(Entity* other) = 0;
