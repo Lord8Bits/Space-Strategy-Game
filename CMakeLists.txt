@@ -7,16 +7,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 include_directories(include)
-include_directories(src)
 
 file(GLOB_RECURSE SOURCES "src/*.cpp")
 
-file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "src/*.cpp")
-
 add_executable(Space_Game ${SOURCES})
 
-
-target_include_directories(Space_Game PRIVATE
-    include
-    src
-)
+target_include_directories(Space_Game PRIVATE include)
