@@ -6,12 +6,12 @@
 class Civilization{
 protected:
     CivilizationType type;
-    GameUI::CColor color;
+    GameUI::Color color;
 
 public:
-    Civilization(CivilizationType Type) : type(Type), color(draw(Type)) {}
+    Civilization(CivilizationType Type) : type(Type), color(civToColor(Type)) {}
 
-    GameUI::CColor getColor() const { return color; }
+    GameUI::Color getColor() const { return color; }
     
     const char* getColorCode() const { return GameUI::toAnsi(color); }
 };
