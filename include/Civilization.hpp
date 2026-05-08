@@ -16,5 +16,4 @@ public:
 
     GameUI::Color getColor() const { return color; }
     
-    const char* getColorCode() const { return GameUI::toAnsi(color); }
 };
