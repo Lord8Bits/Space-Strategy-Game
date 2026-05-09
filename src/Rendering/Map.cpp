@@ -2,7 +2,7 @@
 // Created by lorend on 5/3/26.
 //
 
-#include "../include/Map.h"
+#include "../../include/Map.h"
 
 Map::Map() = default;
 

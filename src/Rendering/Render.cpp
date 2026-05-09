@@ -2,8 +2,8 @@
 // Created by lorend on 5/3/26.
 //
 #include <string>
-#include "../include/Render.h"
-#include "../include/Map.h"
+#include "../../include/Render.h"
+#include "../../include/Map.h"
 #include "Utils/Constants.hpp"
 #include "Utils/Position.hpp"
 

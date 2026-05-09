@@ -2,7 +2,7 @@
 // Created by lorend on 5/3/26.
 //
 
-#include "../include/Chunk.h"
+#include "../../include/Chunk.h"
 #include "Entity.hpp"
 
 Chunk::Chunk(const int idx_start, const int idx_end) : _idx_start(idx_start), _idx_end(idx_end) {}
