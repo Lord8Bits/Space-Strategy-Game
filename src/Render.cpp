@@ -4,6 +4,9 @@
 #include <string>
 #include "../include/Render.h"
 #include "../include/Map.h"
+#include "Utils/Constants.hpp"
+#include "Utils/Position.hpp"
+
 #include <iostream>
 #include <algorithm>
 Render::Render()
@@ -23,11 +26,10 @@ void Render::drawWorld(const Map& map)
     for (const auto& [entity_id, entity] : chunk._entities) {
         if (entity == nullptr) continue;
 
-        const int x{entity->_pos.x};
-        const int y{entity->_pos.y};
-        const int idx{y * VIEWPORT_WIDTH + x + chunk._idx_start};
+        const Vec2 pos{entity->getPosition()};
+        const int idx{pos.y * VIEWPORT_WIDTH + pos.x + chunk._idx_start};
 
-        _world[idx] = entity->_cell;
+        _world[idx] = entity->getCell();
     }
 
 

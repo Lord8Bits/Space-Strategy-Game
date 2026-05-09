@@ -5,27 +5,17 @@
 #ifndef SPACE_STRATEGY_GAME_RENDER_H
 #define SPACE_STRATEGY_GAME_RENDER_H
 #include <array>
-#include "Chunk.h"
-#include "Entity.h"
+#include "Entity.hpp"
 #include "Map.h"
 
-class Map;
 
 /// @brief Handles all rendering of the game world to the terminal
 ///
 /// The Render class is responsible for:
 /// - Maintaining a world buffer with visual information
 /// - Drawing the current sector to the terminal
-/// - Managing color formatting for ANSI terminal output
 /// - Translating coordinate systems
 class Render {
-public:
-    static constexpr int VIEWPORT_WIDTH = 80;                                                   ///< Width of visible viewport
-    static constexpr int VIEWPORT_HEIGHT = 20;                                                 ///< Height of visible viewport
-    static constexpr int SECTOR_COUNT = 6;                                                    ///< Number of Sectors
-    static constexpr int WORLD_SIZE = VIEWPORT_HEIGHT*VIEWPORT_WIDTH * SECTOR_COUNT;         ///< Total size of the world buffer
-    static constexpr int MAX_BUFFER = WORLD_SIZE * 3;                                       ///< Maximum frame buffer size
-
 private:
     std::array<Cell, WORLD_SIZE> _world{};          ///< World buffer containing all cell data
     std::string _frame_buffer{};                    ///< Current frame to be rendered to screen

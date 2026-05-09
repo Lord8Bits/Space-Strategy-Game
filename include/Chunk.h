@@ -6,9 +6,8 @@
 #define SPACE_STRATEGY_GAME_SECTOR_H
 
 #include <map>
-#include <vector>
 #include <memory>
-#include "Entity.h"
+#include "Entity.hpp"
 
 /// @brief Represents a bounded region of the game world containing entities
 ///
@@ -45,8 +44,7 @@ public:
     Chunk& operator=(const Chunk&) = delete;
 
     /// @brief Add an entity to this chunk
-    /// @param entity_id Unique identifier for the entity
-    /// @param entity Unique pointer to Entity (ownership transferred to Chunk)
+    /// @param entity Unique pointer to Entity (ownership transferred to Chunk) contains its id
     void addEntity(std::unique_ptr<Entity> entity);
 
     /// @brief Remove an entity from this chunk by ID

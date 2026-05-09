@@ -1,8 +1,25 @@
 #include "../../include/Entity.hpp"
-#include "../Utils/Constants.hpp"
+#include "./Utils/Constants.hpp"
 #include <iostream>
+#include <utility>
 
 int Entity:: _next_id = 1;
 
-Entity::Entity(const std::string& Name, const Vec2& Pos, Civilization* Owner)
-    : _id(_next_id++), _name(Name), _position(Pos), _owner(Owner) {}
+Entity::Entity(const EntityType type, std::string name, const Vec2& pos, const Cell cell, Civilization* owner)
+    : _id(_next_id++), _type(type), _name(std::move(name)), _position(pos), _cell(cell), _owner(owner) {}
+
+// Getters :
+int Entity::getId() const { return _id; }
+Cell Entity::getCell() const { return _cell; }
+std::string_view Entity::getName() const { return _name; }
+Vec2 Entity::getPosition() const { return _position; }
+EntityType Entity::getType() const { return _type; }
+
+// Setters :
+void Entity::setPosition(const Vec2& pos)
+{
+    if (pos.x < 0 || pos.y < 0 || pos.x > VIEWPORT_WIDTH || pos.y > VIEWPORT_HEIGHT) return;
+    _position = pos;
+}
+
+void Entity::setCivOwner(Civilization* newOwner) {_owner = newOwner;}

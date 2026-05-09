@@ -35,7 +35,7 @@ public:
     /// @param chunk The Chunk to add to the map
     void addChunk(Chunk&& chunk);
 
-    void changeSelectedChunk(const int new_selected_chunk);
+    void changeSelectedChunk(int new_selected_chunk);
 };
 
 
