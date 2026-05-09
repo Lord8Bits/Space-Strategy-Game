@@ -3,7 +3,7 @@
 #include "Updatable.hpp"
 
 // Resource class manages different types of resources (gold, silver, sodium)
-class Resource {
+class Resource : public Updatable {
 private:
     //ATTRIBUTES
     int gold;    
@@ -41,6 +41,7 @@ public:
 
     void consumeSodium(int value);  
     // same logic as gold
+     void update() override;
 };
 
 #endif
