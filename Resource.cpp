@@ -46,3 +46,6 @@ void Resource::consumeSodium(int value) {
     sodium -= value;
   }
 }
+// update function 
+void Resource::update() {
+}
