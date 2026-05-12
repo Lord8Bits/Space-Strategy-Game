@@ -4,9 +4,9 @@
 
 static constexpr int VIEWPORT_WIDTH = 80;                                                   ///< Width of visible viewport
 static constexpr int VIEWPORT_HEIGHT = 20;                                                 ///< Height of visible viewport
-static constexpr int SECTOR_COUNT = 6;                                                    ///< Number of Sectors
-static constexpr int WORLD_SIZE = VIEWPORT_HEIGHT*VIEWPORT_WIDTH * SECTOR_COUNT;         ///< Total size of the world buffer
-static constexpr int MAX_BUFFER = WORLD_SIZE * 3;                                       ///< Maximum buffer size
+static constexpr int CHUNK_COUNT = 6;                                                    ///< Number of Sectors
+static constexpr int WORLD_SIZE = VIEWPORT_HEIGHT*VIEWPORT_WIDTH * CHUNK_COUNT;         ///< Total size of the world buffer
+static constexpr int MAX_BUFFER = VIEWPORT_HEIGHT*VIEWPORT_WIDTH * 3;                                       ///< Maximum buffer size
 
 namespace GameUI{
     /// @brief Color enumeration for terminal color output

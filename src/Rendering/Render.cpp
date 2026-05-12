@@ -32,7 +32,6 @@ void Render::drawWorld(const Map& map)
         _world[idx] = entity->getCell();
     }
 
-
     GameUI::Color last_color{GameUI::Color::WHITE};
     constexpr std::string_view return_code{"\033[H"};
 
