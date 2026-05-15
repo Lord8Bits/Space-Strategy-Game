@@ -11,9 +11,19 @@ using namespace std;
 class Planet : public Updatable {
 
 private:
-
-    // ATTRIBUTES
-
     string name;          // planet name
     Resource resources;   // planet resources
     bool colonized;       // colonization state
+
+public:
+    // CONSTRUCTOR
+    Planet(string n, Resource r, bool c);
+    // GETTERS
+    string getName();
+    // returns the planet name
+
+    Resource getResources();
+    // returns planet resources
+
+    bool isColonized();
+    // returns colonization state
