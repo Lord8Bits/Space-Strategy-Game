@@ -19,3 +19,17 @@ Resource Planet::getResources() {
 bool Planet::isColonized() {
     return colonized;
 }
+// Setters
+void Planet::setName(string n) {
+    name = n;
+}
+void Planet::setColonized(bool c) {
+    colonized = c;
+}
+// Other functions
+void Planet::colonize() {
+    colonized = true;
+}
+// Update function
+void Planet::update() {
+}
