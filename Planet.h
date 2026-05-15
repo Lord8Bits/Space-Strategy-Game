@@ -27,3 +27,18 @@ public:
 
     bool isColonized();
     // returns colonization state
+    // SETTERS
+    void setName(string n);
+    // changes the planet name
+
+    void setColonized(bool c);
+    // changes colonization state
+    void colonize();
+    // sets the planet as colonized
+
+    // UPDATE FUNCTION
+    void update() override;
+    // updates planet information
+};
+
+#endif
