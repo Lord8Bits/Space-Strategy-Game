@@ -19,6 +19,7 @@ int main() {
     resources.addSilver(10);
     resources.addSodium(5);
     cout << endl;
+    
     cout << "AFTER ADDING RESOURCES" << endl;
     cout << "Gold : " << resources.getGold() << endl;
     cout << "Silver : " << resources.getSilver() << endl;
@@ -29,6 +30,7 @@ int main() {
     resources.consumeSilver(15);
     resources.consumeSodium(10);
     cout << endl;
+    
     cout << "AFTER CONSUMING RESOURCES" << endl;
     cout << "Gold: " << resources.getGold() << endl;
     cout << "Silver: " << resources.getSilver() << endl;
