@@ -19,3 +19,6 @@ private:
     Resource resources;         // civilization resources
     vector<Planet> planets;    // owned planets
 public :
+    
+    // Initializes civilization information
+    Civilization(string n, Resource r);
