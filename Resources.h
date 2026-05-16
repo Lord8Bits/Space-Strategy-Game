@@ -1,5 +1,5 @@
-#ifndef RESOURCE.h
-#define RESOURCE.h
+#ifndef RESOURCE_H
+#define RESOURCE_H
 #include "Updatable.hpp"
 
 // Resource class manages different types of resources (gold, silver, sodium)
