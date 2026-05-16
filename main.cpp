@@ -33,6 +33,6 @@ int main() {
     cout << "Gold: " << resources.getGold() << endl;
     cout << "Silver: " << resources.getSilver() << endl;
     cout << "Sodium: " << resources.getSodium() << endl;
-    resources.update();
+    resources.update(); // And finally the update
     return 0;
 }
