@@ -40,5 +40,10 @@ int main() {
     else {
         cout << "No" << endl;
     }
+
+    // Update function
+    earth.update();
+    return 0;
+}
     
 
