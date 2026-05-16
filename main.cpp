@@ -21,3 +21,14 @@ int main() {
     else {
         cout << "No" << endl;
     }
+
+   // Display resources
+    cout << endl;
+    cout << "PLANET RESOURCES" << endl;
+
+    cout << "Gold : " << earth.getResources().getGold() << endl;
+
+    cout << "Silver : " << earth.getResources().getSilver() << endl;
+
+    cout << "Sodium : " << earth.getResources().getSodium() << endl;
+
