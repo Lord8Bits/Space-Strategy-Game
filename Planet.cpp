@@ -24,7 +24,7 @@ void Planet::setName(string n) {
     name = n;
 }
 void Planet::setColonized(bool c) {
-    colonized = c;
+    colonized =c;
 }
 // Other functions
 void Planet::colonize() {
