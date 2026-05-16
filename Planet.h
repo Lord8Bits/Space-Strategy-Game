@@ -3,7 +3,7 @@
 
 #include <string>
 #include "Resource.h"
-#include "Updatable.h"
+#include "Updatable.hpp"
 
 using namespace std;
 
