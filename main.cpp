@@ -7,7 +7,7 @@ using namespace std;
 int main() {
     // Create a Resource object
     Resource resources(100, 50, 25);
-    // Display initial values
+    // Display initial valuess
     cout << "INITIAL RESOURCES" << endl;
 
     cout << "Gold : " << resources.getGold() << endl;
