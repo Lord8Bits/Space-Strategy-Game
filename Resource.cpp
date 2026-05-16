@@ -21,11 +21,9 @@ int Resource::getSodium() {
 void Resource::addGold(int value) {
     gold += value;
 }
-
 void Resource::addSilver(int value) {
     silver += value;
 }
-
 void Resource::addSodium(int value) {
     sodium += value;
 }
