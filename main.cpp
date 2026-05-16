@@ -25,10 +25,20 @@ int main() {
    // Display resources
     cout << endl;
     cout << "PLANET RESOURCES" << endl;
-
     cout << "Gold : " << earth.getResources().getGold() << endl;
-
     cout << "Silver : " << earth.getResources().getSilver() << endl;
-
     cout << "Sodium : " << earth.getResources().getSodium() << endl;
+
+    // Colonize the planet
+    earth.colonize();
+    cout << endl;
+    cout << " AFTER COLONIZATION " << endl;
+    cout << "Colonized : ";
+    if (earth.isColonized()) {
+        cout << "Yes" << endl;
+    }
+    else {
+        cout << "No" << endl;
+    }
+    
 
