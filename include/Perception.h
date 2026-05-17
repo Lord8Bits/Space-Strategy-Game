@@ -2,11 +2,8 @@
 
 #include <bitset>
 #include <cstdlib>
+#include "Utils/Constants.hpp"
 
-
-static constexpr int WORLD_W    = 20;
-static constexpr int WORLD_H    = 20;
-static constexpr int WORLD_SIZE = WORLD_W * WORLD_H;
 
 class Perception {
 public:
@@ -28,9 +25,9 @@ public:
                 if (std::abs(dx) + std::abs(dy) > radius) continue;
                 int nx = cx + dx;
                 int ny = cy + dy;
-                if (nx < 0 || ny < 0 || nx >= WORLD_W || ny >= WORLD_H)
+                if (nx < 0 || ny < 0 || nx >= VIEWPORT_WIDTH || ny >= VIEWPORT_HEIGHT)
                     continue;
-                std::size_t idx = ny * WORLD_W + nx;
+                std::size_t idx = ny * VIEWPORT_WIDTH + nx;
                 visible_[idx]    = true;
                 discovered_[idx] = true;
             }
@@ -77,10 +74,10 @@ private:
     std::bitset<WORLD_SIZE> discovered_;
 
     static std::size_t toIndex(int x, int y) {
-        return static_cast<std::size_t>(y) * WORLD_W + x;
+        return static_cast<std::size_t>(y) * VIEWPORT_WIDTH + x;
     }
 
     static bool inBounds(int x, int y) {
-        return x >= 0 && y >= 0 && x < WORLD_W && y < WORLD_H;
+        return x >= 0 && y >= 0 && x < VIEWPORT_WIDTH && y < VIEWPORT_HEIGHT;
     }
 };
