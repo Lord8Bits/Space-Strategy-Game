@@ -49,4 +49,9 @@ public :
     void addSodium(int value);
     // adds sodium to civilization resources
 
+      // UPDATE FUNCTION
+    void update() override;
+    // updates civilization information
+};
 
+#endif
