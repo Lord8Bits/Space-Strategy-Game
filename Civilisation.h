@@ -30,3 +30,8 @@ public :
     // returns civilization resources
     vector<Planet> getPlanets();
     // returns civilization planets
+
+        // SETTERS
+    void setName(string n);
+    // changes civilization name
+
