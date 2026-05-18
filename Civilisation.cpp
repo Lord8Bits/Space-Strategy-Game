@@ -17,3 +17,8 @@ Resource Civilization::getResources() {
 vector<Planet> Civilization::getPlanets() {
     return planets;
 }
+
+// Setters
+void Civilization::setName(string n) {
+    name = n;
+}
