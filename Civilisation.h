@@ -22,3 +22,11 @@ public :
     
     // Initializes civilization information
     Civilization(string n, Resource r);
+
+        // GETTERS
+    string getName();
+    // returns civilization name
+    Resource getResources();
+    // returns civilization resources
+    vector<Planet> getPlanets();
+    // returns civilization planets
