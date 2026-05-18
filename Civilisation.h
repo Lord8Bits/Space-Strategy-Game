@@ -35,3 +35,10 @@ public :
     void setName(string n);
     // changes civilization name
 
+        // PLANET MANAGEMENT
+    void addPlanet(Planet p);
+    // adds a planet to the civilization
+    void removePlanet(int index);
+    // removes a planet using its index
+
+
