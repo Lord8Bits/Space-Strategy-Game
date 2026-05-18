@@ -41,4 +41,12 @@ public :
     void removePlanet(int index);
     // removes a planet using its index
 
+       // RESOURCE MANAGEMENT
+    void addGold(int value);
+    // adds gold to civilization resources
+    void addSilver(int value);
+    // adds silver to civilization resources
+    void addSodium(int value);
+    // adds sodium to civilization resources
+
 
