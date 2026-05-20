@@ -1,17 +1,12 @@
-//
-// Created by lorend on 5/3/26.
-//
 #include <string>
 #include "../../include/Render.h"
 #include "../../include/Map.h"
-#include "Utils/Constants.hpp"
-#include "Utils/Position.hpp"
-
+#include "../../include/ViewPort.h"
 #include <iostream>
-#include <algorithm>
+
 Render::Render()
 {
-    _world.fill({'.', GameUI::Color::WHITE});
+    _viewport.fill({'.', GameUI::Color::WHITE});
     _frame_buffer.reserve(MAX_BUFFER);
 }
 
@@ -21,43 +16,50 @@ void Render::drawWorld(const Map& map)
 {
     const Chunk& chunk = map._chunks[map._selected_chunk];
 
-    std::fill_n(_world.begin() + chunk._idx_start, chunk._idx_end, Cell{'.', GameUI::Color::WHITE});
+    // Build a ViewPort centered on the selected chunk's world origin
+    // offset_x/y = top-left world coordinate of this chunk
+    const ViewPort vp(chunk._x_start, chunk._y_start);
 
+    // Step 1: Clear the viewport buffer
+    _viewport.fill({'.', GameUI::Color::WHITE});
+
+    // Step 2: Place each entity into the viewport buffer
+    // ViewPort handles world → local conversion and bounds checking
     for (const auto& [entity_id, entity] : chunk._entities) {
-        if (entity == nullptr) continue;
+        if (!entity) continue;
 
-        const Vec2 pos{entity->getPosition()};
-        const int idx{pos.y * VIEWPORT_WIDTH + pos.x + chunk._idx_start};
+        const Vec2 world_pos = entity->getPosition();
 
-        _world[idx] = entity->getCell();
+        // Skip entity if outside the visible viewport
+        if (!vp.is_containsWorld(world_pos.x, world_pos.y)) continue;
+
+        // Convert world position to flat buffer index using ViewPort
+        const int idx = vp.toIndex(world_pos.x, world_pos.y);
+        _viewport[idx] = entity->getCell();
     }
 
-    GameUI::Color last_color{GameUI::Color::WHITE};
-    constexpr std::string_view return_code{"\033[H"};
-
-    _frame_buffer = return_code;
+    // Step 3: Build the frame buffer with ANSI color codes
+    GameUI::Color last_color = GameUI::Color::WHITE;
+    _frame_buffer  = "\033[H";                         // Move cursor to top-left
     _frame_buffer += GameUI::toAnsi(last_color);
 
     for (int y = 0; y < VIEWPORT_HEIGHT; y++) {
-        for (int x = 0; x < VIEWPORT_WIDTH; x++){
-            const int idx{coordTranslation(x, y, map._selected_chunk)};
+        for (int x = 0; x < VIEWPORT_WIDTH; x++) {
+            const int idx = y * VIEWPORT_WIDTH + x;
 
-            if (last_color != _world[idx].color) {
-                _frame_buffer += GameUI::toAnsi(_world[idx].color);
-                last_color = _world[idx].color;
+            // Only emit a color code when color changes (reduces output size)
+            if (last_color != _viewport[idx].color) {
+                _frame_buffer += GameUI::toAnsi(_viewport[idx].color);
+                last_color = _viewport[idx].color;
             }
-            _frame_buffer += _world[idx].symbol;
+            _frame_buffer += _viewport[idx].symbol;
         }
         _frame_buffer += '\n';
     }
 
     _frame_buffer += GameUI::toAnsi(GameUI::Color::RESET);
 
+    // Step 4: Flush to terminal
     std::cout << _frame_buffer;
     std::cout.flush();
-}
-
-int Render::coordTranslation(const int x, const int y, const int selected_sector)
-{
-    return (y * VIEWPORT_WIDTH + x) + selected_sector * (VIEWPORT_HEIGHT*VIEWPORT_WIDTH);
 }

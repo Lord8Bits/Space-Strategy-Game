@@ -23,7 +23,7 @@ private:
     int _selected_chunk{};         ///< Index of the currently active sector
 public:
     /// @brief Constructor for Map
-    Map();
+    Map(const int num_rows, const int num_cols);
 
     /// @brief Destructor for Map
     ~Map();

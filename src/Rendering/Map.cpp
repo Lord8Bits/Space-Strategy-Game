@@ -4,7 +4,20 @@
 
 #include "../../include/Map.h"
 
-Map::Map() = default;
+Map::Map(const int num_rows, const int num_cols)
+{
+    _selected_chunk = 0;
+    for (int row = 0; row < num_rows; row++) {
+        for (int col = 0; col < num_cols; col++) {
+            _chunks.emplace_back(
+                col * VIEWPORT_WIDTH,
+                (col + 1) * VIEWPORT_WIDTH ,
+                row * VIEWPORT_HEIGHT,
+                (row+1) * VIEWPORT_HEIGHT
+                );
+        }
+    }
+}
 
 Map::~Map() = default;
 

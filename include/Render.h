@@ -1,57 +1,45 @@
-//
-// Created by lorend on 5/3/26.
-//
-
 #ifndef SPACE_STRATEGY_GAME_RENDER_H
 #define SPACE_STRATEGY_GAME_RENDER_H
 #include <array>
 #include "Entity.hpp"
 #include "Map.h"
 
-
 /// @brief Handles all rendering of the game world to the terminal
 ///
 /// The Render class is responsible for:
-/// - Maintaining a world buffer with visual information
-/// - Drawing the current sector to the terminal
-/// - Translating coordinate systems
+/// - Maintaining a viewport buffer for the SELECTED chunk only (not the entire world)
+/// - Drawing the current chunk to the terminal with ANSI color codes
+/// - Converting world coordinates to screen coordinates
+///
+/// Design decision: _viewport only stores one chunk at a time (VIEWPORT_SIZE cells)
+/// Rationale: Only one chunk is ever displayed at once, buffering the full world
+///            wastes memory (6x) and requires unnecessary clearing work each frame.
 class Render {
 private:
-    std::array<Cell, WORLD_SIZE> _world{};          ///< World buffer containing all cell data
-    std::string _frame_buffer{};                    ///< Current frame to be rendered to screen
+    /// @brief Viewport buffer - visual data for the currently selected chunk only
+    /// Size: VIEWPORT_WIDTH x VIEWPORT_HEIGHT (not WORLD_SIZE)
+    std::array<Cell, CHUNK_SIZE> _viewport{};
+
+    /// @brief String buffer built each frame and flushed to stdout
+    std::string _frame_buffer{};
 
 public:
-    /// @brief Constructor for Render
-    /// Initializes the world buffer and frame buffer
+    /// @brief Constructor - initializes viewport and reserves frame buffer memory
     Render();
 
-    /// @brief Destructor for Render
+    /// @brief Destructor
     ~Render();
 
-    /// @brief Render the specified map to the terminal
+    /// @brief Render the currently selected chunk of the map
     ///
-    /// This method:
-    /// - Clears the viewport
-    /// - Places all entities from the selected sector
-    /// - Formats the output with color codes
-    /// - Sends the frame buffer to stdout
+    /// Steps:
+    /// 1. Clear the viewport buffer
+    /// 2. Place each entity from the selected chunk into the viewport
+    /// 3. Build the frame buffer string with ANSI color codes
+    /// 4. Flush to stdout
     ///
-    /// @param map The Map object containing sectors to render
+    /// @param map The Map containing all chunks and the selected chunk index
     void drawWorld(const Map& map);
-
-    /// @brief Translate 2D viewport coordinates to world buffer index
-    ///
-    /// Converts viewport coordinates (x, y) for a specific sector
-    /// into the corresponding index in the world buffer array.
-    ///
-    /// @param x X coordinate in viewport (0-19)
-    /// @param y Y coordinate in viewport (0-19)
-    /// @param selected_sector Sector index to calculate offset
-    /// @return Index in the _world array
-    static int coordTranslation(int x, int y, int selected_sector);
-
 };
-
-
 
 #endif //SPACE_STRATEGY_GAME_RENDER_H
