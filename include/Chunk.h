@@ -18,11 +18,11 @@
 class Chunk {
     friend class Render;
 private:
-    /// Starting index in the world buffer (absolute position in _world array)
-    const int _idx_start{};
-
-    /// Ending index in the world buffer
-    const int _idx_end{};
+    // New (2D world coordinate based)
+    const int _x_start{};  // World X where this chunk begins
+    const int _x_end{};    // World X where this chunk ends
+    const int _y_start{};  // World Y where this chunk begins
+    const int _y_end{};    // World Y where this chunk ends
 
     /// Map of entities by ID for efficient O(log n) lookup and O(log n) removal
     std::map<const int, std::unique_ptr<Entity>> _entities;
