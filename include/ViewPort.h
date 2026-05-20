@@ -7,46 +7,60 @@
 #include <utility>
 
 #include "Utils/Constants.hpp"
+#include "Utils/Position.hpp"
 
-
+/// @brief Maps between world coordinates and screen/local coordinates
+///
+/// The ViewPort represents a "window" into the game world.
+/// It knows where in the world it is positioned (offset_x, offset_y)
+/// and provides conversions between:
+///   - World coordinates (absolute position in game world)
+///   - Local coordinates (position on screen, 0-based)
+///   - Buffer indices (flat array index for rendering)
 class ViewPort {
-private :
-    // World coordinate of the top-left cell visible in this viewport.
+private:
+    /// World coordinate of the top-left cell visible in this viewport
     int _offset_x;
     int _offset_y;
 
-    // Size of the visible area.
+    /// Size of the visible area
     int _width{VIEWPORT_WIDTH};
     int _height{VIEWPORT_HEIGHT};
 
 public:
+    /// @brief Constructor
+    /// @param offset_x World X coordinate of the top-left visible cell
+    /// @param offset_y World Y coordinate of the top-left visible cell
+    /// @throws std::invalid_argument if offsets are negative
     ViewPort(int offset_x, int offset_y);
 
-    // Convert local viewport coordinates to world coordinates.
-    // Example: local (2, 3) with offset (40, 20) returns world (42, 23).
-    std::pair<int, int> worldPosition(int local_x, int local_y) const;
+    /// @brief Convert local screen coordinates to world coordinates
+    /// @example local (2, 3) with offset (40, 20) → world (42, 23)
+    /// @throws std::out_of_range if local coordinates are outside viewport
+    std::pair<int, int> toWorldPosition(int local_x, int local_y) const;
 
-    // Convert world coordinates to local viewport coordinates.
-    // Example: world (42, 23) with offset (40, 20) returns local (2, 3).
-    std::pair<int, int> localPosition(int world_x, int world_y) const;
+    /// @brief Convert world coordinates to local screen coordinates
+    /// @example world (42, 23) with offset (40, 20) → local (2, 3)
+    /// @throws std::out_of_range if world coordinates are outside viewport
+    Vec2 toLocalPosition(int world_x, int world_y) const;
 
-    // Convert world coordinates to a local one-dimensional viewport index.
-    // Formula: local_x + local_y * width.
+    /// @brief Convert world coordinates to a flat viewport buffer index
+    /// @details Formula: local_x + local_y * width
+    /// @throws std::out_of_range if world coordinates are outside viewport
     int toIndex(int world_x, int world_y) const;
 
-    // Convert world coordinates to an index in a chunked world buffer.
-    // This matches the render formula:
-    // local_index + selected_chunk * (width * height).
+    /// @brief Convert world coordinates to an index in the full world buffer
+    /// @details Formula: toIndex() + selected_chunk * (width * height)
+    /// @throws std::out_of_range if world coordinates or chunk index are invalid
     int toBufferIndex(int world_x, int world_y, int selected_chunk) const;
 
-    // Check if local viewport coordinates are within bounds.
-    // Returns true if (local_x, local_y) is valid on the visible screen.
-    bool is_containsLocal(int local_x, int local_y) const;
+    /// @brief Check if local screen coordinates are within the visible area
+    /// @return true if (local_x, local_y) is a valid screen position
+    bool isInBounds(int local_x, int local_y) const;
 
-    // Check if world coordinates are currently visible in the viewport.
-    // Returns true if (world_x, world_y) is inside the active viewing area.
-    bool is_containsWorld(int world_x, int world_y) const;
+    /// @brief Check if world coordinates fall within this viewport's visible area
+    /// @return true if (world_x, world_y) is currently visible on screen
+    bool isInViewport(int world_x, int world_y) const;
 };
-
 
 #endif //SPACE_STRATEGY_GAME_VIEWPORT_H
