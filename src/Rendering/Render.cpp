@@ -21,7 +21,7 @@ void Render::drawWorld(const Map& map)
 {
     const Chunk& chunk = map._chunks[map._selected_chunk];
 
-    std::fill_n(_world.begin() + chunk._idx_start, chunk._idx_end, Cell{'.', GameUI::Color::WHITE});
+    std::fill_n(_world.begin() + chunk._idx_start, chunk._idx_end - chunk._idx_start, Cell{'.', GameUI::Color::WHITE});
 
     for (const auto& [entity_id, entity] : chunk._entities) {
         if (entity == nullptr) continue;
