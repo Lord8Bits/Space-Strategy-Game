@@ -5,7 +5,8 @@
 #include "../../include/Chunk.h"
 #include "Entity.hpp"
 
-Chunk::Chunk(const int idx_start, const int idx_end) : _idx_start(idx_start), _idx_end(idx_end) {}
+Chunk::Chunk(const int x_start, const int x_end, const int y_start, const int y_end)
+: _x_start(x_start), _x_end(x_end), _y_start(y_start), _y_end(y_end){}
 
 Chunk::~Chunk() = default;
 

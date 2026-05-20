@@ -29,7 +29,7 @@ private:
 
 public:
     /// @brief Constructor for Chunk
-    Chunk(int idx_start, int idx_end);
+    Chunk(int x_start, int x_end, int y_start, int y_end);
 
     /// @brief Destructor (automatic cleanup via unique_ptr)
     ~Chunk();
