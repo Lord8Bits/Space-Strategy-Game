@@ -31,7 +31,7 @@ void Render::drawWorld(const Map& map)
         const Vec2 world_pos = entity->getPosition();
 
         // Skip entity if outside the visible viewport
-        if (!vp.is_containsWorld(world_pos.x, world_pos.y)) continue;
+        if (!vp.isInViewport(world_pos.x, world_pos.y)) continue;
 
         // Convert world position to flat buffer index using ViewPort
         const int idx = vp.toIndex(world_pos.x, world_pos.y);
