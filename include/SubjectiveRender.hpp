@@ -2,22 +2,22 @@
 
 #include "Render.h"
 #include "Map.h"
-#include "Player.h"
-#include "Perception.h"
+#include "Player.hpp"
+#include "Perception.hpp"
 
 /// @brief Represents the visibility state of a cell from the active player's point of view
 enum class Visibility {
-    Hidden,    ///< Never explored — do not render
-    Memory,    ///< Explored before but not visible this turn — render dimmed
-    Visible    ///< Currently visible this turn — render normally
+    Hidden,    /// Never explored — do not render
+    Memory,    /// Explored before but not visible this turn — render dimmed
+    Visible    /// Currently visible this turn — render normally
 };
 
 /// @brief Classifies a single cell based on the player's perception bitsets
 /// @param perc  The player's Perception object
 /// @param x, y  Grid coordinates of the cell
-/// @return      The Visibility state of that cell
+/// @return   The Visibility state of that cell
 inline Visibility classifyCell(const Perception& perc, int x, int y) {
-    if (perc.isVisible(x, y))    return Visibility::Visible;
+    if (perc.isVisible(x, y)) return Visibility::Visible;
     if (perc.isDiscovered(x, y)) return Visibility::Memory;
     return Visibility::Hidden;
 }
@@ -36,7 +36,7 @@ public:
     /// @brief Main draw call — renders the world from the active player's point of view
     ///        Draws the full world first, then overlays the fog of war on top
     /// @param player  The active player whose perception is used as a filter
-    /// @param map     The full world map containing all chunks and entities
+    /// @param map   The full world map containing all chunks and entities
     void draw(const Player& player, Map& map) {
         render_.drawWorld(map);
         applyFogOverlay(player.getPerception());
@@ -46,7 +46,7 @@ public:
     ///        Useful for AI decisions and debug tools
     /// @param player  The player whose perception is used
     /// @param x, y    Grid coordinates to classify
-    /// @return        The Visibility state of that cell
+    /// @return   The Visibility state of that cell
     static Visibility classifyForPlayer(const Player& player, int x, int y) {
         return classifyCell(player.getPerception(), x, y);
     }
