@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Ship.h"
-#include "Perception.h"
+#include "Ship.hpp"
+#include "Perception.hpp"
 
 #include <string>
 #include <vector>
@@ -60,15 +60,15 @@ public:
     void addShip(std::unique_ptr<Ship> ship) {
         if (!ship)
             throw std::invalid_argument("Null ship.");
-        const std::string& sid = ship->getId();
+        const int sid = ship->getId();
         if (shipIndex_.count(sid))
-            throw std::invalid_argument("Ship id already exists: " + sid);
+            throw std::invalid_argument("Ship id already exists: " + std::to_string(sid));
         shipIndex_[sid] = ship.get();
         fleet_.push_back(std::move(ship));
     }
 
     /// @brief Removes a ship by ID. Returns true if found and removed.
-    bool removeShip(const std::string& shipId) {
+    bool removeShip(int shipId) {
         auto it = shipIndex_.find(shipId);
         if (it == shipIndex_.end()) return false;
         shipIndex_.erase(it);
@@ -83,7 +83,7 @@ public:
     }
 
     /// @brief Returns a pointer to a ship by ID, or nullptr if not found
-    Ship* getShip(const std::string& shipId) const {
+    Ship* getShip(int shipId) const {
         auto it = shipIndex_.find(shipId);
         return (it != shipIndex_.end()) ? it->second : nullptr;
     }
@@ -139,7 +139,7 @@ public:
     //  Perception / Fog of War
 
     /// @brief Returns a reference to the player's Perception object
-    Perception&       getPerception()       { return perception_; }
+    Perception& getPerception() { return perception_; }
     const Perception& getPerception() const { return perception_; }
 
     /// @brief Updates fog of war from all alive ships' positions and vision ranges
@@ -159,13 +159,13 @@ public:
 
 private:
 
-    int         numericId_;
+    int numericId_;
     std::string playerId_;
     std::string displayName_;
-    bool        isAI_;
+    bool isAI_;
 
-    std::vector<std::unique_ptr<Ship>>    fleet_;
-    std::unordered_map<std::string, Ship*> shipIndex_;
+    std::vector<std::unique_ptr<Ship>> fleet_;
+    std::unordered_map<int, Ship*> shipIndex_;
 
     Perception perception_;
 };
