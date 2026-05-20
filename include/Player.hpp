@@ -148,8 +148,8 @@ public:
         for (const auto& ship : fleet_) {
             if (!ship->isAlive()) continue;
             perception_.updateVisibility(
-                ship->getX(),
-                ship->getY(),
+                ship->getPosition().x,
+                ship->getPosition().y,
                 ship->getVisionRange()
             );
         }
