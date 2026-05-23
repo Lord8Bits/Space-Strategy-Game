@@ -14,6 +14,9 @@ string Civilization::getName() {
 Resource Civilization::getResources() {
     return resources;
 }
+int Civilization::getPlanetCount() {
+    return planets.size();
+}
 vector<Planet> Civilization::getPlanets() {
     return planets;
 }
