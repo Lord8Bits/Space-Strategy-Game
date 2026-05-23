@@ -68,10 +68,10 @@ public:
 private:
 
     /// Cells visible this turn only — reset every turn
-    std::bitset<WORLD_SIZE> visible_;
+    std::bitset<WORLD_SIZE> _visible;
 
     /// Cells seen at least once — never reset
-    std::bitset<WORLD_SIZE> discovered_;
+    std::bitset<WORLD_SIZE> _discovered;
 
     static std::size_t toIndex(int x, int y) {
         return static_cast<std::size_t>(y) * VIEWPORT_WIDTH + x;
