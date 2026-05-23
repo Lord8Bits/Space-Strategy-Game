@@ -1,6 +1,12 @@
 #pragma once
 #include "Enums.hpp"
 
+static constexpr int VIEWPORT_WIDTH = 80;
+static constexpr int VIEWPORT_HEIGHT = 20;
+static constexpr int CHUNK_COUNT = 6;
+static constexpr int WORLD_SIZE = VIEWPORT_HEIGHT * VIEWPORT_WIDTH * CHUNK_COUNT;
+static constexpr int MAX_BUFFER = VIEWPORT_HEIGHT * VIEWPORT_WIDTH * 3;
+
 namespace GameUI{
     enum class Color{
         CYAN,
