@@ -22,3 +22,14 @@ vector<Planet> Civilization::getPlanets() {
 void Civilization::setName(string n) {
     name = n;
 }
+
+//  Planet management
+void Civilization::addPlanet(Planet p) {
+    planets.push_back(p);
+}
+void Civilization::removePlanet(int index) {
+    if (index >= 0 && index < planets.size()) {
+        planets.erase(planets.begin() + index);
+    }
+}
+
