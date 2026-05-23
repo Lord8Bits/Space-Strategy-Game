@@ -15,12 +15,45 @@ int main() {
     Planet mars("Mars", marsResources, false);
     // Create Civilization
     Civilization humans("Humans", civilizationResources);
-    cout << "===== CIVILIZATION =====" << endl;
+    cout << "= CIVILIZATION =" << endl;
     cout << "Name: " << humans.getName() << endl;
     // Add Planets
     humans.addPlanet(earth);
     humans.addPlanet(mars);
     cout << "\nAfter adding planets:" << endl;
+    cout << "Planet count: "
+         << humans.getPlanetCount()
+         << endl;
+    // Display Resources
+    cout << "\n= RESOURCES =" << endl;
+    cout << "Gold: "
+         << humans.getResources().getGold()
+         << endl;
+
+    cout << "Silver: "
+         << humans.getResources().getSilver()
+         << endl;
+
+    cout << "Sodium: "
+         << humans.getResources().getSodium()
+         << endl ;
+    // Add Resources
+    humans.addGold(100);
+    humans.addSilver(50);
+    humans.addSodium(20);
+    cout << "\nAfter adding resources:" << endl;
+    cout << "Gold: "
+         << humans.getResources().getGold()
+         << endl;
+    cout << "Silver: "
+         << humans.getResources().getSilver()
+         << endl;
+    cout << "Sodium: "
+         << humans.getResources().getSodium()
+         << endl;
+    // Remove Planet
+    humans.removePlanet(mars);
+    cout << "\nAfter removing Mars:" << endl;
     cout << "Planet count: "
          << humans.getPlanetCount()
          << endl;
