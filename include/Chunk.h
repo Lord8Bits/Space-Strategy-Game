@@ -1,7 +1,3 @@
-//
-// Created by lorend on 5/3/26.
-//
-
 #ifndef SPACE_STRATEGY_GAME_SECTOR_H
 #define SPACE_STRATEGY_GAME_SECTOR_H
 
@@ -12,45 +8,41 @@
 /// @brief Represents a bounded region of the game world containing entities
 ///
 /// A Chunk is a spatial partition (like Minecraft chunks) that:
-/// - Covers a rectangular area [_idx_start to _idx_end] in the world buffer
+/// - Covers a rectangular area defined by world coordinates [_x_start.._x_end] x [_y_start.._y_end]
 /// - Stores entities efficiently in a map<entity_id, unique_ptr<Entity>>
-/// - Enables O(1) entity lookups and removals by ID
+/// - Enables O(log n) entity lookups and removals by ID
 class Chunk {
-    friend class Render;
 private:
-    // New (2D world coordinate based)
-    const int _x_start{};  // World X where this chunk begins
-    const int _x_end{};    // World X where this chunk ends
-    const int _y_start{};  // World Y where this chunk begins
-    const int _y_end{};    // World Y where this chunk ends
+    const int _x_start{};  ///< World X where this chunk begins
+    const int _x_end{};    ///< World X where this chunk ends
+    const int _y_start{};  ///< World Y where this chunk begins
+    const int _y_end{};    ///< World Y where this chunk ends
 
-    /// Map of entities by ID for efficient O(log n) lookup and O(log n) removal
+    /// Map of entities by ID for efficient O(log n) lookup and removal
     std::map<const int, std::unique_ptr<Entity>> _entities;
 
 public:
-    /// @brief Constructor for Chunk
     Chunk(int x_start, int x_end, int y_start, int y_end);
-
-    /// @brief Destructor (automatic cleanup via unique_ptr)
     ~Chunk();
 
-    /// Move constructor - allows Chunk to be moved
     Chunk(Chunk&& other) noexcept = default;
-
-    /// Delete copy constructor - prevent accidental copying
     Chunk(const Chunk&) = delete;
-
-    /// Delete copy assignment - prevent accidental copying
     Chunk& operator=(const Chunk&) = delete;
 
-    /// @brief Add an entity to this chunk
-    /// @param entity Unique pointer to Entity (ownership transferred to Chunk) contains its id
+    /// @brief Add an entity to this chunk (takes ownership)
     void addEntity(std::unique_ptr<Entity> entity);
 
     /// @brief Remove an entity from this chunk by ID
-    /// @param entity_id ID of entity to remove
     void removeEntity(int entity_id);
-};
 
+    // Getters
+    int getXStart() const { return _x_start; }
+    int getXEnd()   const { return _x_end;   }
+    int getYStart() const { return _y_start; }
+    int getYEnd()   const { return _y_end;   }
+
+    /// @brief Read-only access to entities for rendering
+    const std::map<const int, std::unique_ptr<Entity>>& getEntities() const { return _entities; }
+};
 
 #endif //SPACE_STRATEGY_GAME_SECTOR_H

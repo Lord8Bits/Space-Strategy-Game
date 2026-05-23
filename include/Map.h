@@ -17,13 +17,14 @@
 /// Entity at world pos (45, 25) belongs to chunk 1
 /// Relative to chunk: x=45, y=5 (offset from chunk start)
 class Map {
-    friend class Render;
 private:
     std::vector<Chunk> _chunks;   ///< Collection of all sectors in the game world
+    const int _chunk_row;
+    const int _chunk_col;
     int _selected_chunk{};         ///< Index of the currently active sector
 public:
     /// @brief Constructor for Map
-    Map(const int num_rows, const int num_cols);
+    Map(int num_rows, int num_cols);
 
     /// @brief Destructor for Map
     ~Map();
@@ -31,10 +32,13 @@ public:
     /// Find which chunk contains an entity at world position pos
     //int findChunk(const Vec2& pos) const;
 
-    /// @brief Add a sector to the map
-    /// @param chunk The Chunk to add to the map
-    void addChunk(Chunk&& chunk);
+    /// @brief Add an entity to the map (automatically places in correct chunk)
+    /// @param entity Unique pointer to entity (ownership transferred)
+    /// @throws std::out_of_range if entity position is outside world bounds
+    void addEntity(std::unique_ptr<Entity> entity);
 
+    const Chunk& getSelectedChunk() const;
+    int findChunkIndex(const Vec2& world_pos) const;
     void changeSelectedChunk(int new_selected_chunk);
 };
 

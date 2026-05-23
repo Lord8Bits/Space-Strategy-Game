@@ -4,7 +4,6 @@
 
 #ifndef SPACE_STRATEGY_GAME_VIEWPORT_H
 #define SPACE_STRATEGY_GAME_VIEWPORT_H
-#include <utility>
 
 #include "./Utils/Constants.hpp"
 #include "./Utils/Position.hpp"

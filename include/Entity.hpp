@@ -24,9 +24,9 @@ protected:
 
     std::string _name{"MissingName"};
 
-    /// Position: [RELATIVE world coordinates]
-    /// Range: [0...VIEWPORT_WIDTH) × [0...VIEWPORT_HEIGHT)
-    /// Note: They depend on which chunk the entity is in
+    /// Position: [ABSOLUTE world coordinates]
+    /// Range: [0...VIEWPORT_WIDTH * num_cols) × [0...VIEWPORT_HEIGHT * num_rows)
+    /// Note: Independent of which chunk the entity currently belongs to
     Vec2 _position{0,0};
 
     /// Visual representation of the entity

@@ -14,40 +14,37 @@ Render::~Render() = default;
 
 void Render::drawWorld(const Map& map)
 {
-    const Chunk& chunk = map._chunks[map._selected_chunk];
+    const Chunk& chunk = map.getSelectedChunk();
 
-    // Build a ViewPort centered on the selected chunk's world origin
-    // offset_x/y = top-left world coordinate of this chunk
-    const ViewPort vp(chunk._x_start, chunk._y_start);
+    // Build ViewPort using the chunk's world origin as offset
+    const ViewPort vp(chunk.getXStart(), chunk.getYStart());
 
     // Step 1: Clear the viewport buffer
     _viewport.fill({'.', GameUI::Color::WHITE});
 
-    // Step 2: Place each entity into the viewport buffer
-    // ViewPort handles world → local conversion and bounds checking
-    for (const auto& [entity_id, entity] : chunk._entities) {
+    // Step 2: Place each visible entity into the viewport buffer
+    for (const auto& [entity_id, entity] : chunk.getEntities()) {
         if (!entity) continue;
 
         const Vec2 world_pos = entity->getPosition();
 
-        // Skip entity if outside the visible viewport
+        // Skip if outside this chunk's visible area
         if (!vp.isInViewport(world_pos.x, world_pos.y)) continue;
 
-        // Convert world position to flat buffer index using ViewPort
+        // Convert world position to flat buffer index
         const int idx = vp.toIndex(world_pos.x, world_pos.y);
         _viewport[idx] = entity->getCell();
     }
 
-    // Step 3: Build the frame buffer with ANSI color codes
+    // Step 3: Build frame buffer with ANSI color codes
     GameUI::Color last_color = GameUI::Color::WHITE;
-    _frame_buffer  = "\033[H";                         // Move cursor to top-left
+    _frame_buffer  = "\033[H";
     _frame_buffer += GameUI::toAnsi(last_color);
 
     for (int y = 0; y < VIEWPORT_HEIGHT; y++) {
         for (int x = 0; x < VIEWPORT_WIDTH; x++) {
             const int idx = y * VIEWPORT_WIDTH + x;
 
-            // Only emit a color code when color changes (reduces output size)
             if (last_color != _viewport[idx].color) {
                 _frame_buffer += GameUI::toAnsi(_viewport[idx].color);
                 last_color = _viewport[idx].color;

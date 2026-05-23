@@ -1,17 +1,22 @@
 # Render System Design
 
-## What I'm Building
-A terminal-based rendering engine that displays entities in a chunked world.
+## What I Built
+A terminal-based rendering engine that displays entities in a chunked world at 27,000+ FPS.
 
-## How It Works (One Sentence Each)
-1. **Chunk**: Spatial partition that stores entities by ID in a map
-2. **Map**: Container of chunks, tracks which chunk is selected
-3. **Render**: Fills a world buffer with entity data, outputs to terminal
+## Architecture
+1. **Chunk**: Spatial partition storing entities by ID in std::map (O(log n) lookup)
+2. **Map**: Grid of chunks with O(1) spatial lookup via division
+3. **Render**: Uses ViewPort for coordinate conversion, renders one chunk at a time
 
-## Coordinate System (for now)
-- Entity._pos: Absolute world coordinates (X, Y)
-- Chunk._idx_start/end: 1D indices in the world buffer
-- Viewport: Always 80×20 cells
+## Coordinate System
+- **Entity position**: Absolute world coordinates (Vec2)
+- **Chunk bounds**: 2D world coordinates (_x_start, _x_end, _y_start, _y_end)
+- **Viewport**: 80×20 cells, represents one chunk
+- **ViewPort class**: Handles world ↔ local coordinate conversions
 
-## Conversion Formula
-`(y * VIEWPORT_WIDTH + x) + selected_sector * (VIEWPORT_HEIGHT*VIEWPORT_WIDTH)`
+## Spatial Lookup (O(1))
+```cpp
+chunk_col = world_x / VIEWPORT_WIDTH;
+chunk_row = world_y / VIEWPORT_HEIGHT;
+chunk_index = chunk_row * num_cols + chunk_col;
+```

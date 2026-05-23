@@ -1,5 +1,10 @@
 
+## Completed
+- [✓] Chunk constructor now uses 2D world coordinates (x_start, x_end, y_start, y_end)
+- [✓] Map auto-generates chunks in grid layout
+- [✓] Entity placement is automatic via Map::addEntity()
+
 ## Known Issues / TODOs
-- [ ] Chunk constructor needs to specify idx_start/end according to the number of already existing chunks.
-- [ ] Ship class implementation missing to throughly test Entity abstract class.
-- [ ] A working interface called Updateable to easily update chunks and their entities including Civilization class.
+- [ ] Ship class implementation missing to thoroughly test Entity abstract class
+- [ ] Updatable interface needs integration with TurnManager
+- [ ] Entity movement system (setPosition + chunk transfer)
