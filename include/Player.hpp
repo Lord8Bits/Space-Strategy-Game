@@ -159,7 +159,7 @@ public:
 
 private:
 
-    int numericId_;
+    const int _id;
     std::string playerId_;
     std::string displayName_;
     bool isAI_;
