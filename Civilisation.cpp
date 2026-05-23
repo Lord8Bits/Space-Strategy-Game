@@ -32,4 +32,18 @@ void Civilization::removePlanet(int index) {
         planets.erase(planets.begin() + index);
     }
 }
+// Resource management
+void Civilization::addGold(int value) {
+    resources.addGold(value);
+}
+void Civilization::addSilver(int value) {
+    resources.addSilver(value);
+}
+void Civilization::addSodium(int value) {
+    resources.addSodium(value);
+}
+// update function
+void Civilization::update() {
+
+}
 
