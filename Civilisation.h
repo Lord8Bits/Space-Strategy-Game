@@ -28,6 +28,8 @@ public :
     // returns civilization name
     Resource getResources();
     // returns civilization resources
+    int getPlanetCount();
+    // returns the number of planets owned by the civilization
     vector<Planet> getPlanets();
     // returns civilization planets
 
