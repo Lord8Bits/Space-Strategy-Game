@@ -25,11 +25,14 @@ void Civilization::setName(string n) {
 
 //  Planet management
 void Civilization::addPlanet(Planet p) {
-    planets.push_back(p);
+    planets.push_back(p); //Add the element in the end 
 }
-void Civilization::removePlanet(int index) {
-    if (index >= 0 && index < planets.size()) {
-        planets.erase(planets.begin() + index);
+void Civilization::removePlanet(Planet p) {
+    for (int i = 0; i < planets.size(); i++) {
+        if (planets[i].getName() == p.getName()) {
+            planets.erase(planets.begin() + i); // Earse remove the element from the vector
+            break;
+        }
     }
 }
 // Resource management
