@@ -57,4 +57,23 @@ int main() {
     cout << "Planet count: "
          << humans.getPlanetCount()
          << endl;
-    
+     // Planet test
+    cout << "\n= PLANET =" << endl;
+    cout << "Name: "
+         << earth.getName()
+         << endl;
+
+    cout << "Colonized: "
+         << earth.isColonized()
+         << endl;
+    earth.colonize();
+    cout << "After colonization: "
+         << earth.isColonized()
+         << endl;
+    // Update test
+    earth.update();
+    humans.update();
+
+    cout << "/n Program executed successfully " << endl ;
+    return 0 ;
+}
