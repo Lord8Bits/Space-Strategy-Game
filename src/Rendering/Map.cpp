@@ -43,12 +43,15 @@ int Map::findChunkIndex(const Vec2& world_pos) const
 
 const Chunk& Map::getSelectedChunk() const{return _chunks[_selected_chunk] ;}
 
-void Map::changeSelectedChunk(const int new_selected_chunk)
+void Map::changeSelectedChunk(const int chunk_x, const int chunk_y)
 {
-    if (new_selected_chunk < 0 || new_selected_chunk >= static_cast<int>(_chunks.size())) {
-        _selected_chunk = 0;  // Default to first chunk if invalid
-    } else {
-        _selected_chunk = new_selected_chunk;
+    const bool in_bounds{chunk_x >= 0 && chunk_x < _chunk_col &&
+                        chunk_y >= 0 && chunk_y < _chunk_row
+    };
+
+    if (!in_bounds) {
+        throw std::out_of_range("Position outside world bounds");
     }
+    _selected_chunk = chunk_x + chunk_y * _chunk_col;
 }
 

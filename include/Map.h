@@ -39,7 +39,7 @@ public:
 
     const Chunk& getSelectedChunk() const;
     int findChunkIndex(const Vec2& world_pos) const;
-    void changeSelectedChunk(int new_selected_chunk);
+    void changeSelectedChunk(int chunk_x, int chunk_y);
 };
 
 

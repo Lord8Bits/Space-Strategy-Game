@@ -50,29 +50,29 @@ int main()
 
     // Test chunk 1
     std::cout << "=== Chunk 1 (ship at (90,12) → screen (10,12)) ===\n";
-    map.changeSelectedChunk(1);
+    map.changeSelectedChunk(1, 0);
     renderer.drawWorld(map);
 
     // Test chunk 3
     std::cout << "=== Chunk 3 (ship at (30,25) → screen (30,5)) ===\n";
-    map.changeSelectedChunk(2);
+    map.changeSelectedChunk(0, 1);
     renderer.drawWorld(map);
 
-    // Benchmark
-    std::cout << "=== Benchmark (1000 frames on chunk 0) ===\n";
-    map.changeSelectedChunk(0);
-    const int NUM_FRAMES = 1000;
-    auto start = std::chrono::high_resolution_clock::now();
-    for (int i = 0; i < NUM_FRAMES; i++) {
-        renderer.drawWorld(map);
-    }
-    auto end = std::chrono::high_resolution_clock::now();
-    auto total     = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
-    auto per_frame = total / NUM_FRAMES;
-
-    std::cout << "Total:     " << total     << " µs\n";
-    std::cout << "Per frame: " << per_frame << " µs\n";
-    std::cout << "FPS:       " << (1000000.0 / per_frame) << "\n";
+    // // Benchmark
+    // std::cout << "=== Benchmark (1000 frames on chunk 0) ===\n";
+    // map.changeSelectedChunk({}, {});
+    // const int NUM_FRAMES = 1000;
+    // auto start = std::chrono::high_resolution_clock::now();
+    // for (int i = 0; i < NUM_FRAMES; i++) {
+    //     renderer.drawWorld(map);
+    // }
+    // auto end = std::chrono::high_resolution_clock::now();
+    // auto total     = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+    // auto per_frame = total / NUM_FRAMES;
+    //
+    // std::cout << "Total:     " << total     << " µs\n";
+    // std::cout << "Per frame: " << per_frame << " µs\n";
+    // std::cout << "FPS:       " << (1000000.0 / per_frame) << "\n";
 
     return 0;
 }
