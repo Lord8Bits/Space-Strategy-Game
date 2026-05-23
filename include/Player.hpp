@@ -167,5 +167,5 @@ private:
     std::vector<std::unique_ptr<Ship>> fleet_;
     std::unordered_map<int, Ship*> shipIndex_;
 
-    Perception perception_;
+    Perception _perception;
 };
