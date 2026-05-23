@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 
-#include "Resource.h"
-#include "Planet.h"
+#include "Resource.hpp"
+#include "Planet.hpp"
 #include "Updatable.hpp"
 
 using namespace std;
