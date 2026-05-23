@@ -13,3 +13,15 @@ int main() {
     // Create Planets
     Planet earth("Earth", earthResources, false);
     Planet mars("Mars", marsResources, false);
+    // Create Civilization
+    Civilization humans("Humans", civilizationResources);
+    cout << "===== CIVILIZATION =====" << endl;
+    cout << "Name: " << humans.getName() << endl;
+    // Add Planets
+    humans.addPlanet(earth);
+    humans.addPlanet(mars);
+    cout << "\nAfter adding planets:" << endl;
+    cout << "Planet count: "
+         << humans.getPlanetCount()
+         << endl;
+    
