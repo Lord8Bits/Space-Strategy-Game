@@ -1,9 +1,9 @@
 #include "Resource.h"
 //Constructor
-Resource::Resource(int g, int s, int so) {
+Resource::Resource(int g, int s, int di) {
     gold = g;
     silver = s;
-    sodium = so;
+    diamond = di;
 }
 //Getters
 
@@ -13,8 +13,8 @@ int Resource::getGold() {
 int Resource::getSilver() {
     return silver;
 }
-int Resource::getSodium() {
-    return sodium;
+int Resource::getdiamond() {
+    return diamond;
 }
 //Add functions
 
@@ -24,8 +24,8 @@ void Resource::addGold(int value) {
 void Resource::addSilver(int value) {
     silver += value;
 }
-void Resource::addSodium(int value) {
-    sodium += value;
+void Resource::adddiamond(int value) {
+    diamond += value;
 }
 // Consume functions
 
@@ -39,9 +39,9 @@ void Resource::consumeSilver(int value) {
     silver -= value;
    }  
 }
-void Resource::consumeSodium(int value) {
-  if (sodium >= value) {
-    sodium -= value;
+void Resource::consumediamond(int value) {
+  if (diamond >= value) {
+    diamond -= value;
   }
 }
 // update function 
