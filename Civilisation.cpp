@@ -1,55 +1,69 @@
-#include "Civilization.h"
+#include "Civilization.hpp"
 
-// Constructor
 Civilization::Civilization(string n, Resource r)
     : resources(r)
 {
     name = n;
 }
 
-// Getters
 string Civilization::getName() {
     return name;
 }
+
 Resource Civilization::getResources() {
     return resources;
 }
+
 int Civilization::getPlanetCount() {
     return planets.size();
 }
-vector<Planet> Civilization::getPlanets() {
+
+map<string, Planet> Civilization::getPlanets() {
     return planets;
 }
 
-// Setters
 void Civilization::setName(string n) {
     name = n;
 }
 
-//  Planet management
+// PLANET MANAGEMENT
+
 void Civilization::addPlanet(Planet p) {
-    planets.push_back(p); //Add the element in the end 
+
+    planets[p.getName()] = p;
 }
-void Civilization::removePlanet(Planet p) {
-    for (int i = 0; i < planets.size(); i++) {
-        if (planets[i].getName() == p.getName()) {
-            planets.erase(planets.begin() + i); // Earse remove the element from the vector
-            break;
-        }
+
+void Civilization::removePlanet(string planetName) {
+
+    planets.erase(planetName);
+}
+
+Planet* Civilization::findPlanet(string planetName) {
+
+    auto it = planets.find(planetName);
+
+    if (it != planets.end()) {
+
+        return &(it->second);
     }
+
+    return nullptr;
 }
-// Resource management
+
+// RESOURCE MANAGEMENT
+
 void Civilization::addGold(int value) {
     resources.addGold(value);
 }
+
 void Civilization::addSilver(int value) {
     resources.addSilver(value);
 }
+
 void Civilization::addSodium(int value) {
     resources.addSodium(value);
 }
-// update function
+
 void Civilization::update() {
 
 }
-
