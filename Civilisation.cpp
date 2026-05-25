@@ -64,6 +64,29 @@ void Civilization::adddiamond(int value) {
     resources.addSodium(value);
 }
 
+void Civilization::addTechnology(Technology t)
+{
+    technologies[t.getId()] = t;
+}
+void Civilization::removeTechnology(int id)
+{
+    technologies.erase(id);
+}
+Technology* Civilization::findTechnology(int id)
+{
+    auto it = technologies.find(id);
+
+    if (it != technologies.end())
+    {
+        return &(it->second);
+    }
+    return nullptr;
+}
+int Civilization::getTechnologyCount()
+{
+    return technologies.size();
+}
+
 void Civilization::update() {
 
 }
