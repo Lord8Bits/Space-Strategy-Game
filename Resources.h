@@ -8,19 +8,19 @@ private:
     //ATTRIBUTES
     int gold;    
     int silver;  
-    int sodium;  
+    int diamond;  
 
 public:
     //CONSTRUCTOR
     // Initializes the resource values
-    Resource(int g, int s, int so);
+    Resource(int g, int s, int di);
 
     //GETTERS 
     int getGold();    
     // returns the current amount of gold
     int getSilver();  
     // returns the current amount of silver
-    int getSodium();  
+    int getdiamond();  
     // returns the current amount of sodium
 
     //ADD FUNCTIONS
@@ -28,7 +28,7 @@ public:
     // adds "value" to gold
     void addSilver(int value);   
     // adds "value" to silver
-    void addSodium(int value);   
+    void adddiamond(int value);   
     // adds "value" to sodium
 
     //CONSUME FUNCTIONS 
@@ -39,7 +39,7 @@ public:
     void consumeSilver(int value);  
     // same logic as gold
 
-    void consumeSodium(int value);  
+    void consumediamond(int value);  
     // same logic as gold
      void update() override;
 };
