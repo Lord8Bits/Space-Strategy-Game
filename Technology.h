@@ -33,3 +33,20 @@ public:
     // returns base research cost
     bool isUnlocked();
     // returns unlock status
+  // SETTERS
+    void setName(string n);
+    // changes technology name
+    void setLevel(int l);
+    // changes technology level
+
+    // TECHNOLOGY ACTIONS
+    void unlock();
+    // unlocks the technology
+    void upgrade();
+    // increases technology level
+    bool canUpgrade();
+    // checks if the technology can still be upgraded
+    int calculateUpgradeCost();
+    // calculates the cost of the next upgrade
+    void displayInfo();
+    // displays technology information
