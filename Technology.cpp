@@ -73,3 +73,13 @@ void Technology::displayInfo() {
         cout << "No" << endl;
 }
 
+// BONUS SYSTEM
+int Technology::getProductionBonus() {
+    return level * 10;
+}
+int Technology::getDefenseBonus() {
+    return level * 5;
+}
+int Technology::getAttackBonus() {
+    return level * 8;
+}
