@@ -106,6 +106,17 @@ int main() {
         cout << "Mars not found." << endl;
     }
 
+    // technology
+    Technology mining(1, "Mining", 1, 5, 100);
+    Technology laser(2, "Laser", 1, 3, 200);
+
+    humans.addTechnology(mining);
+    humans.addTechnology(laser);
+
+    cout << "Technology Count: "
+         << humans.getTechnologyCount()
+         << endl;
+
     // Test update
 
     humans.update();
