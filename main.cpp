@@ -1,31 +1,59 @@
 #include <iostream>
+
 #include "Resource.h"
 #include "Planet.h"
-#include "Civilization.h"
+#include "Civilization.hpp"
 
 using namespace std;
 
 int main() {
-    // Create Resources
+
+    // Create resources
+
     Resource earthResources(100, 50, 25);
     Resource marsResources(80, 40, 10);
-    Resource civilizationResources(500, 300, 100);
-    // Create Planets
+    Resource civResources(500, 300, 100);
+
+    // Create planets
+
     Planet earth("Earth", earthResources, false);
     Planet mars("Mars", marsResources, false);
-    // Create Civilization
-    Civilization humans("Humans", civilizationResources);
-    cout << "= CIVILIZATION =" << endl;
-    cout << "Name: " << humans.getName() << endl;
-    // Add Planets
+
+    // Create civilization
+
+    Civilization humans("Humans", civResources);
+
+    cout << "Civilization: "
+         << humans.getName()
+         << endl;
+
+    // Add planets
+
     humans.addPlanet(earth);
     humans.addPlanet(mars);
+
     cout << "\nAfter adding planets:" << endl;
+
     cout << "Planet count: "
          << humans.getPlanetCount()
          << endl;
-    // Display Resources
-    cout << "\n= RESOURCES =" << endl;
+
+    // Search for a planet
+
+    Planet* foundPlanet =
+        humans.findPlanet("Earth");
+
+    if (foundPlanet != nullptr) {
+
+        cout << "\nPlanet found: "
+             << foundPlanet->getName()
+             << endl;
+    }
+
+    // Display civilization resources
+
+    cout << "\nResources:" << endl;
+
     cout << "Gold: "
          << humans.getResources().getGold()
          << endl;
@@ -36,44 +64,54 @@ int main() {
 
     cout << "Sodium: "
          << humans.getResources().getSodium()
-         << endl ;
-    // Add Resources
+         << endl;
+
+    // Add resources
+
     humans.addGold(100);
     humans.addSilver(50);
     humans.addSodium(20);
-    cout << "\nAfter adding resources:" << endl;
+
+    cout << "\nAfter resource update:" << endl;
+
     cout << "Gold: "
          << humans.getResources().getGold()
          << endl;
+
     cout << "Silver: "
          << humans.getResources().getSilver()
          << endl;
+
     cout << "Sodium: "
          << humans.getResources().getSodium()
          << endl;
-    // Remove Planet
-    humans.removePlanet(mars);
+
+    // Remove Mars
+
+    humans.removePlanet("Mars");
+
     cout << "\nAfter removing Mars:" << endl;
+
     cout << "Planet count: "
          << humans.getPlanetCount()
          << endl;
-     // Planet test
-    cout << "\n= PLANET =" << endl;
-    cout << "Name: "
-         << earth.getName()
-         << endl;
 
-    cout << "Colonized: "
-         << earth.isColonized()
-         << endl;
-    earth.colonize();
-    cout << "After colonization: "
-         << earth.isColonized()
-         << endl;
-    // Update test
-    earth.update();
+    // Verify Mars removal
+
+    Planet* marsCheck =
+        humans.findPlanet("Mars");
+
+    if (marsCheck == nullptr) {
+
+        cout << "Mars not found." << endl;
+    }
+
+    // Test update
+
     humans.update();
 
-    cout << "/n Program executed successfully " << endl ;
-    return 0 ;
+    cout << "\nProgram executed successfully."
+         << endl;
+
+    return 0;
 }
