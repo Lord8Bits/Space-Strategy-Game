@@ -60,7 +60,7 @@ void Civilization::addSilver(int value) {
     resources.addSilver(value);
 }
 
-void Civilization::addSodium(int value) {
+void Civilization::adddiamond(int value) {
     resources.addSodium(value);
 }
 
