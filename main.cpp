@@ -63,14 +63,14 @@ int main() {
          << endl;
 
     cout << "Sodium: "
-         << humans.getResources().getSodium()
+         << humans.getResources().getdiamond()
          << endl;
 
     // Add resources
 
     humans.addGold(100);
     humans.addSilver(50);
-    humans.addSodium(20);
+    humans.adddiamond(20);
 
     cout << "\nAfter resource update:" << endl;
 
@@ -83,7 +83,7 @@ int main() {
          << endl;
 
     cout << "Sodium: "
-         << humans.getResources().getSodium()
+         << humans.getResources().getdiamond()
          << endl;
 
     // Remove Mars
