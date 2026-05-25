@@ -35,6 +35,8 @@ public:
     // changes colonization state
     void colonize();
     // sets the planet as colonized
+    bool hasResources();
+// checks if the planet still contains resources
 
     // UPDATE FUNCTION
     void update() override;
