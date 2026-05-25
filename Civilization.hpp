@@ -7,6 +7,7 @@
 #include "Resource.h"
 #include "Planet.h"
 #include "Updatable.hpp"
+#include "Technology.h"
 
 using namespace std;
 
@@ -20,6 +21,7 @@ private:
     // key = planet name
     // value = Planet object
     map<string, Planet> planets;
+    map<int, Technology> technologies;
 
 public:
 
@@ -44,6 +46,11 @@ public:
     void addGold(int value);
     void addSilver(int value);
     void adddiamond(int value);
+
+    void addTechnology(Technology t);
+    void removeTechnology(int id);
+    Technology* findTechnology(int id);
+    int getTechnologyCount();
 
     // UPDATE
     void update() override;
