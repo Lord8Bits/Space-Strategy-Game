@@ -30,6 +30,12 @@ void Planet::setColonized(bool c) {
 void Planet::colonize() {
     colonized = true;
 }
+bool Planet::hasResources()
+{
+    return resources.getGold() > 0 ||
+           resources.getSilver() > 0 ||
+           resources.getSodium() > 0;
+}
 // Update function
 void Planet::update() {
 }
