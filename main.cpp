@@ -21,6 +21,16 @@ int main() {
     else {
         cout << "No" << endl;
     }
+    cout << "\nChecking resources..." << endl;
+
+      if (earth.hasResources())
+       {
+          cout << "Planet still has resources." << endl;
+       }
+      else
+       {
+          cout << "Planet has no resources." << endl;
+       }
 
    // Display resources
     cout << endl;
