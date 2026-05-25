@@ -47,6 +47,7 @@ public:
     void addSilver(int value);
     void adddiamond(int value);
 
+     // technology management
     void addTechnology(Technology t);
     void removeTechnology(int id);
     Technology* findTechnology(int id);
