@@ -16,3 +16,20 @@ private:
     int maxLevel;         // maximum level allowed
     int researchCost;     // base research cost
     bool unlocked;       // unlock status
+public:
+
+    // CONSTRUCTOR
+    Technology(int i, string n, int l, int maxL, int cost);
+    // GETTERS
+    int getId();
+    // returns technology id
+    string getName();
+    // returns technology name
+    int getLevel();
+    // returns current level
+    int getMaxLevel();
+    // returns maximum level
+    int getResearchCost();
+    // returns base research cost
+    bool isUnlocked();
+    // returns unlock status
