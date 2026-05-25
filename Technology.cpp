@@ -38,3 +38,38 @@ void Technology::setName(string n) {
 void Technology::setLevel(int l) {
     level = l;
 }
+
+// TECHNOLOGY ACTIONS
+void Technology::unlock() {
+    unlocked = true;
+}
+void Technology::upgrade() {
+    if (canUpgrade()) {
+        level++;
+    }
+}
+
+bool Technology::canUpgrade() {
+    return level < maxLevel;
+}
+
+int Technology::calculateUpgradeCost() {
+    return researchCost * (level + 1);
+}
+void Technology::displayInfo() {
+
+    cout << "\n TECHNOLOGY " << endl;
+
+    cout << "ID: " << id << endl;
+    cout << "Name: " << name << endl;
+    cout << "Level: " << level << endl;
+    cout << "Max Level: " << maxLevel << endl;
+    cout << "Research Cost: " << researchCost << endl;
+    cout << "Unlocked: ";
+
+    if (unlocked)
+        cout << "Yes" << endl;
+    else
+        cout << "No" << endl;
+}
+
