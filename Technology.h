@@ -50,3 +50,14 @@ public:
     // calculates the cost of the next upgrade
     void displayInfo();
     // displays technology information
+
+ // BONUS SYSTEM
+    int getProductionBonus();
+    // returns production bonus
+    int getDefenseBonus();
+    // returns defense bonus
+    int getAttackBonus();
+    // returns attack bonus
+};
+
+#endif
