@@ -4,8 +4,8 @@
 #include <string>
 #include <map>
 
-#include "Resource.hpp"
-#include "Planet.hpp"
+#include "Resource.h"
+#include "Planet.h"
 #include "Updatable.hpp"
 
 using namespace std;
@@ -43,7 +43,7 @@ public:
     // RESOURCE MANAGEMENT
     void addGold(int value);
     void addSilver(int value);
-    void addSodium(int value);
+    void adddiamond(int value);
 
     // UPDATE
     void update() override;
