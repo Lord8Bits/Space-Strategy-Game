@@ -11,7 +11,15 @@ Render::Render()
 }
 
 Render::~Render() = default;
+Cell Render::makeCell(const Entity& entity) const {
+    GameUI::Color color = GameUI::Color::WHITE;
 
+    if (entity.getCivOwner()) {
+        color = entity.getCivOwner()->getColor();
+    }
+
+    return Cell{entity.getSymbol(), color};
+}
 void Render::drawWorld(const Map& map)
 {
     const Chunk& chunk = map.getSelectedChunk();
@@ -33,7 +41,7 @@ void Render::drawWorld(const Map& map)
 
         // Convert world position to flat buffer index
         const int idx = vp.toIndex(world_pos.x, world_pos.y);
-        _viewport[idx] = entity->getCell();
+        _viewport[idx] = makeCell(*entity);
     }
 
     // Step 3: Build frame buffer with ANSI color codes

@@ -4,7 +4,10 @@
 #include "Entity.hpp"
 #include "Map.h"
 #include "ViewPort.h"
-
+struct Cell {
+    char symbol;
+    GameUI::Color color;
+};
 /// @brief Handles all rendering of the game world to the terminal
 ///
 /// Design decision: _viewport only stores one chunk at a time (CHUNK_SIZE cells)
@@ -21,7 +24,7 @@ private:
 public:
     Render();
     ~Render();
-
+Cell makeCell(const Entity& entity) const;
     /// @brief Render the currently selected chunk of the map to the terminal
     void drawWorld(const Map& map);
 };
