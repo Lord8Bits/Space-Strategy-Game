@@ -15,18 +15,15 @@ void Ship::update(){
 
 bool Ship::moveTo(const Vec2& targetPosition){
     if (!isAlive()){
-        std::cout << _name << " is destroyed!" << std::endl;
         return false;
     }
-
+    //if the target position > movement range allowed, move will fails
     if (_position.distanceTo(targetPosition) > _movementRange){
-        std::cout << _name << " cannot move that far! (Max Range: " << _movementRange << ')' << std::endl;
         return false;
     }
 
     _position = targetPosition;
     _state = ShipState::MOVING;
-    std::cout << _name << " moved to (" << targetPosition.x << ", " << targetPosition.y << ")" << std::endl;
 
     return true;
 }
