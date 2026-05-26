@@ -1,4 +1,4 @@
-#include "Planet.h"
+#include "Planet.hpp"
 
 // CONSTRUCTOR
 
