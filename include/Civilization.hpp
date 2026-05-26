@@ -3,6 +3,7 @@
 #include "../src/Utils/Enums.hpp"
 #include "../src/Utils/Constants.hpp"
 #include <unordered_map>
+#include <string>
 
 //Forward declaration & initialization
 class Civilization : public Updatable{
