@@ -1,16 +1,17 @@
 #ifndef SPACE_STRATEGY_GAME_SECTOR_H
 #define SPACE_STRATEGY_GAME_SECTOR_H
 
-#include <map>
-#include <memory>
+#include <set>
 #include "Entity.hpp"
 
-/// @brief Represents a bounded region of the game world containing entities
+/// @brief Represents a bounded region of the game world
 ///
-/// A Chunk is a spatial partition (like Minecraft chunks) that:
-/// - Covers a rectangular area defined by world coordinates [_x_start.._x_end] x [_y_start.._y_end]
-/// - Stores entities efficiently in a map<entity_id, unique_ptr<Entity>>
-/// - Enables O(log n) entity lookups and removals by ID
+/// A Chunk is a spatial partition that:
+/// - Covers a rectangular area [_x_start.._x_end] x [_y_start.._y_end]
+/// - INDEXES entity IDs only (does NOT own entities)
+/// - Enables O(log n) membership queries by ID
+///
+/// Ownership: Map owns all entities. Chunk just tracks which IDs are here.
 class Chunk {
 private:
     const int _x_start{};  ///< World X where this chunk begins
@@ -18,22 +19,22 @@ private:
     const int _y_start{};  ///< World Y where this chunk begins
     const int _y_end{};    ///< World Y where this chunk ends
 
-    /// Map of entities by ID for efficient O(log n) lookup and removal
-    std::map<const int, std::unique_ptr<Entity>> _entities;
+    /// Set of entity IDs present in this chunk (no ownership)
+    std::set<int> _entity_ids;
 
 public:
     Chunk(int x_start, int x_end, int y_start, int y_end);
-    ~Chunk();
+    ~Chunk() = default;
 
     Chunk(Chunk&& other) noexcept = default;
     Chunk(const Chunk&) = delete;
     Chunk& operator=(const Chunk&) = delete;
 
-    /// @brief Add an entity to this chunk (takes ownership)
-    void addEntity(std::unique_ptr<Entity> entity);
+    /// @brief Register an entity ID as present in this chunk
+    void addEntityIndex(int entity_id);
 
-    /// @brief Remove an entity from this chunk by ID
-    void removeEntity(int entity_id);
+    /// @brief Remove an entity ID from this chunk's index
+    void removeEntityIndex(int entity_id);
 
     // Getters
     int getXStart() const { return _x_start; }
@@ -41,8 +42,8 @@ public:
     int getYStart() const { return _y_start; }
     int getYEnd()   const { return _y_end;   }
 
-    /// @brief Read-only access to entities for rendering
-    const std::map<const int, std::unique_ptr<Entity>>& getEntities() const { return _entities; }
+    /// @brief Read-only access to entity IDs for rendering/queries
+    const std::set<int>& getEntityIDs() const { return _entity_ids; }
 };
 
 #endif //SPACE_STRATEGY_GAME_SECTOR_H

@@ -5,19 +5,19 @@
 #include "../../include/Chunk.h"
 #include "Entity.hpp"
 
+#include "../../include/Chunk.h"
+
 Chunk::Chunk(const int x_start, const int x_end, const int y_start, const int y_end)
-: _x_start(x_start), _x_end(x_end), _y_start(y_start), _y_end(y_end){}
+    : _x_start(x_start), _x_end(x_end), _y_start(y_start), _y_end(y_end) {}
 
-Chunk::~Chunk() = default;
-
-void Chunk::addEntity(std::unique_ptr<Entity> entity)
+void Chunk::addEntityIndex(const int entity_id)
 {
-    _entities.insert({entity->getId(), std::move(entity)});
+    _entity_ids.insert(entity_id);
 }
 
-void Chunk::removeEntity(const int entity_id)
+void Chunk::removeEntityIndex(const int entity_id)
 {
-    _entities.erase(entity_id);
+    _entity_ids.erase(entity_id);
 }
 
 
