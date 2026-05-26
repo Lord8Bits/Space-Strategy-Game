@@ -1,18 +1,42 @@
 #include "Civilization.hpp"
-#include "../../include/Civilization.hpp"
 
-Civilization::Civilization(CivilizationType Type) 
-    : type(Type), color(civToColor(Type)) {}
 
-Relation Civilization::getRelationWith(const Civilization& other) const{
+// CONSTRUCTORS
+
+
+Civilization::Civilization(CivilizationType Type)
+    : type(Type), color(civToColor(Type))
+{
+}
+
+Civilization::Civilization(string n, Resource r)
+    : resources(r),
+      type(CivilizationType::PLAYER),
+      color(civToColor(CivilizationType::PLAYER))
+{
+    _name = n;
+}
+
+
+// RELATION MANAGEMENT
+
+
+Relation Civilization::getRelationWith(const Civilization& other) const
+{
     auto it = _relations.find(&other);
+
     if (it != _relations.end())
-        return it -> second;
+    {
+        return it->second;
+    }
+
     return defaultRelationWith(other);
 }
 
-Relation Civilization::defaultRelationWith(const Civilization& other) const{
-    switch(other.getCivType()){
+Relation Civilization::defaultRelationWith(const Civilization& other) const
+{
+    switch (other.getCivType())
+    {
         case CivilizationType::PLAYER:
         case CivilizationType::PEACEFUL:
             return Relation::ALLY;
@@ -27,85 +51,114 @@ Relation Civilization::defaultRelationWith(const Civilization& other) const{
     }
 }
 
-void Civilization::isAllyAttacked(const Civilization& ally, const Civilization* attacker){
-    if (!attacker) return;
+void Civilization::setRelationWith(const Civilization& other,
+                                   Relation relation)
+{
+    _relations[&other] = relation;
+}
+
+void Civilization::isAllyAttacked(const Civilization& ally,
+                                  const Civilization* attacker)
+{
+    if (!attacker)
+    {
+        return;
+    }
 
     if (getRelationWith(ally) == Relation::ALLY)
+    {
         setRelationWith(*attacker, Relation::ENEMY);
+    }
 }
 
-Civilization::Civilization(string n, Resource r)
-    : resources(r)
+
+// GETTERS
+
+
+string Civilization::getName() const
 {
-    name = n;
+    return _name;
 }
 
-string Civilization::getName() {
-    return name;
-}
-
-Resource Civilization::getResources() {
+Resource Civilization::getResources()
+{
     return resources;
 }
 
-int Civilization::getPlanetCount() {
+int Civilization::getPlanetCount()
+{
     return planets.size();
 }
 
-map<string, Planet> Civilization::getPlanets() {
+int Civilization::getTechnologyCount()
+{
+    return technologies.size();
+}
+
+map<string, Planet> Civilization::getPlanets()
+{
     return planets;
 }
 
-void Civilization::setName(string n) {
-    name = n;
+GameUI::Color Civilization::getColor() const
+{
+    return color;
 }
+
+CivilizationType Civilization::getCivType() const
+{
+    return type;
+}
+
+
+// SETTERS
+
+
+void Civilization::setName(string n)
+{
+    _name = n;
+}
+
 
 // PLANET MANAGEMENT
 
-void Civilization::addPlanet(Planet p) {
 
-    planets[p.getName()] = p;
+void Civilization::addPlanet(Planet p)
+{
+    planets.insert({p.getName(), p});
 }
 
-void Civilization::removePlanet(string planetName) {
-
+void Civilization::removePlanet(string planetName)
+{
     planets.erase(planetName);
 }
 
-Planet* Civilization::findPlanet(string planetName) {
-
+Planet* Civilization::findPlanet(string planetName)
+{
     auto it = planets.find(planetName);
 
-    if (it != planets.end()) {
-
+    if (it != planets.end())
+    {
         return &(it->second);
     }
 
     return nullptr;
 }
 
-// RESOURCE MANAGEMENT
 
-void Civilization::addGold(int value) {
-    resources.addGold(value);
-}
+// TECHNOLOGY MANAGEMENT
 
-void Civilization::addSilver(int value) {
-    resources.addSilver(value);
-}
-
-void Civilization::adddiamond(int value) {
-    resources.adddiamond(value);
-}
 
 void Civilization::addTechnology(Technology t)
 {
-    technologies[t.getId()] = t;
+    technologies.insert({t.getId(), t});
 }
+
 void Civilization::removeTechnology(int id)
 {
     technologies.erase(id);
 }
+
 Technology* Civilization::findTechnology(int id)
 {
     auto it = technologies.find(id);
@@ -114,13 +167,34 @@ Technology* Civilization::findTechnology(int id)
     {
         return &(it->second);
     }
+
     return nullptr;
 }
-int Civilization::getTechnologyCount()
+
+
+// RESOURCE MANAGEMENT
+
+
+void Civilization::addGold(int value)
 {
-    return technologies.size();
+    resources.addGold(value);
 }
 
-void Civilization::update() {
+void Civilization::addSilver(int value)
+{
+    resources.addSilver(value);
+}
 
+void Civilization::addSodium(int value)
+{
+    resources.addSodium(value);
+}
+
+
+// UPDATE
+
+
+void Civilization::update()
+{
+    // Future game logic
 }
