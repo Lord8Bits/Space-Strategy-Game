@@ -95,7 +95,7 @@ void Civilization::addSilver(int value) {
 }
 
 void Civilization::adddiamond(int value) {
-    resources.addSodium(value);
+    resources.adddiamond(value);
 }
 
 void Civilization::addTechnology(Technology t)
