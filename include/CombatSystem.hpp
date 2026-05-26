@@ -12,7 +12,6 @@ public:
     ~CombatSystem() = default;
 
     CombatResult resolveCombat(Ship& attacker, Entity& defender);
-    void resolveFleetBattle(std::vector<Ship*>& fleet1, std::vector<Ship*>& fleet2);
 
 private:
     int calculateDamage(const Ship& attacker, const Entity& defender) const;
