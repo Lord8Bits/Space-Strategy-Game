@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Technology.h"
+#include "Technology.hpp"
 
 using namespace std;
 
