@@ -14,6 +14,7 @@ private:
 
 public:
 
+    
     // CONSTRUCTOR
     Resource(int g, int s, int di);
 
@@ -31,6 +32,14 @@ public:
     void consumeGold(int value);
     void consumeSilver(int value);
     void consumediamond(int value);
+    int total() const { return gold + silver + diamond; }
+
+    friend bool operator>=(const Resources& cargo, const Resources& resources){
+        return cargo.gold >= resources.gold 
+            && cargo.silver >= resources.silver
+            && cargo.diamond >= resources.diamond;
+    }
+    };
 
     // UPDATE
     void update() override;
