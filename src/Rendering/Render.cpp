@@ -6,42 +6,41 @@
 
 Render::Render()
 {
-    _viewport.fill({'.', GameUI::Color::WHITE});
+    _viewport.fill({'.',  GameUI::Color::WHITE});
     _frame_buffer.reserve(MAX_BUFFER);
 }
 
 Render::~Render() = default;
-Cell Render::makeCell(const Entity& entity) const {
-    GameUI::Color color = GameUI::Color::WHITE;
 
-    if (entity.getCivOwner()) {
-        color = entity.getCivOwner()->getColor();
-    }
+GameUI::Cell Render::makeCell(const Entity& entity)
+{
+    // Color comes from the owning civilization
+    // If no owner, default to WHITE (neutral/unclaimed)
+    const GameUI::Color color = entity.getCivOwner()
+        ? entity.getCivOwner()->getColor()
+        : GameUI::Color::WHITE;
 
-    return Cell{entity.getSymbol(), color};
+    return GameUI::Cell{entity.getSymbol(), color};
 }
+
 void Render::drawWorld(const Map& map)
 {
-    const Chunk& chunk = map.getSelectedChunk();
-
-    // Build ViewPort using the chunk's world origin as offset
+    const Chunk&   chunk = map.getSelectedChunk();
     const ViewPort vp(chunk.getXStart(), chunk.getYStart());
 
     // Step 1: Clear the viewport buffer
     _viewport.fill({'.', GameUI::Color::WHITE});
 
-    // Step 2: Place each visible entity into the viewport buffer
-    for (const auto& [entity_id, entity] : chunk.getEntities()) {
+    // Step 2: Iterate entity IDs, fetch from Map, build Cell for rendering
+    for (const int entity_id : chunk.getEntityIDs()) {
+        const Entity* entity = map.getEntity(entity_id);
         if (!entity) continue;
 
         const Vec2 world_pos = entity->getPosition();
-
-        // Skip if outside this chunk's visible area
         if (!vp.isInViewport(world_pos.x, world_pos.y)) continue;
 
-        // Convert world position to flat buffer index
-        const int idx = vp.toIndex(world_pos.x, world_pos.y);
-        _viewport[idx] = makeCell(*entity);
+        const int idx      = vp.toIndex(world_pos.x, world_pos.y);
+        _viewport[idx]     = makeCell(*entity);  // Build Cell here, not in Entity
     }
 
     // Step 3: Build frame buffer with ANSI color codes
