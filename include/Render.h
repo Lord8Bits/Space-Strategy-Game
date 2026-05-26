@@ -24,7 +24,7 @@ private:
 public:
     Render();
     ~Render();
-
+Cell makeCell(const Entity& entity) const;
     /// @brief Render the currently selected chunk of the map to the terminal
     void drawWorld(const Map& map);
 };
