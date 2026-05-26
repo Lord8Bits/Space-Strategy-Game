@@ -1,5 +1,8 @@
 #pragma once
 
+#include <string>
+#include <vector>
+
 #include "Entity.hpp"
 #include "CombatResult.hpp"
 
