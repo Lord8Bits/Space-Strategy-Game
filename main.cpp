@@ -4,56 +4,58 @@
 
 using namespace std;
 
-int main() {
-    // Create a Resource object
+int main()
+{
     Resource planetResources(100, 50, 25);
 
-    // Create a Planet object
     Planet earth("Earth", planetResources, false);
 
-     // Display planet information
-    cout << " PLANET INFORMATION " << endl;
-    cout << "Name : " << earth.getName() << endl;
-    cout << "Colonized : ";
-    if (earth.isColonized()) {
+    cout << "===== PLANET =====" << endl;
+
+    cout << "Name: "
+         << earth.getName()
+         << endl;
+
+    cout << "Colonized: ";
+
+    if (earth.isColonized())
         cout << "Yes" << endl;
-    }
-    else {
+    else
         cout << "No" << endl;
-    }
-    cout << "\nChecking resources..." << endl;
 
-      if (earth.hasResources())
-       {
-          cout << "Planet still has resources." << endl;
-       }
-      else
-       {
-          cout << "Planet has no resources." << endl;
-       }
+    cout << "\nResources Check: ";
 
-   // Display resources
-    cout << endl;
-    cout << "PLANET RESOURCES" << endl;
-    cout << "Gold : " << earth.getResources().getGold() << endl;
-    cout << "Silver : " << earth.getResources().getSilver() << endl;
-    cout << "Sodium : " << earth.getResources().getSodium() << endl;
+    if (earth.hasResources())
+        cout << "Planet still has resources." << endl;
+    else
+        cout << "Planet has no resources." << endl;
 
-    // Colonize the planet
+    cout << "\n===== RESOURCES =====" << endl;
+
+    cout << "Gold: "
+         << earth.getResources().getGold()
+         << endl;
+
+    cout << "Silver: "
+         << earth.getResources().getSilver()
+         << endl;
+
+    cout << "Diamond: "
+         << earth.getResources().getdiamond()
+         << endl;
+
     earth.colonize();
-    cout << endl;
-    cout << " AFTER COLONIZATION " << endl;
-    cout << "Colonized : ";
-    if (earth.isColonized()) {
-        cout << "Yes" << endl;
-    }
-    else {
-        cout << "No" << endl;
-    }
 
-    // Update function
+    cout << "\nAfter Colonization:" << endl;
+
+    cout << "Colonized: ";
+
+    if (earth.isColonized())
+        cout << "Yes" << endl;
+    else
+        cout << "No" << endl;
+
     earth.update();
+
     return 0;
 }
-    
-
