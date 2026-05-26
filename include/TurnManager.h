@@ -11,6 +11,8 @@
 
 class TurnManager {
 private:
+    static constexpr int DEFAULT_MAX_TURNS = 300;
+
     int _current_turn;
     int _max_turns;
     bool _turn_in_progress;
@@ -23,7 +25,7 @@ private:
     void applyProductionPhase(const TurnActions& actions);
 
 public:
-    explicit TurnManager(int max_turns = 300);
+    explicit TurnManager(int max_turns = DEFAULT_MAX_TURNS);
 
     void startTurn();
     void submitAction(const Action& action);

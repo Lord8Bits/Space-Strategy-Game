@@ -15,6 +15,9 @@ void TurnManager::startTurn() {
     if (isGameOver()) {
         throw std::runtime_error("Game has ended - maximum turns reached");
     }
+    if (_turn_in_progress) {
+        throw std::logic_error("Cannot start turn - turn already in progress");
+    }
     _turn_in_progress = true;
     _pending_actions = TurnActions();
     _pending_actions.turn_number = _current_turn;
@@ -41,10 +44,6 @@ int TurnManager::executeTurn() {
         throw std::logic_error("Cannot execute turn - turn not in progress");
     }
 
-    if (_pending_actions.isEmpty()) {
-        throw std::logic_error("No actions queued for execution");
-    }
-
     applyMovementPhase(_pending_actions);
     applyCombatPhase(_pending_actions);
     applyProductionPhase(_pending_actions);
@@ -64,6 +63,7 @@ void TurnManager::endTurn() {
 
 void TurnManager::clearPendingActions() {
     _pending_actions.actions.clear();
+    _pending_actions.turn_number = _current_turn;
 }
 
 const TurnActions& TurnManager::getTurnHistory(int turn_number) const {

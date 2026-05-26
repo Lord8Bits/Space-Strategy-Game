@@ -1,7 +1,7 @@
 #pragma once
 #include "Updatable.hpp"
-#include "../src/Utils/Enums.hpp"
-#include "../src/Utils/Constants.hpp"
+#include "Utils/Enums.hpp"
+#include "Utils/Constants.hpp"
 
 //Forward declaration & initialization
 class Civilization : public Updatable{
