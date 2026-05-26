@@ -11,36 +11,31 @@ using namespace std;
 class Planet : public Updatable {
 
 private:
-    string name;          // planet name
-    Resource resources;   // planet resources
-    bool colonized;       // colonization state
+
+    string name;
+    Resource resources;
+    bool colonized;
 
 public:
+
     // CONSTRUCTOR
     Planet(string n, Resource r, bool c);
+
     // GETTERS
     string getName();
-    // returns the planet name
-
     Resource getResources();
-    // returns planet resources
-
     bool isColonized();
-    // returns colonization state
+
     // SETTERS
     void setName(string n);
-    // changes the planet name
-
     void setColonized(bool c);
-    // changes colonization state
-    void colonize();
-    // sets the planet as colonized
-    bool hasResources();
-// checks if the planet still contains resources
 
-    // UPDATE FUNCTION
+    // PLANET ACTIONS
+    void colonize();
+    bool hasResources();
+
+    // UPDATE
     void update() override;
-    // updates planet information
 };
 
 #endif
