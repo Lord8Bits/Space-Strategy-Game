@@ -11,7 +11,15 @@ Render::Render()
 }
 
 Render::~Render() = default;
+Cell Render::makeCell(const Entity& entity) const {
+    GameUI::Color color = GameUI::Color::WHITE;
 
+    if (entity.getCivOwner()) {
+        color = entity.getCivOwner()->getColor();
+    }
+
+    return Cell{entity.getSymbol(), color};
+}
 void Render::drawWorld(const Map& map)
 {
     const Chunk& chunk = map.getSelectedChunk();
