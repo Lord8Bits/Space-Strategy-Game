@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "Resource.h"
-#include "Planet.h"
-#include "Technology.h"
+#include "Resource.hpp"
+#include "Planet.hpp"
+#include "Technology.hpp"
 #include "Civilization.hpp"
 
 using namespace std;
