@@ -49,10 +49,10 @@ bool Planet::hasResources()
 {
     return resources.getGold() > 0 ||
            resources.getSilver() > 0 ||
-           resources.getSodium() > 0;
+           resources.getdiamond() > 0;
 }
 
-// UPDATE
+// UPDATE FUNCTION
 
 void Planet::update()
 {
