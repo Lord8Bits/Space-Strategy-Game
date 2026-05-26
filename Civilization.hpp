@@ -8,9 +8,9 @@
 #include "../src/Utils/Enums.hpp"
 #include "../src/Utils/Constants.hpp"
 
-#include "Resource.h"
-#include "Planet.h"
-#include "Technology.h"
+#include "Resource.hpp"
+#include "Planet.hpp"
+#include "Technology.hpp"
 #include "Updatable.hpp"
 
 using namespace std;
