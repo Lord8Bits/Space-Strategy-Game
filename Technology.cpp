@@ -1,4 +1,4 @@
-#include "Technology.h"
+#include "Technology.hpp"
 
 // CONSTRUCTOR
 
