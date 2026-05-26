@@ -2,7 +2,8 @@
 
 // CONSTRUCTOR
 
-Technology::Technology(int i, string n, int l, int maxL, int cost) {
+Technology::Technology(int i, string n, int l, int maxL, int cost)
+{
     id = i;
     name = n;
     level = l;
@@ -12,59 +13,84 @@ Technology::Technology(int i, string n, int l, int maxL, int cost) {
 }
 
 // GETTERS
-int Technology::getId() {
+
+int Technology::getId()
+{
     return id;
 }
-string Technology::getName() {
+
+string Technology::getName()
+{
     return name;
 }
-int Technology::getLevel() {
+
+int Technology::getLevel()
+{
     return level;
 }
-int Technology::getMaxLevel() {
+
+int Technology::getMaxLevel()
+{
     return maxLevel;
 }
-int Technology::getResearchCost() {
+
+int Technology::getResearchCost()
+{
     return researchCost;
 }
-bool Technology::isUnlocked() {
+
+bool Technology::isUnlocked()
+{
     return unlocked;
 }
 
 // SETTERS
-void Technology::setName(string n) {
+
+void Technology::setName(string n)
+{
     name = n;
 }
-void Technology::setLevel(int l) {
+
+void Technology::setLevel(int l)
+{
     level = l;
 }
 
 // TECHNOLOGY ACTIONS
-void Technology::unlock() {
+
+void Technology::unlock()
+{
     unlocked = true;
 }
-void Technology::upgrade() {
-    if (canUpgrade()) {
+
+void Technology::upgrade()
+{
+    if (canUpgrade())
+    {
         level++;
     }
 }
 
-bool Technology::canUpgrade() {
+bool Technology::canUpgrade()
+{
     return level < maxLevel;
 }
 
-int Technology::calculateUpgradeCost() {
+int Technology::calculateUpgradeCost()
+{
     return researchCost * (level + 1);
 }
-void Technology::displayInfo() {
 
-    cout << "\n TECHNOLOGY " << endl;
+void Technology::displayInfo()
+{
+    cout << "\n===== TECHNOLOGY =====" << endl;
 
     cout << "ID: " << id << endl;
     cout << "Name: " << name << endl;
     cout << "Level: " << level << endl;
     cout << "Max Level: " << maxLevel << endl;
     cout << "Research Cost: " << researchCost << endl;
+
     cout << "Unlocked: ";
 
     if (unlocked)
@@ -74,12 +100,18 @@ void Technology::displayInfo() {
 }
 
 // BONUS SYSTEM
-int Technology::getProductionBonus() {
+
+int Technology::getProductionBonus()
+{
     return level * 10;
 }
-int Technology::getDefenseBonus() {
+
+int Technology::getDefenseBonus()
+{
     return level * 5;
 }
-int Technology::getAttackBonus() {
+
+int Technology::getAttackBonus()
+{
     return level * 8;
 }
