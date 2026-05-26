@@ -1,25 +1,7 @@
 #pragma once
 #include "Ship.hpp"
 #include "../src/Utils/Constants.hpp"
-
-// Forward declaration
-struct Resources {
-    int energy;
-    int ore;
-    int food;
-    
-    Resources(int e = 0, int o = 0, int f = 0) 
-        : energy(e), ore(o), food(f) {}
-    
-    int total() const { return energy + ore + food; }
-
-    friend bool operator>(const Resources& cargo, const Resources& resources){
-        return cargo.energy > resources.energy 
-            || cargo.ore > resources.ore
-            || cargo.food > resources.food;
-    }
-};
-
+#include "Resource.hpp"
 
 class Transport : public Ship{
     int _cargoCapacity;
