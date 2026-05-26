@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Resource.h"
+#include "Resource.hpp"
 
 using namespace std;
 
