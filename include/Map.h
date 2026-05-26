@@ -37,7 +37,8 @@ public:
     /// @throws std::out_of_range if entity position is outside world bounds
     void addEntity(std::unique_ptr<Entity> entity);
 
-    const Chunk& getSelectedChunk() const;
+    int getSelectedChunk() const;
+    const std::vector<Chunk>& getChunks() const;
     int findChunkIndex(const Vec2& world_pos) const;
     void changeSelectedChunk(int chunk_x, int chunk_y);
 };
