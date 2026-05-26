@@ -1,6 +1,6 @@
 #include <iostream>
-#include "Planet.h"
-#include "Resource.h"
+#include "Planet.hpp"
+#include "Resource.hpp"
 
 using namespace std;
 
