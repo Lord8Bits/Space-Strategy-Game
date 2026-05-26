@@ -2,7 +2,7 @@
 #define PLANET_H
 
 #include <string>
-#include "Resource.h"
+#include "Resource.hpp"
 #include "Updatable.hpp"
 
 using namespace std;
