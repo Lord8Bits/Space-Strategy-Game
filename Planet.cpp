@@ -1,5 +1,7 @@
 #include "Planet.h"
-// Constructor
+
+// CONSTRUCTOR
+
 Planet::Planet(string n, Resource r, bool c)
     : resources(r)
 {
@@ -7,35 +9,51 @@ Planet::Planet(string n, Resource r, bool c)
     colonized = c;
 }
 
-// Getters
-string Planet::getName() {
+// GETTERS
+
+string Planet::getName()
+{
     return name;
 }
 
-Resource Planet::getResources() {
+Resource Planet::getResources()
+{
     return resources;
 }
 
-bool Planet::isColonized() {
+bool Planet::isColonized()
+{
     return colonized;
 }
-// Setters
-void Planet::setName(string n) {
+
+// SETTERS
+
+void Planet::setName(string n)
+{
     name = n;
 }
-void Planet::setColonized(bool c) {
-    colonized =c;
+
+void Planet::setColonized(bool c)
+{
+    colonized = c;
 }
-// Other functions
-void Planet::colonize() {
+
+// PLANET ACTIONS
+
+void Planet::colonize()
+{
     colonized = true;
 }
+
 bool Planet::hasResources()
 {
     return resources.getGold() > 0 ||
            resources.getSilver() > 0 ||
            resources.getSodium() > 0;
 }
-// Update function
-void Planet::update() {
+
+// UPDATE
+
+void Planet::update()
+{
 }
