@@ -12,9 +12,9 @@ class Planet : public Updatable {
 
 private:
 
-    string name;
-    Resource resources;
-    bool colonized;
+    string name;          // planet name
+    Resource resources;   // planet resources
+    bool colonized;       // colonization state
 
 public:
 
@@ -34,7 +34,7 @@ public:
     void colonize();
     bool hasResources();
 
-    // UPDATE
+    // UPDATE FUNCTION
     void update() override;
 };
 
