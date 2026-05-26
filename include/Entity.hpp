@@ -20,8 +20,6 @@ protected:
 
     int _id;
 
-    EntityType _type{};
-
     std::string _name{"MissingName"};
 
     /// Position: [ABSOLUTE world coordinates]
