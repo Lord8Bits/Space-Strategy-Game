@@ -15,7 +15,7 @@ public:
     ~CombatSystem() = default;
 
     CombatResult resolveCombat(Ship& attacker, Entity& defender);
-
+    void setCurrentTurn(int turn) { _currentTurn = turn; }
 private:
     int calculateDamage(const Ship& attacker, const Entity& defender) const;
     void addLog(CombatResult& result, const std::string& message) const;
