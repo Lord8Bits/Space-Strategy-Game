@@ -34,7 +34,7 @@ protected:
     Civilization* _owner;
 
 public:
-    Entity(EntityType type, std::string  name, const Vec2& pos, Cell cell, Civilization* owner = nullptr);
+    Entity(std::string  name, const Vec2& pos, Cell cell, Civilization* owner = nullptr);
     ~Entity() = default;
     
     //Pure virtual functions

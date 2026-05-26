@@ -41,7 +41,9 @@ int Map::findChunkIndex(const Vec2& world_pos) const
     return chunk_row_pos * _chunk_col + chunk_col_pos;
 }
 
-const Chunk& Map::getSelectedChunk() const{return _chunks[_selected_chunk] ;}
+int Map::getSelectedChunk() const{return _selected_chunk ;}
+
+const std::vector<Chunk>& Map::getChunks() const {return _chunks;}
 
 void Map::changeSelectedChunk(const int chunk_x, const int chunk_y)
 {

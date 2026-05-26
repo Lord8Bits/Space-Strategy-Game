@@ -4,7 +4,7 @@
 
 int Entity::_next_id = 1;
 
-Entity::Entity(const EntityType type, std::string name, const Vec2& pos, const Cell cell, Civilization* owner)
+Entity::Entity(std::string name, const Vec2& pos, const Cell cell, Civilization* owner)
     : _id(_next_id++), _name(std::move(name)), _position(pos), _cell(cell), _owner(owner) {}
 
 int Entity::getId()              const { return _id; }
