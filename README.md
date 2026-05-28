@@ -37,13 +37,13 @@
 To ensure code maintainability and minimize technical debt, all contributors must adhere to the following standards:
 
 ### Naming Conventions
-| Element | Convention | Example |
-| :--- | :--- | :--- |
-| **Classes** | `PascalCase` | `InputParser` |
-| **Methods** | `camelCase` | `getPos()` |
-| **Variables/Attributes** | `snake_case` | `move_pts` |
-| **Private Attributes** | `_leading_snake_case` | `_max_hp` |
-| **Constants** | `SCREAMING_SNAKE_CASE` | `MAX_WIDTH` |
+| Element                  | Convention             | Example       |
+|:-------------------------|:-----------------------|:--------------|
+| **Classes**              | `PascalCase`           | `InputParser` |
+| **Methods**              | `camelCase`            | `getPos()`    |
+| **Variables/Attributes** | `snake_case`           | `move_pts`    |
+| **Private Attributes**   | `_leading_snake_case`  | `_max_hp`     |
+| **Constants**            | `SCREAMING_SNAKE_CASE` | `MAX_WIDTH`   |
 
 ### Coding Standards
 
@@ -52,6 +52,7 @@ To ensure code maintainability and minimize technical debt, all contributors mus
 
 *   **Language**: All code (variables, functions, classes) must be written in **English**.
 *   **Clarity**: Avoid ambiguous names (e.g., `getC()`, `w`). Use descriptive identifiers. Coordinate variables `x` and `y` are the only exceptions.
+*   **Getters/Setters**: Never use `friend class ClassName` to simply private attributes access, only use *getters* and *setters* functions.
 *   **File Structure**: Strict separation of concerns.
     *   **Header Files (.hpp)**: Declarations of classes, functions, and structs.
     *   **Source Files (.cpp)**: Implementation/Definitions of logic.
