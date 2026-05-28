@@ -1,8 +1,6 @@
 #pragma once
 #include <string>
-#include "Utils/Position.hpp"
-#include "Utils/Enums.hpp"
-#include "Utils/Constants.hpp"
+#include "../src/Utils/Position.hpp"
 #include "Updatable.hpp"
 #include "Civilization.hpp"
 

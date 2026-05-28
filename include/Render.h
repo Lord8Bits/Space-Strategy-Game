@@ -5,7 +5,7 @@
 #include <string>
 #include "Map.h"
 #include "ViewPort.h"
-#include "Utils/Constants.hpp"
+#include "../src/Utils/Constants.hpp"
 
 /// @brief Handles all rendering of the game world to the terminal
 ///
