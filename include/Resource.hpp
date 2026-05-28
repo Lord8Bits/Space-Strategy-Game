@@ -1,8 +1,6 @@
 #ifndef RESOURCE_H
 #define RESOURCE_H
 
-#include "Updatable.hpp"
-
 class Resource {
 
 private:

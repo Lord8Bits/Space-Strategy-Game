@@ -11,54 +11,44 @@ Transport::Transport(const std::string& Name, const Vec2& Pos, Civilization* Own
         _cargoCapacity(GameConstants::TRANSPORT_CARGO),
         _cargo(0, 0, 0) {}
 
-std::string Transport::getDetailedInfo() const{
-    std::stringstream ss;
-
-    ss << Ship::getDetailedInfo() << std::endl;
-    ss << "Cargo: " << _cargo.total() << "/" << _cargoCapacity << std::endl;
-    ss << "\tEnergy: " << _cargo.energy << std::endl;
-    ss << "\tOre: " << _cargo.ore << std::endl;
-    ss << "\tFood: " << _cargo.food << std::endl;
-
-    return ss.str();
-}
-
-void Transport::attack(Entity& target, CombatSystem& CombatSystem) {}
-
-void Transport::interactEntity(Entity* other, CombatSystem& combatSystem){
-    //This will be added soon, when the Planet class added
-}
-
-bool Transport::loadCargo(const Resources& resources){
+bool Transport::loadCargo(const Resource& resource)
+{
     if (!isAlive()) return false;
-    if (resources.total() <= 0) return false;
+    if (resource.total() <= 0) return false;
 
-    int newTotal = _cargo.total() + resources.total();
-    if (newTotal > _cargoCapacity) return false;
-    this -> setState(ShipState::LOADING);
-    _cargo.energy += resources.energy;
-    _cargo.ore += resources.ore;
-    _cargo.food += resources.food;
+    // Reject if loading this would exceed capacity
+    if (_cargo.total() + resource.total() > _cargoCapacity) return false;
 
+    setState(ShipState::LOADING);
+    _cargo += resource;  // operator+= handles the addition
     return true;
 }
 
-Resources Transport::unloadCargo(const Resources& resources){
-    Resources unloaded(0, 0, 0);
+Resource Transport::unloadCargo(const Resource& requested)
+{
+    // Return empty resource as a "nothing transferred" signal
+    if (!isAlive()) return {0, 0, 0};
 
-    if (!isAlive()) return unloaded;
-    if (resources.energy < 0 || resources.ore < 0 || resources.food < 0) return unloaded;
-    if (!(_cargo > resources))  return unloaded;
-    this -> setState(ShipState::UNLOADING);
-    _cargo.energy -= resources.energy;
-    _cargo.ore -= resources.ore;
-    _cargo.food -= resources.food;
-    unloaded = resources;
+    // Can the cargo cover what was requested?
+    if (!_cargo.canAfford(requested)) return {0, 0, 0};
 
-    return unloaded; //return the unloaded resources amount (to load it in somewhere else)
+    setState(ShipState::UNLOADING);
+    _cargo -= requested;        // subtract from cargo
+    return requested;           // return the transferred amount to the caller
 }
 
-void Transport::levelUp(){
+void Transport::attack(Entity& target, CombatSystem& combatSystem)
+{
+    // Transports cannot attack — intentional no-op
+}
+
+void Transport::interactEntity(Entity* other, CombatSystem& combatSystem)
+{
+    // Will be implemented when Planet class is added
+}
+
+void Transport::levelUp()
+{
     _level++;
     _health = _maxHealth += 15;
     if (_level % 5 == 0){
@@ -67,4 +57,15 @@ void Transport::levelUp(){
         _cargoCapacity += 400;
     }
     if (_cargoCapacity >= 3000) _cargoCapacity = 3000;
+}
+
+std::string Transport::getDetailedInfo() const
+{
+    std::stringstream ss;
+    ss << Ship::getDetailedInfo()                              << "\n";
+    ss << "Cargo: " << _cargo.total() << "/" << _cargoCapacity << "\n";
+    ss << "  Gold:     " << _cargo.getGold()     << "\n";
+    ss << "  Titanium: " << _cargo.getTitanium() << "\n";
+    ss << "  Cadmium:  " << _cargo.getCadmium()  << "\n";
+    return ss.str();
 }
