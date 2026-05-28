@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
-#include "Utils/Position.hpp"
-#include "Utils/Enums.hpp"
+#include "../src/Utils/Position.hpp"
+#include "../src/Utils/Enums.hpp"
 #include "Civilization.hpp"
 
 class Entity : public Updatable{

@@ -5,7 +5,7 @@
 #ifndef SPACE_STRATEGY_GAME_TURNMANAGER_H
 #define SPACE_STRATEGY_GAME_TURNMANAGER_H
 
-#include "Utils/Action.hpp"
+#include "../src/Utils/Action.hpp"
 #include <vector>
 #include <stdexcept>
 
