@@ -1,52 +1,36 @@
 #pragma once
 #include <string>
 #include "../src/Utils/Position.hpp"
-#include "Updatable.hpp"
+#include "../src/Utils/Enums.hpp"
 #include "Civilization.hpp"
 
-/// @brief Base class for all game entities (ships, planets, etc.)
-///
-/// Entity stores GAMEPLAY data only:
-///   - Identity (id, name)
-///   - Position (world coordinates)
-///   - Visual hint (symbol char - the 'what am I' aspect)
-///   - Ownership (which civilization controls this)
-///   - Behavior (pure virtual update/interact)
-///
-/// Rendering data (Cell, colors) is built by Render::makeCell()
-/// using getSymbol() + getCivOwner()->getColor()
-class Entity : public Updatable {
+class CombatSystem;
+
+class Entity : public Updatable{
 protected:
-    static int _next_id;
-
+    static int _next_id; //Unique id for each entity
     int _id;
-    std::string _name{"MissingName"};
-
-    /// @brief Absolute world coordinates
-    Vec2 _position{0, 0};
-
-    /// @brief Single character representing this entity type visually
-    /// Example: 'S' for ship, 'P' for planet
-    char _symbol{'?'};
-
-    /// @brief Non-owning pointer to the civilization that controls this entity
-    /// nullptr means unclaimed/neutral
-    Civilization* _owner{nullptr};
+    std::string _name;
+    Vec2 _position;
+    Civilization* _owner;
 
 public:
-    Entity(std::string name, const Vec2& pos, char symbol, Civilization* owner = nullptr);
-    ~Entity() = default;
+    Entity(const std::string& Name, const Vec2& Pos, Civilization* Owner = nullptr);
+    virtual ~Entity() = default;    
+    
+    //Pure virtual functions
+    virtual char getSymbol() const = 0;
+    virtual EntityType getType() const = 0;
+    virtual void interactEntity(Entity* other, CombatSystem& combatSystem) = 0;
+    virtual std::string getDetailedInfo() const = 0;
+    virtual bool isAlive() const = 0;
+    virtual void takeDamage(int damage) = 0;
+    virtual int getXpReward() const = 0;
 
-    void update() override {}
-
-    // Getters
-    int              getId()       const { return _id; }
-    std::string_view getName()     const { return _name; }
-    Vec2             getPosition() const { return _position; }
-    char             getSymbol()   const { return _symbol; }
-    Civilization*    getCivOwner() const { return _owner; }
-
-    // Setters
-    void setPosition(const Vec2& pos);
-    void setCivOwner(Civilization* newOwner);
+    int getId() const { return _id; }
+    std::string getName() const { return _name; }
+    Vec2 getPosition() const { return _position; }
+    void setPosition(const Vec2& pos) { _position = pos; }
+    Civilization* getCivOwner() const { return _owner; }
+    void setCivOwner(Civilization* newOwner) { _owner = newOwner; }
 };

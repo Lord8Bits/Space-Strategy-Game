@@ -18,6 +18,12 @@ enum class CivilizationType{
     PEACEFUL
 };
 
+enum class Relation{
+    ENEMY,
+    NEUTRAL,
+    ALLY
+};
+
 enum class ShipState{
     IDLE,
     MOVING,

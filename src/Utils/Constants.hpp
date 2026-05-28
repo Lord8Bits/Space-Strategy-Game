@@ -46,4 +46,33 @@ constexpr GameUI::Color civToColor(CivilizationType type) {
         case CivilizationType::PEACEFUL    : return GameUI::Color::GREEN;
         default                            : return GameUI::Color::RESET;
     }
+
+}
+
+namespace GameConstants {
+    //Fighter Constants
+    constexpr int FIGHTER_MAX_HEALTH = 100;
+    constexpr int FIGHTER_ATTACK = 25;
+    constexpr int FIGHTER_MOVEMENT_RANGE = 4;
+    constexpr int FIGHTER_VISION_RANGE = 4;
+    constexpr int FIGHTER_AGILITY = 40;
+    
+    //Cruiser Constants
+    constexpr int CRUISER_MAX_HEALTH = 300;
+    constexpr int CRUISER_ATTACK = 50;
+    constexpr int CRUISER_MOVEMENT_RANGE = 2;
+    constexpr int CRUISER_VISION_RANGE = 4;
+    constexpr int CRUISER_SHIELD = 50;
+    
+    //Transport Constants
+    constexpr int TRANSPORT_MAX_HEALTH = 150;
+    constexpr int TRANSPORT_ATTACK = 0;
+    constexpr int TRANSPORT_MOVEMENT_RANGE = 3;
+    constexpr int TRANSPORT_VISION_RANGE = 3;
+    constexpr int TRANSPORT_CARGO = 1000;
+
+    //Xp Reward Constants
+    constexpr int FIGHTER_XP_REWARD = 40;
+    constexpr int CRUISER_XP_REWARD = 80;
+    constexpr int TRANSPORT_XP_REWARD = 30;
 }
