@@ -21,6 +21,7 @@ public:
     void isAllyAttacked(const Civilization& ally, const Civilization* attacker);
 
     GameUI::Color getColor() const { return color; }
+
     std::string getName() const { return _name; }
     CivilizationType getCivType() const { return type; }
     Relation getRelationWith(const Civilization& other) const;

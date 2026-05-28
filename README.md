@@ -37,13 +37,13 @@
 To ensure code maintainability and minimize technical debt, all contributors must adhere to the following standards:
 
 ### Naming Conventions
-| Element | Convention | Example |
-| :--- | :--- | :--- |
-| **Classes** | `PascalCase` | `InputParser` |
-| **Methods** | `camelCase` | `getPos()` |
-| **Variables/Attributes** | `snake_case` | `move_pts` |
-| **Private Attributes** | `_leading_snake_case` | `_max_hp` |
-| **Constants** | `SCREAMING_SNAKE_CASE` | `MAX_WIDTH` |
+| Element                  | Convention             | Example       |
+|:-------------------------|:-----------------------|:--------------|
+| **Classes**              | `PascalCase`           | `InputParser` |
+| **Methods**              | `camelCase`            | `getPos()`    |
+| **Variables/Attributes** | `snake_case`           | `move_pts`    |
+| **Private Attributes**   | `_leading_snake_case`  | `_max_hp`     |
+| **Constants**            | `SCREAMING_SNAKE_CASE` | `MAX_WIDTH`   |
 
 ### Coding Standards
 
