@@ -2,7 +2,7 @@
 // Created by ilyasse-ch7 on 05/05/2026.
 //
 
-#include "../include/ViewPort.h"
+#include "../include/ViewPort.hpp"
 #include "../include/Entity.hpp"
 #include <stdexcept>
 

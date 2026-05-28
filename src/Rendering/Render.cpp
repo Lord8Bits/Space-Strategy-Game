@@ -1,7 +1,7 @@
 #include <string>
-#include "../../include/Render.h"
-#include "../../include/Map.h"
-#include "../../include/ViewPort.h"
+#include "../../include/Render.hpp"
+#include "../../include/Map.hpp"
+#include "../../include/ViewPort.hpp"
 #include <iostream>
 
 Render::Render()

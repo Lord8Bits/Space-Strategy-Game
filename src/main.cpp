@@ -1,6 +1,6 @@
 
-#include "../include/Render.h"
-#include "../include/Map.h"
+#include "../include/Render.hpp"
+#include "../include/Map.hpp"
 #include "../include/Entity.hpp"
 #include <chrono>
 #include <iostream>

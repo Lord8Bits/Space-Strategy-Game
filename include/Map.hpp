@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <memory>
 #include <set>
-#include "Chunk.h"
+#include "Chunk.hpp"
 #include "Entity.hpp"
 
 /// @brief Manages the entire game world and owns all entities

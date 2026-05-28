@@ -1,4 +1,4 @@
-#include "../../include/Map.h"
+#include "../../include/Map.hpp"
 #include <stdexcept>
 
 Map::Map(const int num_rows, const int num_cols)
