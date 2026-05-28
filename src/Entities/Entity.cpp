@@ -1,23 +1,8 @@
 #include "../../include/Entity.hpp"
-#include <utility>
+#include "../Utils/Constants.hpp"
+#include <iostream>
 
-int Entity::_next_id = 1;
+int Entity:: _next_id = 1;
 
-Entity::Entity(std::string name, const Vec2& pos, const char symbol, Civilization* owner)
-    : _id(_next_id++),
-      _name(std::move(name)),
-      _position(pos),
-      _symbol(symbol),
-      _owner(owner)
-{
-}
-
-void Entity::setPosition(const Vec2& pos)
-{
-    _position = pos;
-}
-
-void Entity::setCivOwner(Civilization* newOwner)
-{
-    _owner = newOwner;
-}
+Entity::Entity(const std::string& Name, const Vec2& Pos, Civilization* Owner)
+    : _id(_next_id++), _name(Name), _position(Pos), _owner(Owner) {}
