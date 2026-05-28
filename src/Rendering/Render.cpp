@@ -50,7 +50,7 @@ void Render::drawWorld(const Map& map)
 
     for (int y = 0; y < VIEWPORT_HEIGHT; y++) {
         for (int x = 0; x < VIEWPORT_WIDTH; x++) {
-            const int idx = y * VIEWPORT_WIDTH + x;
+            const int idx = vp.toIndex(x, y);
 
             if (last_color != _viewport[idx].color) {
                 _frame_buffer += GameUI::toAnsi(_viewport[idx].color);
