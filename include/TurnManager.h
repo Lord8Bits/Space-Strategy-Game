@@ -7,12 +7,11 @@
 
 #include "../src/Utils/Action.hpp"
 #include <vector>
-#include <stdexcept>
 
 class TurnManager {
 private:
     static constexpr int DEFAULT_MAX_TURNS = 300;
-
+    Map* _map;
     int _current_turn;
     int _max_turns;
     bool _turn_in_progress;
