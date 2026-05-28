@@ -1,110 +1,67 @@
 #include <iostream>
-
 #include "Resource.hpp"
-#include "Planet.hpp"
-#include "Technology.hpp"
-#include "Civilization.hpp"
 
 using namespace std;
 
 int main()
 {
-    Resource earthResources(100, 50, 25);
-    Resource marsResources(80, 40, 10);
+    Resource resources(100, 50, 25);
 
-    Resource civResources(500, 300, 100);
+    cout << "===== INITIAL RESOURCES =====" << endl;
 
-    Planet earth("Earth", earthResources, false);
-    Planet mars("Mars", marsResources, false);
-
-    Civilization humans("Humans", civResources);
-
-    cout << "Civilization : "
-         << humans.getName()
+    cout << "Gold: "
+         << resources.getGold()
          << endl;
 
-    // PLANETS
-
-    humans.addPlanet(earth);
-    humans.addPlanet(mars);
-
-    cout << "\nPlanet count : "
-         << humans.getPlanetCount()
+    cout << "Silver: "
+         << resources.getSilver()
          << endl;
 
-    Planet* foundPlanet =
-        humans.findPlanet("Earth");
-
-    if(foundPlanet != nullptr)
-    {
-        cout << "Found planet : "
-             << foundPlanet->getName()
-             << endl;
-    }
-
-    humans.removePlanet("Mars");
-
-    cout << "Planet count after delete : "
-         << humans.getPlanetCount()
+    cout << "Diamond: "
+         << resources.getdiamond()
          << endl;
 
-    // RESOURCES
+    // ADD RESOURCES
 
-    humans.addGold(100);
-    humans.addSilver(50);
-    humans.addSodium(20);
+    resources.addGold(20);
+    resources.addSilver(10);
+    resources.adddiamond(5);
 
-    cout << "\nResources :" << endl;
+    cout << "\n===== AFTER ADDING =====" << endl;
 
-    cout << "Gold : "
-         << humans.getResources().getGold()
+    cout << "Gold: "
+         << resources.getGold()
          << endl;
 
-    cout << "Silver : "
-         << humans.getResources().getSilver()
+    cout << "Silver: "
+         << resources.getSilver()
          << endl;
 
-    cout << "Sodium : "
-         << humans.getResources().getSodium()
+    cout << "Diamond: "
+         << resources.getdiamond()
          << endl;
 
-    // TECHNOLOGIES
+    // CONSUME RESOURCES
 
-    Technology mining(1,
-                      "Mining",
-                      1,
-                      5,
-                      100);
+    resources.consumeGold(30);
+    resources.consumeSilver(15);
+    resources.consumediamond(10);
 
-    Technology laser(2,
-                     "Laser",
-                     1,
-                     3,
-                     200);
+    cout << "\n===== AFTER CONSUMING =====" << endl;
 
-    humans.addTechnology(mining);
-    humans.addTechnology(laser);
-
-    cout << "\nTechnology count : "
-         << humans.getTechnologyCount()
+    cout << "Gold: "
+         << resources.getGold()
          << endl;
 
-    Technology* tech =
-        humans.findTechnology(1);
-
-    if(tech != nullptr)
-    {
-        tech->unlock();
-
-        tech->upgrade();
-
-        tech->displayInfo();
-    }
-
-    humans.removeTechnology(2);
-
-    cout << "\nTechnology count after delete : "
-         << humans.getTechnologyCount()
+    cout << "Silver: "
+         << resources.getSilver()
          << endl;
+
+    cout << "Diamond: "
+         << resources.getdiamond()
+         << endl;
+
+    resources.update();
 
     return 0;
+}
