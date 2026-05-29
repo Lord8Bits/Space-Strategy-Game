@@ -5,6 +5,13 @@
 #include "Player.hpp"
 #include "Perception.hpp"
 
+// ANSI escape code constants
+static constexpr std::string_view ESC        = "\033[";
+static constexpr std::string_view FOG_COLOR  = "\033[90m";
+static constexpr std::string_view DIM_STYLE  = "\033[2m";
+static constexpr std::string_view RESET      = "\033[0m";
+static constexpr std::string_view FOG_SYMBOL = ".";
+static constexpr std::string_view MEM_SYMBOL = "~";
 /// @brief Represents the visibility state of a cell from the active player's point of view
 enum class Visibility {
     Hidden,    /// Never explored — do not render
@@ -75,14 +82,14 @@ private:
 
                 if (vis == Visibility::Hidden) {
                     // Move the terminal cursor to (x, y) then draw opaque fog
-                    std::cout << "\033[" << (y + 1) << ";" << (x + 1) << "H"
-                              << "\033[90m.\033[0m";
+                    std::cout << ESC << (y + 1) << ";" << (x + 1) << "H"
+                              << FOG_COLOR << FOG_SYMBOL << RESET;
                 }
                 else if (vis == Visibility::Memory) {
                     // Cell was explored before but is no longer in vision range.
                     // Move cursor then draw a dimmed tilde to indicate a memorized area
-                    std::cout << "\033[" << (y + 1) << ";" << (x + 1) << "H"
-                              << "\033[2m~\033[0m";
+                    std::cout << ESC << (y + 1) << ";" << (x + 1) << "H"
+                              << DIM_STYLE << MEM_SYMBOL << RESET;
                 }
                 // Visible cells are left untouched — Render already drew them correctly
             }
