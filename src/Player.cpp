@@ -1,26 +1,29 @@
 #include "Player.hpp"
 #include <iostream>
 #include <iomanip>
+#include <sstream>
 
 void Player::printStatus() const {
+    std::ostringstream buffer;
 
-    std::cout << "  Player [" << playerId_ << "] \n";
-    std::cout << "  Name    : " << displayName_ << "\n";
-    std::cout << "  AI      : " << (isAI_ ? "yes" : "no") << "\n";
-    std::cout << "  Fleet   : " << aliveCount() << " alive / "
+    buffer << "  Player [" << _playerId << "] \n";
+    buffer << "  Name    : " << _displayName << "\n";
+    buffer << "  AI      : " << (_isAI ? "yes" : "no") << "\n";
+    buffer << "  Fleet   : " << aliveCount() << " alive / "
               << totalCount() << " total\n";
-    std::cout << "  Defeated: " << (isDefeated() ? "yes" : "no") << "\n";
-    std::cout << "  Explored: "
+    buffer << "  Defeated: " << (isDefeated() ? "yes" : "no") << "\n";
+    buffer << "  Explored: "
               << std::fixed << std::setprecision(1)
-              << (perception_.explorationRatio() * 100.0f) << "%\n";
-    std::cout << "  Visible cells this turn: "
-              << perception_.visibleCount() << "\n";
+              << (_perception.explorationRatio() * 100.0f) << "%\n";
+    buffer << "  Visible cells this turn: "
+              << _perception.visibleCount() << "\n";
 
-    std::cout << "  Ships:\n";
-    for (const auto& ship : fleet_) {
-        std::cout << "    [" << ship->getId() << "] "
+    buffer << "  Ships:\n";
+    for (const auto& ship : _fleet) {
+        buffer << "    [" << ship->getId() << "] "
                   << (ship->isAlive() ? "alive" : "destroyed")
-                  << "  pos=(" << ship->getX() << "," << ship->getY() << ")"
+                  << "  pos=(" << ship->getPosition().x << "," << ship->getPosition().y << ")"
                   << "  vision=" << ship->getVisionRange() << "\n";
     }
+    std::cout << buffer.str();
 }
