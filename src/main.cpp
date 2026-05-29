@@ -5,16 +5,34 @@
 #include <chrono>
 #include <iostream>
 
+// Small concrete entity used only by the demo main so the sample scene compiles.
+class DemoEntity final : public Entity {
+    char _symbol;
+
+public:
+    DemoEntity(const std::string& name, const Vec2& pos, char symbol)
+        : Entity(name, pos), _symbol(symbol) {}
+
+    void update() override {}
+    char getSymbol() const override { return _symbol; }
+    EntityType getType() const override { return EntityType::SHIP; }
+    void interactEntity(Entity*, CombatSystem&) override {}
+    std::string getDetailedInfo() const override { return _name; }
+    bool isAlive() const override { return true; }
+    void takeDamage(int) override {}
+    int getXpReward() const override { return 0; }
+};
+
 int main()
 {
     // World: 2 rows × 3 cols = 6 chunks
     Map map(2, 3);
 
     // Only keep IDs for entities we'll reference later (movement, deletion)
-    const int id1 = map.addEntity(std::make_unique<Entity>("Ship1", Vec2{10, 5},  'S'));
-    const int id2 = map.addEntity(std::make_unique<Entity>("Ship2", Vec2{40, 19}, 'O'));
-    map.addEntity(std::make_unique<Entity>("Ship3", Vec2{90, 12}, 'T'));
-    map.addEntity(std::make_unique<Entity>("Ship4", Vec2{30, 25}, 'X'));
+    const int id1 = map.addEntity(std::make_unique<DemoEntity>("Ship1", Vec2{10, 5},  'S'));
+    const int id2 = map.addEntity(std::make_unique<DemoEntity>("Ship2", Vec2{40, 19}, 'O'));
+    map.addEntity(std::make_unique<DemoEntity>("Ship3", Vec2{90, 12}, 'T'));
+    map.addEntity(std::make_unique<DemoEntity>("Ship4", Vec2{30, 25}, 'X'));
 
     Render renderer;
 

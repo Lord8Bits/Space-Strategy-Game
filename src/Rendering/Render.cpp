@@ -50,7 +50,10 @@ void Render::drawWorld(const Map& map)
 
     for (int y = 0; y < VIEWPORT_HEIGHT; y++) {
         for (int x = 0; x < VIEWPORT_WIDTH; x++) {
-            const int idx = vp.toIndex(x, y);
+            // Convert the local viewport cell back into world coordinates before indexing.
+            const int world_x = chunk.getXStart() + x;
+            const int world_y = chunk.getYStart() + y;
+            const int idx     = vp.toIndex(world_x, world_y);
 
             if (last_color != _viewport[idx].color) {
                 _frame_buffer += GameUI::toAnsi(_viewport[idx].color);
