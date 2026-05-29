@@ -16,10 +16,16 @@ std::optional<Action> InputParser::parseAction(const std::string& input) const {
         return std::nullopt;
     }
 
+    auto hasNoTrailingTokens = [&stream]() {
+        stream >> std::ws;
+        return stream.eof();
+    };
+
+    // Each action type expects a different payload after the entity id.
     switch (*action_type) {
         case Action::Type::MOVE: {
             Vec2 target{};
-            if (!(stream >> target.x >> target.y)) {
+            if (!(stream >> target.x >> target.y) || !hasNoTrailingTokens()) {
                 return std::nullopt;
             }
             return Action(*action_type, entity_id, target);
@@ -28,7 +34,7 @@ std::optional<Action> InputParser::parseAction(const std::string& input) const {
         case Action::Type::LOAD_CARGO:
         case Action::Type::UNLOAD_CARGO: {
             int target_entity_id = -1;
-            if (!(stream >> target_entity_id)) {
+            if (!(stream >> target_entity_id) || !hasNoTrailingTokens()) {
                 return std::nullopt;
             }
             return Action(*action_type, entity_id, Vec2{}, target_entity_id);
@@ -37,7 +43,12 @@ std::optional<Action> InputParser::parseAction(const std::string& input) const {
         case Action::Type::RESEARCH:
         case Action::Type::BUILD: {
             int value = 0;
-            stream >> value;
+            stream >> std::ws;
+            if (!stream.eof()) {
+                if (!(stream >> value) || !hasNoTrailingTokens()) {
+                    return std::nullopt;
+                }
+            }
             return Action(*action_type, entity_id, Vec2{}, -1, value);
         }
     }

@@ -1,0 +1,85 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"BackendCodeEditorMiscSettings\">\n    <option name=\"/Default/Housekeeping/FeatureSuggestion/FeatureSuggestionManager/DisabledSuggesters/=SwitchToGoToActionSuggester/@EntryIndexedValue\" value=\"true\" type=\"bool\" />\n    <option name=\"/Default/Housekeeping/GlobalSettingsUpgraded/IsUpgraded/@EntryValue\" value=\"true\" type=\"bool\" />\n    <option name=\"/Default/RiderDebugger/RiderRestoreDecompile/RestoreDecompileSetting/@EntryValue\" value=\"false\" type=\"bool\" />\n  </component>\n  <component name=\"CMakePresetLoader\">{\n  &quot;useNewFormat&quot;: true\n}</component>\n  <component name=\"CMakeProjectFlavorService\">\n    <option name=\"flavorId\" value=\"CMakePlainProjectFlavor\" />\n  </component>\n  <component name=\"CMakeReloadState\">\n    <option name=\"reloaded\" value=\"true\" />\n  </component>\n  <component name=\"CMakeRunConfigurationManager\">\n    <generated>\n      <config projectName=\"Space_Strategy_Game\" targetName=\"Space_Game\" />\n    </generated>\n  </component>\n  <component name=\"CMakeSettings\">\n    <configurations>\n      <configuration PROFILE_NAME=\"Debug\" ENABLED=\"true\" CONFIG_NAME=\"Debug\" />\n    </configurations>\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"a2e89133-8278-436d-b5b2-bed69fca2500\" name=\"Changes\" comment=\"\">\n      <change afterPath=\"$PROJECT_DIR$/include/Input_Parser.h\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/Input_Parser.cpp\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/CMakeLists.txt\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/CMakeLists.txt\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main.cpp\" beforeDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"ClangdSettings\">\n    <option name=\"formatViaClangd\" value=\"false\" />\n  </component>\n  <component name=\"EmbeddingIndexingInfo\">\n    <option name=\"cachedIndexableFilesCount\" value=\"65\" />\n  </component>\n  <component name=\"ExecutionTargetManager\" SELECTED_TARGET=\"CMakeBuildProfile:Debug\" />\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\n      <map>\n        <entry key=\"$PROJECT_DIR$\" value=\"feature/input-parser\" />\n      </map>\n    </option>\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"GitHubPullRequestSearchHistory\">{\n  &quot;lastFilter&quot;: {\n    &quot;state&quot;: &quot;OPEN&quot;,\n    &quot;assignee&quot;: &quot;ilyasse-CH7&quot;\n  }\n}</component>\n  <component name=\"GithubPullRequestsUISettings\">{\n  &quot;selectedUrlAndAccountId&quot;: {\n    &quot;url&quot;: &quot;git@github.com:Lord8Bits/Space-Strategy-Game.git&quot;,\n    &quot;accountId&quot;: &quot;e1456472-2e07-4a9f-b8b6-3b0c2ffc95c7&quot;\n  }\n}</component>\n  <component name=\"MacroExpansionManager\">\n    <option name=\"directoryName\" value=\"6dYgQSkW\" />\n  </component>\n  <component name=\"McpProjectServerCommands\">\n    <commands />\n    <urls />\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;customColor&quot;: &quot;&quot;,\n  &quot;associatedIndex&quot;: 0\n}</component>\n  <component name=\"ProjectId\" id=\"3E4u6DabAAdMXIapAYU605iT05A\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\"><![CDATA[{\n  \"keyToString\": {\n    \"C/C++ File.example_test_main.cpp.executor\": \"Run\",\n    \"ModuleVcsDetector.initialDetectionPerformed\": \"true\",\n    \"RunOnceActivity.MCP Project settings loaded\": \"true\",\n    \"RunOnceActivity.RadMigrateCodeStyle\": \"true\",\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\n    \"RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252\": \"true\",\n    \"RunOnceActivity.cidr.known.project.marker\": \"true\",\n    \"RunOnceActivity.git.unshallow\": \"true\",\n    \"RunOnceActivity.readMode.enableVisualFormatting\": \"true\",\n    \"RunOnceActivity.typescript.service.memoryLimit.init\": \"true\",\n    \"RunOnceActivity.west.config.association.type.startup.service\": \"true\",\n    \"SHELLCHECK.PATH\": \"/home/ilyasse-ch7/.local/share/JetBrains/CLion2026.1/Shell Script/shellcheck\",\n    \"cf.first.check.clang-format\": \"false\",\n    \"cidr.known.project.marker\": \"true\",\n    \"codeWithMe.voiceChat.enabledByDefault\": \"false\",\n    \"git-widget-placeholder\": \"feature/turn-manager\",\n    \"last_opened_file_path\": \"/home/ilyasse-ch7/Documents/fac/S4/SYS/Tp\",\n    \"node.js.detected.package.eslint\": \"true\",\n    \"node.js.detected.package.tslint\": \"true\",\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\n    \"nodejs_package_manager_path\": \"npm\",\n    \"org.rust.first.attach.projects\": \"true\",\n    \"settings.editor.selected.configurable\": \"ml.llm.LLMThirdPartyAiProvidersConfigurable\",\n    \"vue.rearranger.settings.migration\": \"true\"\n  }\n}]]></component>\n  <component name=\"RunManager\">\n    <configuration default=\"true\" type=\"CMakeRunConfiguration\" factoryName=\"Application\" REDIRECT_INPUT=\"false\" ELEVATE=\"false\" USE_EXTERNAL_CONSOLE=\"false\" EMULATE_TERMINAL=\"false\" PASS_PARENT_ENVS_2=\"true\">\n      <method v=\"2\">\n        <option name=\"com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"example_test_main.cpp\" type=\"CppFileRunConfiguration\" factoryName=\"CppFileRunConfiguration\" temporary=\"true\" REDIRECT_INPUT=\"false\" ELEVATE=\"false\" USE_EXTERNAL_CONSOLE=\"false\" EMULATE_TERMINAL=\"false\" PASS_PARENT_ENVS_2=\"true\" PROJECT_NAME=\"Space_Strategy_Game\" TARGET_NAME=\"example_test_main.cpp\" CONFIG_NAME=\"example_test_main.cpp\">\n      <option name=\"sourceFile\" value=\"example_test_main.cpp\" />\n      <method v=\"2\">\n        <option name=\"com.jetbrains.cidr.cpp.runfile.CppFileBuildBeforeRunTaskProvider$BasicBuildBeforeRunTask\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <recent_temporary>\n      <list>\n        <item itemvalue=\"C/C++ File.example_test_main.cpp\" />\n      </list>\n    </recent_temporary>\n  </component>\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"a2e89133-8278-436d-b5b2-bed69fca2500\" name=\"Changes\" comment=\"\" />\n      <created>1777502092565</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1777502092565</updated>\n      <workItem from=\"1777502093723\" duration=\"1988000\" />\n      <workItem from=\"1777626529481\" duration=\"58000\" />\n      <workItem from=\"1778001831590\" duration=\"8579000\" />\n      <workItem from=\"1778238524845\" duration=\"99000\" />\n      <workItem from=\"1778349015106\" duration=\"3050000\" />\n      <workItem from=\"1778352095016\" duration=\"2778000\" />\n      <workItem from=\"1778397474620\" duration=\"34000\" />\n      <workItem from=\"1778751924102\" duration=\"9758000\" />\n      <workItem from=\"1779449997574\" duration=\"2728000\" />\n      <workItem from=\"1779655941332\" duration=\"359000\" />\n      <workItem from=\"1779831373258\" duration=\"654000\" />\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"start , understanding of ViewPort\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1778008954699</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1778008954700</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"start , understanding of ViewPort\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1778351377139</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1778351377139</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"3\" />\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"VCPKGProject\">\n    <isAutomaticCheckingOnLaunch value=\"false\" />\n    <isAutomaticFoundErrors value=\"true\" />\n    <isAutomaticReloadCMake value=\"true\" />\n    <isAutomaticBootstrapAfterUpdate value=\"false\" />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State>\n              <option name=\"FILTERS\">\n                <map>\n                  <entry key=\"branch\">\n                    <value>\n                      <list>\n                        <option value=\"IVT-ch7\" />\n                      </list>\n                    </value>\n                  </entry>\n                </map>\n              </option>\n            </State>\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"start , understanding of ViewPort\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"start , understanding of ViewPort\" />\n  </component>\n</project>
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 2860071c89814d4fea670675650088c0485f8386)
++++ b/.idea/workspace.xml	(date 1779836044219)
+@@ -29,10 +29,7 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="a2e89133-8278-436d-b5b2-bed69fca2500" name="Changes" comment="">
+-      <change afterPath="$PROJECT_DIR$/include/Input_Parser.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/Input_Parser.cpp" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -43,7 +40,7 @@
+     <option name="formatViaClangd" value="false" />
+   </component>
+   <component name="EmbeddingIndexingInfo">
+-    <option name="cachedIndexableFilesCount" value="65" />
++    <option name="cachedIndexableFilesCount" value="94" />
+   </component>
+   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+   <component name="Git.Settings">
+@@ -99,7 +96,7 @@
+     "cf.first.check.clang-format": "false",
+     "cidr.known.project.marker": "true",
+     "codeWithMe.voiceChat.enabledByDefault": "false",
+-    "git-widget-placeholder": "feature/turn-manager",
++    "git-widget-placeholder": "#12 on feature/turn-manager",
+     "last_opened_file_path": "/home/ilyasse-ch7/Documents/fac/S4/SYS/Tp",
+     "node.js.detected.package.eslint": "true",
+     "node.js.detected.package.tslint": "true",
+@@ -107,16 +104,11 @@
+     "node.js.selected.package.tslint": "(autodetect)",
+     "nodejs_package_manager_path": "npm",
+     "org.rust.first.attach.projects": "true",
+-    "settings.editor.selected.configurable": "ml.llm.LLMThirdPartyAiProvidersConfigurable",
++    "settings.editor.selected.configurable": "ml.llm.AcpAgentsConfigurable",
+     "vue.rearranger.settings.migration": "true"
+   }
+ }]]></component>
+   <component name="RunManager">
+-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+-      <method v="2">
+-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+-      </method>
+-    </configuration>
+     <configuration name="example_test_main.cpp" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" temporary="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Space_Strategy_Game" TARGET_NAME="example_test_main.cpp" CONFIG_NAME="example_test_main.cpp">
+       <option name="sourceFile" value="example_test_main.cpp" />
+       <method v="2">
+@@ -147,6 +139,9 @@
+       <workItem from="1779449997574" duration="2728000" />
+       <workItem from="1779655941332" duration="359000" />
+       <workItem from="1779831373258" duration="654000" />
++      <workItem from="1779834822780" duration="52000" />
++      <workItem from="1779834895978" duration="234000" />
++      <workItem from="1779835148239" duration="894000" />
+     </task>
+     <task id="LOCAL-00001" summary="start , understanding of ViewPort">
+       <option name="closed" value="true" />
+@@ -187,7 +182,7 @@
+                   <entry key="branch">
+                     <value>
+                       <list>
+-                        <option value="IVT-ch7" />
++                        <option value="main" />
+                       </list>
+                     </value>
+                   </entry>
+@@ -203,4 +198,8 @@
+     <MESSAGE value="start , understanding of ViewPort" />
+     <option name="LAST_COMMIT_MESSAGE" value="start , understanding of ViewPort" />
+   </component>
++  <component name="XSLT-Support.FileAssociations.UIState">
++    <expand />
++    <select />
++  </component>
+ </project>
+\ No newline at end of file

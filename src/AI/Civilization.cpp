@@ -32,6 +32,6 @@ void Civilization::isAllyAttacked(const Civilization& ally, const Civilization* 
     if (getRelationWith(ally) == Relation::ALLY)
         setRelationWith(*attacker, Relation::ENEMY);
 }
-void Civilization::update(){
-    
+void Civilization::update() {
+    // Placeholder until civilization AI and economy are driven by the turn loop.
 }

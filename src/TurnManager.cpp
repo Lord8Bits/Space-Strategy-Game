@@ -3,6 +3,7 @@
 //
 
 #include "TurnManager.h"
+#include <stdexcept>
 
 TurnManager::TurnManager(int max_turns)
     : _current_turn(0), _max_turns(max_turns), _turn_in_progress(false) {
@@ -44,6 +45,7 @@ int TurnManager::executeTurn() {
         throw std::logic_error("Cannot execute turn - turn not in progress");
     }
 
+    // Phase order matters: movement, then combat, then production.
     applyMovementPhase(_pending_actions);
     applyCombatPhase(_pending_actions);
     applyProductionPhase(_pending_actions);
@@ -85,13 +87,13 @@ bool TurnManager::isValidTurnState() const {
 }
 
 void TurnManager::applyMovementPhase(const TurnActions& actions) {
-
+    // TODO: Apply MOVE actions once the turn manager is connected to the world state.
 }
 
 void TurnManager::applyCombatPhase(const TurnActions& actions) {
-    // TODO: Process all ATTACK actions
+    // TODO: Resolve ATTACK actions through CombatSystem.
 }
 
 void TurnManager::applyProductionPhase(const TurnActions& actions) {
-    // TODO: Process production and resource actions
+    // TODO: Resolve mining, research, and build actions.
 }
