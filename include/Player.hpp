@@ -159,7 +159,7 @@ public:
 
 private:
 
-    int numericId_;
+    const int _id;
     std::string playerId_;
     std::string displayName_;
     bool isAI_;
@@ -167,5 +167,5 @@ private:
     std::vector<std::unique_ptr<Ship>> fleet_;
     std::unordered_map<int, Ship*> shipIndex_;
 
-    Perception perception_;
+    Perception _perception;
 };
