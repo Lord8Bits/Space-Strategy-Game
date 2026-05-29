@@ -1,11 +1,8 @@
 #pragma once
-#include <cstddef>
-#include "Enums.hpp"
 #include "Position.hpp"
 #include <string>
 #include <vector>
 
-/// Represents one command submitted by the player during a turn.
 struct Action {
     enum class Type {
         MOVE,
@@ -14,21 +11,22 @@ struct Action {
         LOAD_CARGO,
         UNLOAD_CARGO,
         RESEARCH,
-        BUILD
+        BUILD,
+        VIEW_SECTOR
     };
 
     Type action_type;
     int entity_id;
-    Vec2 target_position;      ///< Used by movement actions.
-    int target_entity_id;      ///< Used by target-based actions such as attack.
-    int value;                 ///< Optional numeric payload for resource actions.
+    Vec2 target_position;
+    int target_entity_id;
+    int value;
+    int sector_id;
 
-    Action(Type type, int id, Vec2 target, int target_id = -1, int val = 0)
+    Action(Type type, int id = -1, Vec2 target = {0,0}, int target_id = -1, int val = 0, int sector = -1)
         : action_type(type), entity_id(id), target_position(target),
-          target_entity_id(target_id), value(val) {}
+          target_entity_id(target_id), value(val), sector_id(sector) {}
 };
 
-/// Groups all actions submitted during a single turn.
 struct TurnActions {
     std::vector<Action> actions;
     int turn_number;

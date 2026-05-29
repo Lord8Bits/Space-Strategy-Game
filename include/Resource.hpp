@@ -1,61 +1,47 @@
-#pragma once
+#ifndef RESOURCE_H
+#define RESOURCE_H
 
-#include <algorithm>
+class Resource {
 
-/// Lightweight cargo/resource container used by Civilization and Transport.
-struct Resource {
-    int energy{};
-    int ore{};
-    int food{};
+private:
+    int _gold;
+    int _titanium;
+    int _cadmium;
 
-    Resource(int energy = 0, int ore = 0, int food = 0)
-        : energy(energy), ore(ore), food(food) {}
+public:
+    Resource(int gold, int titanium, int cadmium);
 
-    int total() const { return energy + ore + food; }
+    // GETTERS
+    int getGold()     const;
+    int getTitanium() const;
+    int getCadmium()  const;
+    int total()       const { return _gold + _titanium + _cadmium; }
 
-    /// Transport uses this check to validate cargo availability.
-    bool operator>(const Resource& other) const {
-        return energy >= other.energy
-            && ore    >= other.ore
-            && food   >= other.food;
-    }
+    // ADD / CONSUME (per-resource, guarded)
+    void addGold(int value);
+    void addTitanium(int value);
+    void addCadmium(int value);
 
-    bool operator>=(const Resource& other) const { return *this > other; }
-    bool operator<(const Resource& other) const { return !(*this >= other); }
+    void consumeGold(int value);
+    void consumeTitanium(int value);
+    void consumeCadmium(int value);
 
-    bool operator==(const Resource& other) const {
-        return energy == other.energy
-            && ore == other.ore
-            && food == other.food;
-    }
+    // BULK CHECK: does this resource pool cover a given cost?
+    bool canAfford(const Resource& cost) const;
 
-    bool operator!=(const Resource& other) const { return !(*this == other); }
+    // ARITHMETIC OPERATORS (combine two Resource objects)
+    Resource  operator+ (const Resource& other) const;
+    Resource  operator- (const Resource& other) const;
+    Resource& operator+=(const Resource& other);
+    Resource& operator-=(const Resource& other);
 
-    Resource operator+(const Resource& other) const {
-        return Resource(energy + other.energy, ore + other.ore, food + other.food);
-    }
+    // COMPARISON OPERATORS
+    bool operator>=(const Resource& other) const;
 
-    Resource operator-(const Resource& other) const {
-        return Resource(
-            std::max(0, energy - other.energy),
-            std::max(0, ore - other.ore),
-            std::max(0, food - other.food)
-        );
-    }
+    bool operator<(const Resource &other) const;
 
-    Resource& operator+=(const Resource& other) {
-        energy += other.energy;
-        ore += other.ore;
-        food += other.food;
-        return *this;
-    }
-
-    Resource& operator-=(const Resource& other) {
-        energy = std::max(0, energy - other.energy);
-        ore = std::max(0, ore - other.ore);
-        food = std::max(0, food - other.food);
-        return *this;
-    }
+    bool operator==(const Resource& other) const;
+    bool operator!=(const Resource& other) const;
 };
 
-using Resources = Resource;
+#endif
