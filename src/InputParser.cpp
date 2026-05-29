@@ -1,4 +1,3 @@
-
 #include "../include/InputParser.hpp"
 #include <sstream>
 #include <algorithm>

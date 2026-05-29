@@ -1,101 +1,134 @@
 #pragma once
 
-#include "Render.h"
-#include "Map.h"
+#include "Render.hpp"
+#include "Map.hpp"
 #include "Player.hpp"
 #include "Perception.hpp"
+#include "ViewPort.hpp"
+#include "../src/Utils/Constants.hpp"
+#include <array>
+#include <string>
+#include <iostream>
 
-// ANSI escape code constants
-static constexpr std::string_view ESC        = "\033[";
-static constexpr std::string_view FOG_COLOR  = "\033[90m";
-static constexpr std::string_view DIM_STYLE  = "\033[2m";
-static constexpr std::string_view RESET      = "\033[0m";
-static constexpr std::string_view FOG_SYMBOL = ".";
-static constexpr std::string_view MEM_SYMBOL = "~";
-/// @brief Represents the visibility state of a cell from the active player's point of view
-enum class Visibility {
-    Hidden,    /// Never explored — do not render
-    Memory,    /// Explored before but not visible this turn — render dimmed
-    Visible    /// Currently visible this turn — render normally
+/// @brief Visibility state of a world cell from one player's perspective.
+enum class CellVisibility {
+    Hidden,   ///< Never explored — render as blank fog
+    Memory,   ///< Explored before, not visible now — render dimmed
+    Visible   ///< Currently in vision range — render normally
 };
 
-/// @brief Classifies a single cell based on the player's perception bitsets
-/// @param perc  The player's Perception object
-/// @param x, y  Grid coordinates of the cell
-/// @return   The Visibility state of that cell
-inline Visibility classifyCell(const Perception& perc, int x, int y) {
-    if (perc.isVisible(x, y)) return Visibility::Visible;
-    if (perc.isDiscovered(x, y)) return Visibility::Memory;
-    return Visibility::Hidden;
+/// @brief Classifies a world cell using a player's Perception.
+/// @param perc        The player's perception state
+/// @param world_x     World X coordinate
+/// @param world_y     World Y coordinate
+/// @param world_width Total world width in cells
+inline CellVisibility classifyCell(const Perception& perc, int world_x, int world_y, int world_width) {
+    if (perc.isVisible   (world_x, world_y, world_width)) return CellVisibility::Visible;
+    if (perc.isDiscovered(world_x, world_y, world_width)) return CellVisibility::Memory;
+    return CellVisibility::Hidden;
 }
 
-/// @brief Filters world entities based on the active player's fog of war
-///        before passing them to the Render system
+/// @brief Renders the game world filtered through a player's fog of war.
+///
+/// Works by building its own viewport buffer — same approach as Render::drawWorld()
+/// but each cell is classified before writing:
+///   Visible  → normal entity symbol + civ color (or '.' if empty)
+///   Memory   → '~' in dark grey (explored but not currently seen)
+///   Hidden   → ' ' in black (never explored — blank)
+///
+/// Single flush per frame — no draw-then-overwrite race.
+/// SubjectiveRender holds a non-owning reference to Render for makeCell().
 class SubjectiveRender {
 public:
+    explicit SubjectiveRender(Render& render) : _render(render) {}
 
-    /// @brief Constructor
-    /// @param render  Reference to the Render instance owned by GameEngine
-    explicit SubjectiveRender(Render& render)
-        : render_(render)
-    {}
-
-    /// @brief Main draw call — renders the world from the active player's point of view
-    ///        Draws the full world first, then overlays the fog of war on top
+    /// @brief Draw the selected chunk filtered through the player's fog of war.
     /// @param player  The active player whose perception is used as a filter
-    /// @param map   The full world map containing all chunks and entities
-    void draw(const Player& player, Map& map) {
-        render_.drawWorld(map);
-        applyFogOverlay(player.getPerception());
-    }
+    /// @param map     The full game world
+    void draw(const Player& player, const Map& map) {
+        const Chunk&   chunk       = map.getSelectedChunk();
+        const int      world_width = map.getWorldWidth();
+        const ViewPort vp(chunk.getXStart(), chunk.getYStart());
+        const Perception& perc     = player.getPerception();
 
-    /// @brief Classifies a cell from a given player's point of view
-    ///        Useful for AI decisions and debug tools
-    /// @param player  The player whose perception is used
-    /// @param x, y    Grid coordinates to classify
-    /// @return   The Visibility state of that cell
-    static Visibility classifyForPlayer(const Player& player, int x, int y) {
-        return classifyCell(player.getPerception(), x, y);
-    }
+        // Step 1: Clear buffer with fog (Hidden = space, no color)
+        _viewport.fill({' ', GameUI::Color::BLACK});
 
-private:
+        // Step 2: Place visible entities into the buffer
+        for (const int entity_id : chunk.getEntityIDs()) {
+            const Entity* entity = map.getEntity(entity_id);
+            if (!entity) continue;
 
-    Render& render_;
+            const Vec2 world_pos = entity->getPosition();
+            if (!vp.isInViewport(world_pos.x, world_pos.y)) continue;
 
-    /// @brief Overlays fog of war symbols on top of the already-rendered frame
-    ///        Hidden cells are replaced by a dark grey dot
-    ///        Memory cells are replaced by a dimmed tilde
-    ///        Visible cells are left untouched
-    /// @param perc  The active player's Perception object
-    void applyFogOverlay(const Perception& perc) const {
+            const CellVisibility vis = classifyCell(perc, world_pos.x, world_pos.y, world_width);
 
-        // Grid dimensions used to iterate over every cell of the viewport
-        constexpr int W = static_cast<int>(WORLD_W);
-        constexpr int H = static_cast<int>(WORLD_H);
+            // Only draw the entity if it's currently visible
+            if (vis != CellVisibility::Visible) continue;
 
-        for (int y = 0; y < H; ++y) {
-            for (int x = 0; x < W; ++x) {
+            const int idx  = vp.toIndex(world_pos.x, world_pos.y);
+            _viewport[idx] = Render::makeCell(*entity);
+        }
 
-                // Determine the visibility state of this cell
-                // from the active player's perception bitsets
-                Visibility vis = classifyCell(perc, x, y);
+        // Step 3: Apply fog/memory overlay to empty cells
+        // (entity cells are already Visible — we only touch non-entity cells)
+        for (int y = 0; y < VIEWPORT_HEIGHT; ++y) {
+            for (int x = 0; x < VIEWPORT_WIDTH; ++x) {
+                const int world_x = chunk.getXStart() + x;
+                const int world_y = chunk.getYStart() + y;
+                const int idx     = vp.toIndex(world_x, world_y);
 
-                if (vis == Visibility::Hidden) {
-                    // Move the terminal cursor to (x, y) then draw opaque fog
-                    std::cout << ESC << (y + 1) << ";" << (x + 1) << "H"
-                              << FOG_COLOR << FOG_SYMBOL << RESET;
+                // Only apply fog to cells that weren't filled by an entity above
+                if (_viewport[idx].symbol != ' ') continue;
+
+                const CellVisibility vis = classifyCell(perc, world_x, world_y, world_width);
+                switch (vis) {
+                    case CellVisibility::Visible:
+                        _viewport[idx] = {'.', GameUI::Color::WHITE};  // empty visible cell
+                        break;
+                    case CellVisibility::Memory:
+                        _viewport[idx] = {'~', GameUI::Color::BLACK};  // dim memory
+                        break;
+                    case CellVisibility::Hidden:
+                        _viewport[idx] = {' ', GameUI::Color::BLACK};  // total fog
+                        break;
                 }
-                else if (vis == Visibility::Memory) {
-                    // Cell was explored before but is no longer in vision range.
-                    // Move cursor then draw a dimmed tilde to indicate a memorized area
-                    std::cout << ESC << (y + 1) << ";" << (x + 1) << "H"
-                              << DIM_STYLE << MEM_SYMBOL << RESET;
-                }
-                // Visible cells are left untouched — Render already drew them correctly
             }
         }
 
-        // Flush stdout to make sure the full frame appears at once
+        // Step 4: Build frame buffer and flush — identical to Render::drawWorld()
+        GameUI::Color last_color = GameUI::Color::BLACK;
+        _frame_buffer  = "\033[H";
+        _frame_buffer += GameUI::toAnsi(last_color);
+
+        for (int y = 0; y < VIEWPORT_HEIGHT; ++y) {
+            for (int x = 0; x < VIEWPORT_WIDTH; ++x) {
+                const int world_x = chunk.getXStart() + x;
+                const int world_y = chunk.getYStart() + y;
+                const int idx     = vp.toIndex(world_x, world_y);
+
+                if (last_color != _viewport[idx].color) {
+                    _frame_buffer += GameUI::toAnsi(_viewport[idx].color);
+                    last_color = _viewport[idx].color;
+                }
+                _frame_buffer += _viewport[idx].symbol;
+            }
+            _frame_buffer += '\n';
+        }
+
+        _frame_buffer += GameUI::toAnsi(GameUI::Color::RESET);
+        std::cout << _frame_buffer;
         std::cout.flush();
     }
+
+    /// @brief Classify a world cell for a given player — useful for AI decisions.
+    static CellVisibility classifyForPlayer(const Player& player, int world_x, int world_y, int world_width) {
+        return classifyCell(player.getPerception(), world_x, world_y, world_width);
+    }
+
+private:
+    Render& _render;
+    std::array<GameUI::Cell, CHUNK_SIZE> _viewport{};
+    std::string _frame_buffer;
 };
