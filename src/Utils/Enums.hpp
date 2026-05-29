@@ -38,3 +38,10 @@ enum class PlanetType{
     MINERAL,
     ENERGY
 };
+
+/// @brief Determines what stat bonuses a Technology provides when upgraded.
+enum class TechType {
+    PRODUCTION,  ///< Boosts resource yield (mining, cargo capacity)
+    DEFENSE,     ///< Boosts ship health and shield strength
+    ATTACK       ///< Boosts ship attack power and vision range
+};
