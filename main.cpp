@@ -1,25 +1,67 @@
 #include <iostream>
-#include "Technology.hpp"
+#include "Resource.hpp"
 
 using namespace std;
 
 int main()
 {
-    Technology mining(1, "Mining Technology", 1, 5, 100);
+    Resource resources(100, 50, 25);
 
-    mining.displayInfo();
+    cout << "===== INITIAL RESOURCES =====" << endl;
 
-    mining.unlock();
-
-    mining.upgrade();
-
-    cout << "\nAfter upgrade:\n";
-
-    mining.displayInfo();
-
-    cout << "\nProduction Bonus: "
-         << mining.getProductionBonus()
+    cout << "Gold: "
+         << resources.getGold()
          << endl;
+
+    cout << "Silver: "
+         << resources.getSilver()
+         << endl;
+
+    cout << "Diamond: "
+         << resources.getdiamond()
+         << endl;
+
+    // ADD RESOURCES
+
+    resources.addGold(20);
+    resources.addSilver(10);
+    resources.adddiamond(5);
+
+    cout << "\n===== AFTER ADDING =====" << endl;
+
+    cout << "Gold: "
+         << resources.getGold()
+         << endl;
+
+    cout << "Silver: "
+         << resources.getSilver()
+         << endl;
+
+    cout << "Diamond: "
+         << resources.getdiamond()
+         << endl;
+
+    // CONSUME RESOURCES
+
+    resources.consumeGold(30);
+    resources.consumeSilver(15);
+    resources.consumediamond(10);
+
+    cout << "\n===== AFTER CONSUMING =====" << endl;
+
+    cout << "Gold: "
+         << resources.getGold()
+         << endl;
+
+    cout << "Silver: "
+         << resources.getSilver()
+         << endl;
+
+    cout << "Diamond: "
+         << resources.getdiamond()
+         << endl;
+
+    resources.update();
 
     return 0;
 }
