@@ -1,61 +1,67 @@
 #include <iostream>
-#include "Planet.hpp"
 #include "Resource.hpp"
 
 using namespace std;
 
 int main()
 {
-    Resource planetResources(100, 50, 25);
+    Resource resources(100, 50, 25);
 
-    Planet earth("Earth", planetResources, false);
-
-    cout << "===== PLANET =====" << endl;
-
-    cout << "Name: "
-         << earth.getName()
-         << endl;
-
-    cout << "Colonized: ";
-
-    if (earth.isColonized())
-        cout << "Yes" << endl;
-    else
-        cout << "No" << endl;
-
-    cout << "\nResources Check: ";
-
-    if (earth.hasResources())
-        cout << "Planet still has resources." << endl;
-    else
-        cout << "Planet has no resources." << endl;
-
-    cout << "\n===== RESOURCES =====" << endl;
+    cout << "===== INITIAL RESOURCES =====" << endl;
 
     cout << "Gold: "
-         << earth.getResources().getGold()
+         << resources.getGold()
          << endl;
 
     cout << "Silver: "
-         << earth.getResources().getSilver()
+         << resources.getSilver()
          << endl;
 
     cout << "Diamond: "
-         << earth.getResources().getdiamond()
+         << resources.getdiamond()
          << endl;
 
-    earth.colonize();
+    // ADD RESOURCES
 
-    cout << "\nAfter Colonization:" << endl;
+    resources.addGold(20);
+    resources.addSilver(10);
+    resources.adddiamond(5);
 
-    cout << "Colonized: ";
+    cout << "\n===== AFTER ADDING =====" << endl;
 
-    if (earth.isColonized())
-        cout << "Yes" << endl;
-    else
-        cout << "No" << endl;
+    cout << "Gold: "
+         << resources.getGold()
+         << endl;
 
-    earth.update();
+    cout << "Silver: "
+         << resources.getSilver()
+         << endl;
+
+    cout << "Diamond: "
+         << resources.getdiamond()
+         << endl;
+
+    // CONSUME RESOURCES
+
+    resources.consumeGold(30);
+    resources.consumeSilver(15);
+    resources.consumediamond(10);
+
+    cout << "\n===== AFTER CONSUMING =====" << endl;
+
+    cout << "Gold: "
+         << resources.getGold()
+         << endl;
+
+    cout << "Silver: "
+         << resources.getSilver()
+         << endl;
+
+    cout << "Diamond: "
+         << resources.getdiamond()
+         << endl;
+
+    resources.update();
 
     return 0;
 }

@@ -1,5 +1,4 @@
 #include "../../include/Entity.hpp"
-#include "../Utils/Constants.hpp"
 #include <iostream>
 
 int Entity:: _next_id = 1;
