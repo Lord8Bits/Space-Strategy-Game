@@ -58,11 +58,16 @@ void TurnManager::endTurn() {
     if (!_turn_in_progress)
         throw std::logic_error("Cannot end turn - turn not in progress");
 
-    // Update all entities and civilizations
-    const Chunk& chunk = _map.getSelectedChunk();
-    for (const int id : chunk.getEntityIDs()) {
-        Entity* e = _map.getEntity(id);
-        if (e) e->update();
+    // Update ALL chunks — not just the selected one
+    for (int row = 0; row < _map.getChunkRows(); ++row) {
+        for (int col = 0; col < _map.getChunkCols(); ++col) {
+            _map.changeSelectedChunk(col, row);
+            const Chunk& chunk = _map.getSelectedChunk();
+            for (const int id : chunk.getEntityIDs()) {
+                Entity* e = _map.getEntity(id);
+                if (e) e->update();
+            }
+        }
     }
 
     _turn_history.push_back(_pending_actions);
