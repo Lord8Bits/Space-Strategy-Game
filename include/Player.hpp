@@ -60,7 +60,7 @@ public:
     void addShip(std::unique_ptr<Ship> ship) {
         if (!ship)
             throw std::invalid_argument("Null ship.");
-        const int sid = ship->getId();
+        const int shipId = ship->getId();
         if (shipIndex_.count(sid))
             throw std::invalid_argument("Ship id already exists: " + std::to_string(sid));
         shipIndex_[sid] = ship.get();
@@ -111,7 +111,7 @@ public:
         return count;
     }
 
-    /// @brief Returns the total number of ships including destroyed ones
+    /// @brief Returns the total number of ships including those pending purge
     int totalCount() const { return static_cast<int>(fleet_.size()); }
 
     /// @brief Returns true if all ships are destroyed
@@ -139,7 +139,6 @@ public:
     //  Perception / Fog of War
 
     /// @brief Returns a reference to the player's Perception object
-    Perception& getPerception() { return perception_; }
     const Perception& getPerception() const { return perception_; }
 
     /// @brief Updates fog of war from all alive ships' positions and vision ranges
@@ -161,8 +160,8 @@ private:
 
     const int _id;
     std::string playerId_;
-    std::string displayName_;
-    bool isAI_;
+    std::string _displayName;
+    bool _isAI;
 
     std::vector<std::unique_ptr<Ship>> fleet_;
     std::unordered_map<int, Ship*> shipIndex_;
