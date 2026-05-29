@@ -3,33 +3,30 @@
 #include "../src/Utils/Action.hpp"
 #include "Map.hpp"
 #include "Render.hpp"
+#include "SubjectiveRender.hpp"
 #include "CombatSystem.hpp"
+#include "Player.hpp"
 #include <vector>
 #include <iostream>
 
-/// @brief Orchestrates a full game turn: input → movement → combat → production → render.
+/// @brief Orchestrates a full game turn: input → movement → combat → production → FoW → render.
 ///
 /// Usage pattern each turn:
 ///   1. startTurn()
 ///   2. submitAction() / submitActions()   (from InputParser output)
 ///   3. executeTurn()                      (runs all phases in order)
-///   4. endTurn()                          (saves to history, advances counter)
+///   4. endTurn()                          (updates FoW, renders, advances counter)
 ///
-/// Phase order is fixed:
-///   VIEW      — switch rendered chunk immediately (before other phases)
-///   MOVEMENT  — move ships, update chunk indices
-///   COMBAT    — resolve attacks via CombatSystem, remove destroyed entities
-///   PRODUCTION — mine / load / unload / research / build (stubs for now)
-///
-/// TurnManager holds non-owning references to Map, Render, and CombatSystem.
-/// Those objects are owned by whoever constructs TurnManager (typically main).
+/// TurnManager holds non-owning references to all systems and the active player.
+/// Call setActivePlayer() when turn switches to a different player.
 class TurnManager {
 private:
     static constexpr int DEFAULT_MAX_TURNS = 300;
 
-    Map&          _map;
-    Render&       _renderer;
-    CombatSystem& _combat;
+    Map&              _map;
+    SubjectiveRender& _subjective_renderer;
+    CombatSystem&     _combat;
+    Player*           _active_player;  ///< Non-owning pointer — never null during a turn
 
     int  _current_turn;
     int  _max_turns;
@@ -43,14 +40,23 @@ private:
     void applyMovementPhase  (const TurnActions& actions);
     void applyCombatPhase    (const TurnActions& actions);
     void applyProductionPhase(const TurnActions& actions);
+    void updateFogOfWar      ();
 
 public:
-    /// @param map         The game world (non-owning reference)
-    /// @param renderer    Render system (non-owning reference)
-    /// @param combat      Combat system (non-owning reference)
-    /// @param max_turns   Game ends after this many turns (default 300)
-    TurnManager(Map& map, Render& renderer, CombatSystem& combat,
-                int max_turns = DEFAULT_MAX_TURNS);
+    /// @param map                 The game world (non-owning reference)
+    /// @param subjective_renderer FoW-aware renderer (non-owning reference)
+    /// @param combat              Combat system (non-owning reference)
+    /// @param initial_player      The first player to act (non-owning pointer)
+    /// @param max_turns           Game ends after this many turns (default 300)
+    TurnManager(Map& map, SubjectiveRender& subjective_renderer, CombatSystem& combat,
+                Player& initial_player, int max_turns = DEFAULT_MAX_TURNS);
+
+    /// @brief Switch which player is currently acting.
+    /// Call this between turns when rotating players.
+    void setActivePlayer(Player& player) { _active_player = &player; }
+
+    /// @brief Returns the currently active player.
+    Player& getActivePlayer() { return *_active_player; }
 
     /// @brief Open a new turn and clear any stale pending actions.
     /// @throws std::runtime_error if game is already over.
@@ -58,35 +64,25 @@ public:
     void startTurn();
 
     /// @brief Queue one parsed action for the current turn.
-    /// @throws std::logic_error if no turn is in progress.
     void submitAction(const Action& action);
 
     /// @brief Queue a batch of parsed actions for the current turn.
-    /// @throws std::logic_error if no turn is in progress.
     void submitActions(const std::vector<Action>& actions);
 
     /// @brief Run all resolution phases for the active turn.
-    /// @return Number of actions that were processed.
-    /// @throws std::logic_error if no turn is in progress.
+    /// @return Number of actions processed.
     int executeTurn();
 
-    /// @brief Save the current turn to history and advance the turn counter.
-    /// @throws std::logic_error if no turn is in progress.
+    /// @brief Update entities, recalculate FoW for active player, render, advance turn.
     void endTurn();
 
-    /// @brief Discard all queued actions without ending the turn.
     void clearPendingActions();
-
-    /// @brief Return the action list for a previously resolved turn.
-    /// @throws std::out_of_range if turn_number is out of history range.
     const TurnActions& getTurnHistory(int turn_number) const;
-
-    /// @brief Reset to initial state (turn 0, empty history).
     void reset();
 
-    int  getCurrentTurn()       const { return _current_turn; }
-    int  getMaxTurns()          const { return _max_turns; }
-    bool isTurnInProgress()     const { return _turn_in_progress; }
-    bool isGameOver()           const { return _current_turn >= _max_turns; }
-    int  getPendingActionCount()const { return static_cast<int>(_pending_actions.getActionCount()); }
+    int  getCurrentTurn()        const { return _current_turn; }
+    int  getMaxTurns()           const { return _max_turns; }
+    bool isTurnInProgress()      const { return _turn_in_progress; }
+    bool isGameOver()            const { return _current_turn >= _max_turns; }
+    int  getPendingActionCount() const { return static_cast<int>(_pending_actions.getActionCount()); }
 };
