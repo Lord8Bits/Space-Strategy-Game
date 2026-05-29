@@ -2,7 +2,7 @@
 // Created by ilyasse-ch7 on 05/05/2026.
 //
 
-#include "TurnManager.h"
+#include "../include/TurnManager.hpp"
 #include <stdexcept>
 
 TurnManager::TurnManager(int max_turns)
