@@ -14,6 +14,7 @@ public:
     CombatResult attack(Entity& target, CombatSystem& combatSystem) override;
     void levelUp() override;
     void interactEntity(Entity* other, CombatSystem& combatSystem) override;
+    bool canMine() const override { return true; }
 
     bool loadCargo(const Resource& resource);
     Resource unloadCargo(const Resource& resource);

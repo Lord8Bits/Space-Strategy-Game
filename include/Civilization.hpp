@@ -1,6 +1,7 @@
 #pragma once
 #include "Updatable.hpp"
 #include "Resource.hpp"
+#include "Technology.hpp"
 #include "../src/Utils/Enums.hpp"
 #include "../src/Utils/Constants.hpp"
 #include <unordered_map>
@@ -13,8 +14,9 @@ protected:
     CivilizationType _type;
     GameUI::Color _color;
     Resource _resources;
-    std::set<int> _entity_ids;  ///< IDs of entities owned by this civilization (no ownership)
+    std::set<int> _entity_ids;
     std::unordered_map<const Civilization*, Relation> _relations;
+    Technology _weapon_tech;  ///< Fighter attack-power research (ATTACK type)
 
 public:
     Civilization(const std::string& name, CivilizationType type, Resource startingResources = Resource(100,100,100));
@@ -35,6 +37,13 @@ public:
     // Resources
     Resource&       getResources()       { return _resources; }
     const Resource& getResources() const { return _resources; }
+
+    // Weapon technology (Fighter attack bonus)
+    int       getAttackBonus()           const;
+    bool      canUpgradeWeaponTech()     const;
+    Resource  getWeaponTechUpgradeCost() const;
+    void      upgradeWeaponTech();
+    const Technology& getWeaponTech()    const { return _weapon_tech; }
 
     // Getters
     GameUI::Color    getColor()   const { return _color; }

@@ -12,15 +12,16 @@ Fighter::Fighter(const std::string& Name, const Vec2& Pos, Civilization* Owner) 
         ShipType::FIGHTER),
         _agility(GameConstants::FIGHTER_AGILITY) {}
 
-bool Fighter::tryDodge(const Ship& attacker) const{
-    //A simple system to give a chance of dodging
-    int roll = rand() % 100;
-
+bool Fighter::tryDodge(const Ship& attacker) const {
+    const int roll        = rand() % 100;
     int dodgeChance = _agility - attacker.getAttackPower() / 2;
-    if (dodgeChance < 5) dodgeChance = 5;
-    if (dodgeChance > 80) dodgeChance = 80;
-
+    dodgeChance = std::max(5, std::min(80, dodgeChance));
     return dodgeChance > roll;
+}
+
+int Fighter::calculateDamageAgainst(const Entity& /*target*/) const {
+    int bonus = _owner ? _owner->getAttackBonus() : 0;
+    return _attackPower + bonus;
 }
 
 void Fighter::levelUp(){

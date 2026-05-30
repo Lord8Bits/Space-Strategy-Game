@@ -104,6 +104,24 @@ int Map::sectorOf(const Vec2& pos) const {
     return row * _chunk_col + col + 1;
 }
 
+std::string Map::toViewportCoord(const Vec2& world_pos) const {
+    const int local_x = (world_pos.x % VIEWPORT_WIDTH) + 1;       // 1-80
+    const int local_y =  world_pos.y % VIEWPORT_HEIGHT;            // 0-19
+    return std::string(1, static_cast<char>('A' + local_y)) + std::to_string(local_x);
+}
+
+Entity* Map::findPlanetAt(const Vec2& pos) const {
+    const int chunk_idx = findChunkIndex(pos);
+    for (const int id : _chunks[chunk_idx].getEntityIDs()) {
+        auto it = _all_entities.find(id);
+        if (it != _all_entities.end()
+            && it->second->getPosition() == pos
+            && it->second->asPlanet() != nullptr)
+            return it->second.get();
+    }
+    return nullptr;
+}
+
 void Map::changeSelectedChunk(const int chunk_x, const int chunk_y)
 {
     const bool in_bounds = (chunk_x >= 0 && chunk_x < _chunk_col

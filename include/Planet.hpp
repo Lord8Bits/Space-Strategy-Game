@@ -34,15 +34,23 @@ public:
 
     // ── Entity interface ──────────────────────────────────────────────────────
 
-    /// @brief All planets render as ● ; color encodes type (green/yellow/cyan).
-    std::string getSymbol()      const override { return "\xE2\x97\x8F"; } // ●
+    // ── Entity interface ──────────────────────────────────────────────────────
+    std::string   getSymbol()       const override { return "\xE2\x97\x8F"; } // ●
     GameUI::Color getDisplayColor() const override;
-    EntityType getType()   const override { return EntityType::PLANET; }
-    std::string getDetailedInfo() const override;
-    bool isAlive()          const override { return true; }   ///< Planets cannot be destroyed
-    void takeDamage(int)          override {}                 ///< Planets ignore damage
-    int  getXpReward()      const override { return 0; }      ///< No XP for attacking a planet
-    bool canBeAttacked()    const override { return false; }  ///< Planets cannot be targeted
+    EntityType    getType()         const override { return EntityType::PLANET; }
+    std::string   getDetailedInfo() const override;
+    bool          isAlive()         const override { return true; }
+    void          takeDamage(int)         override {}
+    int           getXpReward()     const override { return 0; }
+    bool          canBeAttacked()   const override { return false; }
+
+    // ── Self-cast ─────────────────────────────────────────────────────────────
+    Planet*       asPlanet()       override { return this; }
+    const Planet* asPlanet() const override { return this; }
+
+    // ── Stat virtuals overridden from Entity ──────────────────────────────────
+    int  getResourceCount() const override { return _resources.total(); }
+    bool isColonized()      const override { return _colonized; }
     void update()                override {}
 
     /// @brief Planets do not initiate combat — no-op.
@@ -52,9 +60,6 @@ public:
 
     /// @brief Returns true if the planet still has at least one resource available.
     bool hasResources() const { return _resources.total() > 0; }
-
-    /// @brief Returns true if this planet has been claimed by a civilization.
-    bool isColonized() const { return _colonized; }
 
     /// @brief Claim this planet for the given civilization.
     /// Sets owner and marks as colonized.

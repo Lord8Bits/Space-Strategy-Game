@@ -81,6 +81,14 @@ public:
 
     /// @brief Returns the 1-based sector number that contains the given world position.
     int sectorOf(const Vec2& pos) const;
+
+    /// @brief Convert a world position to a viewport-relative coordinate string (e.g. "J20").
+    /// The letter (A-T) encodes the Y row within the entity's chunk;
+    /// the number (1-80) encodes the X column within the entity's chunk.
+    std::string toViewportCoord(const Vec2& world_pos) const;
+
+    /// @brief Find the first Planet entity at the given world position, or nullptr.
+    Entity* findPlanetAt(const Vec2& pos) const;
 };
 
 #endif //SPACE_STRATEGY_GAME_MAP_H

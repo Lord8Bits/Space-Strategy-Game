@@ -92,29 +92,7 @@ void TurnManager::endTurn() {
 }
 
 void TurnManager::updateFogOfWar() {
-    Player& player = *_active_player;
-
-    // Clear this turn's visibility — discovered cells are preserved inside Perception
-    player.resetFogOfWar();
-
-    const int world_width  = _map.getWorldWidth();
-    const int world_height = _map.getWorldHeight();
-
-    for (const int id : player.getShipIds()) {
-        const Entity* entity = _map.getEntity(id);
-        if (!entity) continue;
-
-        const Ship* ship = dynamic_cast<const Ship*>(entity);
-        if (!ship || !ship->isAlive()) continue;
-
-        player.getPerception().updateVisibility(
-            ship->getPosition().x,
-            ship->getPosition().y,
-            ship->getVisionRange(),
-            world_width,
-            world_height
-        );
-    }
+    _active_player->refreshFogOfWar(_map);
 }
 
 // ─── Phase implementations ────────────────────────────────────────────────────
@@ -136,7 +114,7 @@ void TurnManager::applyMovementPhase(const TurnActions& actions) {
         Entity* entity = _map.getEntity(action.entity_id);
         if (!entity) continue;
 
-        Ship* ship = dynamic_cast<Ship*>(entity);
+        Ship* ship = entity->asShip();
         if (!ship || !ship->isAlive()) continue;
 
         if (ship->moveTo(action.target_position))
@@ -154,7 +132,7 @@ void TurnManager::applyCombatPhase(const TurnActions& actions) {
         Entity* defender_entity = _map.getEntity(action.target_entity_id);
         if (!attacker_entity || !defender_entity) continue;
 
-        Ship* attacker = dynamic_cast<Ship*>(attacker_entity);
+        Ship* attacker = attacker_entity->asShip();
         if (!attacker || !attacker->isAlive()) continue;
 
         const CombatResult result = _combat.resolveCombat(*attacker, *defender_entity);
