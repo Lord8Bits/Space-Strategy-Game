@@ -31,7 +31,7 @@ namespace GameUI {
     /// @brief Rendering cell - belongs to the rendering layer, not gameplay
     /// Built by Render::makeCell() from Entity's public interface
     struct Cell {
-        char symbol{'.'};
+        std::string symbol{"."};
         Color color{Color::WHITE};
     };
 
@@ -72,7 +72,20 @@ namespace GameConstants {
     constexpr int TRANSPORT_CARGO = 1000;
 
     //Xp Reward Constants
-    constexpr int FIGHTER_XP_REWARD = 40;
-    constexpr int CRUISER_XP_REWARD = 80;
+    constexpr int FIGHTER_XP_REWARD   = 40;
+    constexpr int CRUISER_XP_REWARD   = 80;
     constexpr int TRANSPORT_XP_REWARD = 30;
+
+    // Build costs (Gold / Titanium / Cadmium)
+    constexpr int FIGHTER_BUILD_GOLD      = 50;
+    constexpr int FIGHTER_BUILD_TITANIUM  = 30;
+    constexpr int FIGHTER_BUILD_CADMIUM   = 0;
+
+    constexpr int CRUISER_BUILD_GOLD      = 100;
+    constexpr int CRUISER_BUILD_TITANIUM  = 80;
+    constexpr int CRUISER_BUILD_CADMIUM   = 20;
+
+    constexpr int TRANSPORT_BUILD_GOLD     = 40;
+    constexpr int TRANSPORT_BUILD_TITANIUM = 20;
+    constexpr int TRANSPORT_BUILD_CADMIUM  = 0;
 }

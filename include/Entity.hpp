@@ -20,7 +20,7 @@ public:
     virtual ~Entity() = default;
 
     //Pure virtual functions
-    virtual char getSymbol() const = 0;
+    virtual std::string getSymbol() const = 0;
     virtual EntityType getType() const = 0;
     virtual void interactEntity(Entity* other, CombatSystem& combatSystem) = 0;
     virtual std::string getDetailedInfo() const = 0;
@@ -35,6 +35,11 @@ public:
 
     // Vision — used by FoW update; non-mobile entities return 0.
     virtual int getVisionRange() const { return 0; }
+
+    // Display color — defaults to owner civ color; entities override for type-based coloring.
+    virtual GameUI::Color getDisplayColor() const {
+        return _owner ? _owner->getColor() : GameUI::Color::WHITE;
+    }
 
     int getId() const { return _id; }
     std::string getName() const { return _name; }

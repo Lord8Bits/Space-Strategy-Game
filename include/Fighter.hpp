@@ -15,6 +15,6 @@ public:
     
     int getAgility() const { return _agility; }
     ShipType getShipType() const override { return ShipType::FIGHTER; }
-    char getSymbol() const override { return 'F'; }
+    std::string getSymbol() const override { return "▲"; }  // ▲
     int getXpReward() const override { return GameConstants::FIGHTER_XP_REWARD; }
 };

@@ -1,4 +1,5 @@
 #include "../../include/Planet.hpp"
+#include "../../src/Utils/Constants.hpp"
 #include <sstream>
 
 Planet::Planet(const std::string& name, const Vec2& pos, PlanetType type,
@@ -9,12 +10,12 @@ Planet::Planet(const std::string& name, const Vec2& pos, PlanetType type,
     , _colonized(owner != nullptr)  // pre-colonized if an owner is provided
 {}
 
-char Planet::getSymbol() const {
+GameUI::Color Planet::getDisplayColor() const {
     switch (_planet_type) {
-        case PlanetType::TERRAIN : return 'P';
-        case PlanetType::MINERAL : return 'M';
-        case PlanetType::ENERGY  : return 'E';
-        default                  : return '?';
+        case PlanetType::TERRAIN : return GameUI::Color::GREEN;
+        case PlanetType::MINERAL : return GameUI::Color::YELLOW;
+        case PlanetType::ENERGY  : return GameUI::Color::CYAN;
+        default                  : return GameUI::Color::WHITE;
     }
 }
 

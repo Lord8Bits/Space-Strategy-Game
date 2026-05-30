@@ -10,7 +10,7 @@ void Render::clearScreen() {
 
 Render::Render()
 {
-    _viewport.fill({'.',  GameUI::Color::WHITE});
+    _viewport.fill({".", GameUI::Color::WHITE});
     _frame_buffer.reserve(MAX_BUFFER);
 }
 
@@ -18,13 +18,7 @@ Render::~Render() = default;
 
 GameUI::Cell Render::makeCell(const Entity& entity)
 {
-    // Color comes from the owning civilization
-    // If no owner, default to WHITE (neutral/unclaimed)
-    const GameUI::Color color = entity.getCivOwner()
-        ? entity.getCivOwner()->getColor()
-        : GameUI::Color::WHITE;
-
-    return GameUI::Cell{entity.getSymbol(), color};
+    return GameUI::Cell{entity.getSymbol(), entity.getDisplayColor()};
 }
 
 void Render::drawWorld(const Map& map)
@@ -33,7 +27,7 @@ void Render::drawWorld(const Map& map)
     const ViewPort vp(chunk.getXStart(), chunk.getYStart());
 
     // Step 1: Clear the viewport buffer
-    _viewport.fill({'.', GameUI::Color::WHITE});
+    _viewport.fill({".", GameUI::Color::WHITE});
 
     // Step 2: Iterate entity IDs, fetch from Map, build Cell for rendering
     for (const int entity_id : chunk.getEntityIDs()) {

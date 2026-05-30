@@ -21,7 +21,7 @@ public:
     bool isEmpty() const { return _cargo.total() <= 0; }    
 
     ShipType getShipType() const override { return ShipType::TRANSPORT; }
-    char getSymbol() const override { return 'T'; }
+    std::string getSymbol() const override { return "■"; }  // ■
     int getXpReward() const override { return GameConstants::TRANSPORT_XP_REWARD; }
     Resource getCargo() const { return _cargo; }
     int getCargoCapacity() const { return _cargoCapacity; }

@@ -15,6 +15,6 @@ public:
 
     int getShieldStrength() const { return _shieldStrength; }
     ShipType getShipType() const override { return ShipType::CRUISER; }
-    char getSymbol() const override { return 'C'; }
+    std::string getSymbol() const override { return "◆"; }  // ◆
     int getXpReward() const override { return GameConstants::CRUISER_XP_REWARD; }
 };

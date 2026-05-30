@@ -97,10 +97,15 @@ const std::unordered_map<std::string, InputParser::CommandDef> InputParser::_com
     }},
 
     {"build", {
-        "build {entity_id}",
+        "build {fighter|cruiser|transport} {planet_id}",
         [](const std::vector<std::string>& t) {
-            if (t.size() != 2) throw std::invalid_argument("build: expected entity_id");
-            return Action(Action::Type::BUILD, parseId(t[1]), Vec2{0,0});
+            if (t.size() != 3) throw std::invalid_argument("build: expected ship_type and planet_id");
+            int ship_type = 0;
+            if      (t[1] == "fighter")   ship_type = 0;
+            else if (t[1] == "cruiser")   ship_type = 1;
+            else if (t[1] == "transport") ship_type = 2;
+            else throw std::invalid_argument("build: unknown ship type '" + t[1] + "' (use fighter/cruiser/transport)");
+            return Action(Action::Type::BUILD, parseId(t[2]), Vec2{0,0}, -1, ship_type);
         }
     }},
 

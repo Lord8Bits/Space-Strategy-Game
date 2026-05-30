@@ -34,9 +34,9 @@ public:
 
     // ── Entity interface ──────────────────────────────────────────────────────
 
-    /// @brief Single character shown on the map grid.
-    /// 'P' = TERRAIN, 'M' = MINERAL, 'E' = ENERGY
-    char getSymbol()       const override;
+    /// @brief All planets render as ● ; color encodes type (green/yellow/cyan).
+    std::string getSymbol()      const override { return "\xE2\x97\x8F"; } // ●
+    GameUI::Color getDisplayColor() const override;
     EntityType getType()   const override { return EntityType::PLANET; }
     std::string getDetailedInfo() const override;
     bool isAlive()          const override { return true; }   ///< Planets cannot be destroyed
