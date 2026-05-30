@@ -78,6 +78,9 @@ public:
     int getChunkCols()          const { return _chunk_col; }
     int getWorldWidth()         const { return _chunk_col * VIEWPORT_WIDTH; }
     int getWorldHeight()        const { return _chunk_row * VIEWPORT_HEIGHT; }
+
+    /// @brief Returns the 1-based sector number that contains the given world position.
+    int sectorOf(const Vec2& pos) const;
 };
 
 #endif //SPACE_STRATEGY_GAME_MAP_H

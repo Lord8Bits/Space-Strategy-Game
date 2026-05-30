@@ -66,6 +66,10 @@ public:
     /// @brief Reset this turn's visibility (call at start of each turn).
     void resetFogOfWar() { _perception.resetVisibility(); }
 
+    /// @brief Recompute visibility from all living ships in this player's fleet.
+    /// Resets current visibility then marks every cell within each ship's vision range.
+    void refreshFogOfWar(const Map& map);
+
 private:
     int         _numericId;
     std::string _playerId;

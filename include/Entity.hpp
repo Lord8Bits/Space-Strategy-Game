@@ -33,6 +33,9 @@ public:
     virtual bool tryDodge(const Ship& attacker) const { return false; }
     virtual int  absorbDamage(int damage) { return damage; }
 
+    // Vision — used by FoW update; non-mobile entities return 0.
+    virtual int getVisionRange() const { return 0; }
+
     int getId() const { return _id; }
     std::string getName() const { return _name; }
     Vec2 getPosition() const { return _position; }

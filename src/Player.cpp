@@ -4,6 +4,17 @@
 #include <iomanip>
 #include <sstream>
 
+void Player::refreshFogOfWar(const Map& map) {
+    resetFogOfWar();
+    for (const int id : _ship_ids) {
+        const Entity* e = map.getEntity(id);
+        if (!e || !e->isAlive()) continue;
+        _perception.updateVisibility(
+            e->getPosition().x, e->getPosition().y,
+            e->getVisionRange(), map.getWorldWidth(), map.getWorldHeight());
+    }
+}
+
 void Player::printStatus(const Map& map) const {
     std::ostringstream buffer;
 

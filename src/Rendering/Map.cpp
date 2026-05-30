@@ -98,6 +98,12 @@ const Chunk& Map::getSelectedChunk() const
     return _chunks[_selected_chunk];
 }
 
+int Map::sectorOf(const Vec2& pos) const {
+    const int col = pos.x / VIEWPORT_WIDTH;
+    const int row = pos.y / VIEWPORT_HEIGHT;
+    return row * _chunk_col + col + 1;
+}
+
 void Map::changeSelectedChunk(const int chunk_x, const int chunk_y)
 {
     const bool in_bounds = (chunk_x >= 0 && chunk_x < _chunk_col

@@ -51,7 +51,7 @@ public:
     int getHealth() const { return _health; }
     int getMaxHealth() const { return _maxHealth; }
     int getMovementRange() const { return _movementRange; }
-    int getVisionRange() const { return _visionRange; }
+    int getVisionRange() const override { return _visionRange; }
     int getAttackPower() const { return _attackPower; }
     int getLevel() const { return _level; }
     int getXp() const { return _xp; }

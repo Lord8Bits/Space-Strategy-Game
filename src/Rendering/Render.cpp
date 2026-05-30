@@ -4,6 +4,10 @@
 #include "../../include/ViewPort.hpp"
 #include <iostream>
 
+void Render::clearScreen() {
+    std::cout << "\033[2J\033[3J\033[H";
+}
+
 Render::Render()
 {
     _viewport.fill({'.',  GameUI::Color::WHITE});

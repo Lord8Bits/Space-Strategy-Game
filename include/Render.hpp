@@ -27,6 +27,9 @@ public:
     Render();
     ~Render();
 
+    /// @brief Clear the terminal screen using ANSI escape codes.
+    static void clearScreen();
+
     /// @brief Render the currently selected chunk to the terminal
     void drawWorld(const Map& map);
 
