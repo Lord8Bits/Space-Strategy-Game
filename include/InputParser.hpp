@@ -27,7 +27,6 @@ private:
     static bool isValidCoordinate(const Vec2& pos);
     bool isValidSector(int sector_id) const;  // needs _total_sectors so not static
     static int parseId(const std::string& token);
-    static Vec2 parseCoords(const std::string& x, const std::string& y);
 
 public:
     /// @param total_sectors Total chunk count from map (map.getChunkRows() * map.getChunkCols())

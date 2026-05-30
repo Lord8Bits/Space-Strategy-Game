@@ -1,4 +1,5 @@
 #include "../include/InputParser.hpp"
+#include "../src/Utils/Constants.hpp"
 #include <sstream>
 #include <algorithm>
 #include <cctype>
@@ -21,7 +22,23 @@ bool InputParser::isValidEntityId(int id) {
 }
 
 bool InputParser::isValidCoordinate(const Vec2& pos) {
-    return pos.x >= 0 && pos.y >= 0;
+    return pos.x >= 1 && pos.x <= VIEWPORT_WIDTH
+        && pos.y >= 0 && pos.y < VIEWPORT_HEIGHT;
+}
+
+/// Parse a viewport-relative coordinate token like "A20" or "t5".
+/// Letter (A-T) → Y index 0-19.  Number (1-80) → X 1-based.
+static Vec2 parseViewportCoord(const std::string& token) {
+    if (token.size() < 2)
+        throw std::invalid_argument("Coordinate must be <letter><number>, e.g. A20 or T5");
+    const char letter = static_cast<char>(std::toupper(static_cast<unsigned char>(token[0])));
+    if (letter < 'A' || letter > 'T')
+        throw std::invalid_argument(std::string("Y must be A-T, got: ") + token[0]);
+    const int x = std::stoi(token.substr(1));
+    if (x < 1 || x > VIEWPORT_WIDTH)
+        throw std::invalid_argument("X must be 1-" + std::to_string(VIEWPORT_WIDTH)
+                                    + ", got: " + std::to_string(x));
+    return Vec2{x, letter - 'A'};
 }
 
 bool InputParser::isValidSector(int sector_id) const {
@@ -35,23 +52,15 @@ int InputParser::parseId(const std::string& token) {
     return id;
 }
 
-Vec2 InputParser::parseCoords(const std::string& x, const std::string& y) {
-    Vec2 pos{std::stoi(x), std::stoi(y)};
-    if (!isValidCoordinate(pos))
-        throw std::invalid_argument("Coordinates out of valid range");
-    return pos;
-}
-
-
 InputParser::InputParser(int total_sectors) : _total_sectors(total_sectors) {}
 
 const std::unordered_map<std::string, InputParser::CommandDef> InputParser::_commands = {
 
     {"move", {
-        "move {entity_id} {x} {y}",
+        "move {entity_id} {coord}  (coord = letter A-T + number 1-80, e.g. A20 or T5)",
         [](const std::vector<std::string>& t) {
-            if (t.size() != 4) throw std::invalid_argument("move: expected entity_id x y");
-            return Action(Action::Type::MOVE, parseId(t[1]), parseCoords(t[2], t[3]));
+            if (t.size() != 3) throw std::invalid_argument("move: expected entity_id and coord (e.g. A20)");
+            return Action(Action::Type::MOVE, parseId(t[1]), parseViewportCoord(t[2]));
         }
     }},
 

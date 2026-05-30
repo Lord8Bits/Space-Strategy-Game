@@ -130,13 +130,21 @@ int main() {
                     Entity* e = map.getEntity(a.entity_id);
                     Ship*   s = dynamic_cast<Ship*>(e);
                     if (!s || !s->isAlive()) { message = "No controllable ship with that id."; break; }
-                    s->setDestination(a.target_position);
+                    // Translate viewport-relative coord (x:1-80, y:0-19/A-T)
+                    // to absolute world coord using the currently viewed chunk.
+                    const Chunk& viewed = map.getSelectedChunk();
+                    const Vec2 world_pos{
+                        viewed.getXStart() + (a.target_position.x - 1),
+                        viewed.getYStart() +  a.target_position.y
+                    };
+                    s->setDestination(world_pos);
                     s->advanceTowardDestination();
                     map.updateEntityChunk(a.entity_id);
                     player.refreshFogOfWar(map);
+                    const char y_letter = static_cast<char>('A' + a.target_position.y);
                     message = s->reachedDestination()
-                        ? s->getName() + " arrived at (" + std::to_string(a.target_position.x) + "," + std::to_string(a.target_position.y) + ")."
-                        : s->getName() + " moving toward (" + std::to_string(a.target_position.x) + "," + std::to_string(a.target_position.y) + "). Use 'next' to continue.";
+                        ? s->getName() + " arrived at " + y_letter + std::to_string(a.target_position.x) + " (world " + std::to_string(world_pos.x) + "," + std::to_string(world_pos.y) + ")."
+                        : s->getName() + " moving toward " + y_letter + std::to_string(a.target_position.x) + ". Use 'next' to continue.";
                     break;
                 }
 

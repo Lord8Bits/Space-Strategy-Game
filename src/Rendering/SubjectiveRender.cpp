@@ -47,25 +47,29 @@ void SubjectiveRender::draw(const Player& player, const Map& map) {
     GameUI::Color last_color = GameUI::Color::WHITE;
     _frame_buffer += GameUI::toAnsi(last_color);
 
-    // Top X-axis header — label every 10 columns with the world X coordinate
-    _frame_buffer += "    |";
-    for (int c = 0; c < VIEWPORT_WIDTH; c += 10) {
-        const std::string label = std::to_string(chunk.getXStart() + c);
-        _frame_buffer += label;
-        _frame_buffer += std::string(10 - label.size(), ' ');
+    // Top X-axis header — viewport columns 1-80
+    // Markers at: 1 (position 0), 10 (pos 9), 20 (pos 19) … 70 (pos 69), 80 (pos 78)
+    {
+        std::string x_header(VIEWPORT_WIDTH, ' ');
+        x_header[0] = '1';
+        for (int col = 10; col <= 70; col += 10) {
+            const std::string lbl = std::to_string(col);
+            const int pos = col - 1;
+            for (int i = 0; i < static_cast<int>(lbl.size()); ++i) x_header[pos + i] = lbl[i];
+        }
+        x_header[78] = '8'; x_header[79] = '0';   // "80" right-aligned at the edge
+        _frame_buffer += "   |" + x_header + '\n';
+        _frame_buffer += "---+" + std::string(VIEWPORT_WIDTH, '-') + '\n';
     }
-    _frame_buffer += '\n';
-    _frame_buffer += "----+" + std::string(VIEWPORT_WIDTH, '-') + '\n';
 
-    // Rows with left Y-axis label
+    // Rows with left Y-axis letter label (A=row 0 … T=row 19)
     for (int y = 0; y < VIEWPORT_HEIGHT; ++y) {
-        // Y label (WHITE)
         if (last_color != GameUI::Color::WHITE) {
             _frame_buffer += GameUI::toAnsi(GameUI::Color::WHITE);
             last_color = GameUI::Color::WHITE;
         }
-        const std::string y_label = std::to_string(chunk.getYStart() + y);
-        _frame_buffer += std::string(3 - y_label.size(), ' ') + y_label + " |";
+        const char y_letter = static_cast<char>('A' + y);
+        _frame_buffer += "  " + std::string(1, y_letter) + "|";
 
         // Cell content
         for (int x = 0; x < VIEWPORT_WIDTH; ++x) {
@@ -177,10 +181,11 @@ void SubjectiveRender::drawUI(const Player& player, const Civilization& civ,
     if (!last_message.empty())
         ui << " > " << last_message << "\n----------------------------------------------------------------\n";
 
-    ui << " COMMANDS: move <id> <x> <y> | attack <id> <target_id> | view <sector>\n";
+    ui << " COMMANDS: move <id> <coord>  (coord = letter A-T + number 1-80, e.g. A20 or T5)\n";
+    ui << "           attack <id> <target_id> | view <sector>\n";
     ui << "           build <fighter|cruiser|transport> <planet_id>\n";
     ui << "           next | status <id> | help | quit\n";
-    ui << " LEGEND: ▲ Fighter  ◆ Cruiser  ■ Transport  ● Planet\n";
+    ui << " LEGEND: ▲ Fighter  ◆ Cruiser  ■ Transport  ● Planet (green/yellow/cyan by type)\n";
     ui << "================================================================\n";
     ui << " Input: ";
 
