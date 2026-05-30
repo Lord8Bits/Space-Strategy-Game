@@ -11,15 +11,13 @@ Cruiser::Cruiser(const std::string& Name, const Vec2& Pos, Civilization* Owner) 
         ShipType::CRUISER),
         _shieldStrength(GameConstants::CRUISER_SHIELD) {}
 
-int Cruiser::absorbDamage(int damage){
+int Cruiser::absorbDamage(int damage) {
     if (damage <= 0) return 0;
     if (_shieldStrength <= 0) return damage;
 
-    int absorbed = std::min(_shieldStrength, damage);
+    const int absorbed = std::min(_shieldStrength, damage);
     _shieldStrength -= absorbed;
-    damage -= absorbed;
-    
-    return damage;
+    return damage - absorbed;
 }
 
 void Cruiser::levelUp(){

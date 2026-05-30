@@ -37,9 +37,11 @@ Resource Transport::unloadCargo(const Resource& requested)
     return requested;           // return the transferred amount to the caller
 }
 
-void Transport::attack(Entity& target, CombatSystem& combatSystem)
+CombatResult Transport::attack(Entity& /*target*/, CombatSystem& /*combatSystem*/)
 {
-    // Transports cannot attack — intentional no-op
+    CombatResult result;
+    result.logs.push_back({0, getName() + " cannot attack — transports are unarmed."});
+    return result;
 }
 
 void Transport::interactEntity(Entity* other, CombatSystem& combatSystem)

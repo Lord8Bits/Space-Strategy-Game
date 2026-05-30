@@ -11,7 +11,7 @@ public:
     Transport(const std::string& Name, const Vec2& Pos, Civilization* Owner);
 
     std::string getDetailedInfo() const override;
-    void attack(Entity& target, CombatSystem& CombatSystem) override;
+    CombatResult attack(Entity& target, CombatSystem& combatSystem) override;
     void levelUp() override;
     void interactEntity(Entity* other, CombatSystem& combatSystem) override;
 

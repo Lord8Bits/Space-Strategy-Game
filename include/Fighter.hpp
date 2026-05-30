@@ -8,7 +8,7 @@ class Fighter : public Ship{
 public:
     Fighter(const std::string& Name, const Vec2& Pos, Civilization* Owner);
 
-    bool tryDodge(const Ship& attacker) const;
+    bool tryDodge(const Ship& attacker) const override;
 
     std::string getDetailedInfo() const override;
     void levelUp() override;

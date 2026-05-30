@@ -39,9 +39,10 @@ public:
     char getSymbol()       const override;
     EntityType getType()   const override { return EntityType::PLANET; }
     std::string getDetailedInfo() const override;
-    bool isAlive()         const override { return true; }   ///< Planets cannot be destroyed
-    void takeDamage(int)         override {}                 ///< Planets ignore damage
-    int  getXpReward()     const override { return 0; }      ///< No XP for attacking a planet
+    bool isAlive()          const override { return true; }   ///< Planets cannot be destroyed
+    void takeDamage(int)          override {}                 ///< Planets ignore damage
+    int  getXpReward()      const override { return 0; }      ///< No XP for attacking a planet
+    bool canBeAttacked()    const override { return false; }  ///< Planets cannot be targeted
     void update()                override {}
 
     /// @brief Planets do not initiate combat — no-op.

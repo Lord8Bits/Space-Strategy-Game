@@ -8,7 +8,7 @@ class Cruiser : public Ship{
 public:
     Cruiser(const std::string& Name, const Vec2& Pos, Civilization* Owner);
 
-    int absorbDamage(int Damage);
+    int absorbDamage(int damage) override;
 
     std::string getDetailedInfo() const override;
     void levelUp() override;

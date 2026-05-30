@@ -5,6 +5,7 @@
 #include "Civilization.hpp"
 
 class CombatSystem;
+class Ship;
 
 class Entity : public Updatable{
 protected:
@@ -16,8 +17,8 @@ protected:
 
 public:
     Entity(const std::string& Name, const Vec2& Pos, Civilization* Owner = nullptr);
-    virtual ~Entity() = default;    
-    
+    virtual ~Entity() = default;
+
     //Pure virtual functions
     virtual char getSymbol() const = 0;
     virtual EntityType getType() const = 0;
@@ -26,6 +27,11 @@ public:
     virtual bool isAlive() const = 0;
     virtual void takeDamage(int damage) = 0;
     virtual int getXpReward() const = 0;
+
+    // Combat participation — override to opt out (e.g. Planet) or add special behaviour.
+    virtual bool canBeAttacked() const { return true; }
+    virtual bool tryDodge(const Ship& attacker) const { return false; }
+    virtual int  absorbDamage(int damage) { return damage; }
 
     int getId() const { return _id; }
     std::string getName() const { return _name; }
