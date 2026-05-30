@@ -8,6 +8,10 @@
 #include <set>
 #include <string>
 
+class Map;
+class CombatSystem;
+class Ship;
+
 class Civilization : public Updatable {
 protected:
     std::string _name;
@@ -24,6 +28,19 @@ public:
 
     void update() override;
     void isAllyAttacked(const Civilization& ally, const Civilization* attacker);
+
+    /// @brief Execute one AI turn for this civilization.
+    /// Has no effect for PLAYER or PEACEFUL civilizations.
+    /// Called by Game::advanceTurn() after all entity updates.
+    void takeTurn(Map& map, CombatSystem& combat);
+
+private:
+    // ── AI helpers ────────────────────────────────────────────────────────────
+    void aiActAggressive  (Ship& ship, Map& map, CombatSystem& combat);
+    void aiActExpansionist(Ship& ship, Map& map, CombatSystem& combat);
+    void aiActNeutral     (Ship& ship, Map& map, CombatSystem& combat);
+
+public:
 
     // Entity fleet tracking
     void addEntity(int entity_id)    { _entity_ids.insert(entity_id); }

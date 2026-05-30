@@ -1,5 +1,7 @@
 #include "../../include/Map.hpp"
+#include "../../include/Planet.hpp"
 #include <stdexcept>
+#include <limits>
 
 Map::Map(const int num_rows, const int num_cols)
     : _chunk_row(num_rows), _chunk_col(num_cols)
@@ -108,6 +110,30 @@ std::string Map::toViewportCoord(const Vec2& world_pos) const {
     const int local_x = (world_pos.x % VIEWPORT_WIDTH) + 1;       // 1-80
     const int local_y =  world_pos.y % VIEWPORT_HEIGHT;            // 0-19
     return std::string(1, static_cast<char>('A' + local_y)) + std::to_string(local_x);
+}
+
+Entity* Map::findNearestEnemy(const Vec2& from, const Civilization& myCiv) const {
+    Entity* nearest = nullptr;
+    int minDist = std::numeric_limits<int>::max();
+    for (const auto& [id, entity] : _all_entities) {
+        if (!entity->isAlive()) continue;
+        if (!entity->getCivOwner() || entity->getCivOwner() == &myCiv) continue;
+        const int dist = entity->getPosition().distanceTo(from);
+        if (dist < minDist) { minDist = dist; nearest = entity.get(); }
+    }
+    return nearest;
+}
+
+Entity* Map::findNearestUncolonizedPlanet(const Vec2& from) const {
+    Entity* nearest = nullptr;
+    int minDist = std::numeric_limits<int>::max();
+    for (const auto& [id, entity] : _all_entities) {
+        const Planet* p = entity->asPlanet();
+        if (!p || p->isColonized()) continue;
+        const int dist = entity->getPosition().distanceTo(from);
+        if (dist < minDist) { minDist = dist; nearest = entity.get(); }
+    }
+    return nearest;
 }
 
 Entity* Map::findPlanetAt(const Vec2& pos) const {

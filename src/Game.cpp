@@ -63,6 +63,8 @@ void Game::initWorld() {
 
 void Game::advanceTurn() {
     const int saved = _map.getSelectedChunkIndex();
+
+    // Step 1: tick every entity (resets movement points, advances auto-travel)
     for (int r = 0; r < _map.getChunkRows(); ++r) {
         for (int c = 0; c < _map.getChunkCols(); ++c) {
             _map.changeSelectedChunk(c, r);
@@ -74,6 +76,24 @@ void Game::advanceTurn() {
             }
         }
     }
+
+    // Step 2: run enemy AI turns
+    _enemy_civ.takeTurn(_map, _combat);
+
+    // Step 3: clean up player ships destroyed by enemy AI this turn
+    {
+        std::vector<int> killed;
+        for (int id : _player.getShipIds()) {
+            Entity* e = _map.getEntity(id);
+            if (e && !e->isAlive()) killed.push_back(id);
+        }
+        for (int id : killed) {
+            _player.removeShipId(id);
+            _player_civ.removeEntity(id);
+            _map.removeEntity(id);
+        }
+    }
+
     _map.changeSelectedChunk(saved % _map.getChunkCols(), saved / _map.getChunkCols());
     ++_turn;
     _player.refreshFogOfWar(_map);
@@ -129,6 +149,16 @@ std::string Game::executeAction(const Action& a) {
             for (const auto& l : res.logs) log << l.message << " | ";
 
             if (res.isDestroyed) {
+                // If a Transport was destroyed at a planet, the attacker's civ colonizes it
+                const Ship* defShip = defE->asShip();
+                if (defShip && defShip->canMine()) {
+                    Entity* pe = _map.findPlanetAt(defE->getPosition());
+                    Planet* p  = pe ? pe->asPlanet() : nullptr;
+                    if (p && p->getCivOwner() != atk->getCivOwner()) {
+                        p->colonize(atk->getCivOwner());
+                        if (atk->getCivOwner()) atk->getCivOwner()->addEntity(pe->getId());
+                    }
+                }
                 _player.removeShipId(a.target_entity_id);
                 _enemy_civ.removeEntity(a.target_entity_id);
                 _map.removeEntity(a.target_entity_id);
@@ -187,6 +217,28 @@ std::string Game::executeAction(const Action& a) {
             _player_civ.addEntity(new_id);
             _player.refreshFogOfWar(_map);
             return type_name + " [" + std::to_string(new_id) + "] built at Terra.";
+        }
+
+        // ── COLONIZE (Transport at planet position) ───────────────────────────
+        case Action::Type::COLONIZE: {
+            Entity* e = _map.getEntity(a.entity_id);
+            Ship*   s = e ? e->asShip() : nullptr;
+            if (!s || !s->isAlive() || !s->canMine())
+                return "Only a Transport can colonize — bring one to the planet.";
+
+            Entity* pe = _map.findPlanetAt(s->getPosition());
+            Planet* p  = pe ? pe->asPlanet() : nullptr;
+            if (!p)
+                return "No planet at " + _map.toViewportCoord(s->getPosition()) + ".";
+            if (p->getCivOwner() == &_player_civ)
+                return p->getName() + " is already yours.";
+            if (p->getCivOwner() == &_enemy_civ)
+                return "Cannot colonize an enemy planet — destroy their ships there first.";
+
+            p->colonize(&_player_civ);
+            _player_civ.addEntity(pe->getId());
+            _player.refreshFogOfWar(_map);
+            return p->getName() + " colonized for " + _player_civ.getName() + "!";
         }
 
         // ── MINE (Transport at planet position) ────────────────────────────────

@@ -72,6 +72,14 @@ const std::unordered_map<std::string, InputParser::CommandDef> InputParser::_com
         }
     }},
 
+    {"colonize", {
+        "colonize {transport_id}  (transport must be at the planet's position)",
+        [](const std::vector<std::string>& t) {
+            if (t.size() != 2) throw std::invalid_argument("colonize: expected transport_id");
+            return Action(Action::Type::COLONIZE, parseId(t[1]));
+        }
+    }},
+
     {"mine", {
         "mine {entity_id}",
         [](const std::vector<std::string>& t) {

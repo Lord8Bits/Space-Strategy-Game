@@ -12,6 +12,7 @@ struct Action {
         UNLOAD_CARGO,
         RESEARCH,
         BUILD,
+        COLONIZE,
         VIEW_SECTOR
     };
 

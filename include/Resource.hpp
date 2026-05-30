@@ -1,6 +1,8 @@
 #ifndef RESOURCE_H
 #define RESOURCE_H
 
+#include <ostream>
+
 class Resource {
 
 private:
@@ -42,6 +44,10 @@ public:
 
     bool operator==(const Resource& other) const;
     bool operator!=(const Resource& other) const;
+
+    /// @brief Stream output — friend so it can read private fields directly.
+    /// Example: std::cout << myResource;
+    friend std::ostream& operator<<(std::ostream& os, const Resource& r);
 };
 
 #endif
