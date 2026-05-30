@@ -5,6 +5,23 @@
 #include <iostream>
 #include <sstream>
 
+// ── Compact ANSI palette for the UI panel ─────────────────────────────────────
+namespace {
+    constexpr std::string_view R    = "\x1b[0m";      // reset
+    constexpr std::string_view DIM  = "\x1b[2m";      // dimmed
+    constexpr std::string_view BOLD = "\x1b[1m";
+    constexpr std::string_view CYN  = "\x1b[36m";     // cyan
+    constexpr std::string_view YEL  = "\x1b[33m";     // yellow
+    constexpr std::string_view GRN  = "\x1b[32m";     // green
+    constexpr std::string_view RED  = "\x1b[31m";     // red
+    constexpr std::string_view WHT  = "\x1b[37m";     // white
+    constexpr std::string_view BCYN = "\x1b[1;36m";   // bold cyan
+    constexpr std::string_view BYEL = "\x1b[1;33m";   // bold yellow
+    constexpr std::string_view BGRN = "\x1b[1;32m";   // bold green
+    constexpr std::string_view BRED = "\x1b[1;31m";   // bold red
+    constexpr std::string_view DGRY = "\x1b[90m";     // dark gray
+}
+
 // ─── draw ─────────────────────────────────────────────────────────────────────
 
 void SubjectiveRender::draw(const Player& player, const Map& map) {
@@ -97,29 +114,56 @@ void SubjectiveRender::drawUI(const Player& player, const Civilization& civ,
     const Resource& res      = civ.getResources();
 
     std::ostringstream ui;
-    ui << "================================================================\n";
-    ui << " Turn " << turn
-       << "  |  " << civ.getName()
-       << "  |  Sector " << selected << "/" << total
-       << "  |  Explored " << static_cast<int>(player.getPerception().explorationRatio() * 100) << "%\n";
-    ui << " Resources: Gold=" << res.getGold()
-       << "  Titanium=" << res.getTitanium()
-       << "  Cadmium=" << res.getCadmium()
-       << "  |  Plasma Cannons Lv" << civ.getWeaponTech().getLevel()
-       << " (+" << civ.getAttackBonus() << " Fighter ATK)\n";
-    ui << "----------------------------------------------------------------\n";
 
-    // ── Fleet ────────────────────────────────────────────────────────────────
-    ui << " YOUR FLEET:\n";
+    // ── Header bar ────────────────────────────────────────────────────────────
+    ui << DGRY << "================================================================" << R << "\n";
+    ui << " " << BYEL << "Turn " << turn << R
+       << "  |  " << BCYN << civ.getName() << R
+       << "  |  " << WHT << "Sector " << selected << "/" << total << R
+       << "  |  " << GRN << "Explored " << static_cast<int>(player.getPerception().explorationRatio() * 100) << "%" << R << "\n";
+
+    // ── Resources ─────────────────────────────────────────────────────────────
+    ui << " " << WHT << "Resources:" << R
+       << "  " << YEL << "Gold "     << BYEL << res.getGold()      << R
+       << "   " << CYN << "Titanium " << BCYN << res.getTitanium()  << R
+       << "   " << GRN << "Cadmium "  << BGRN << res.getCadmium()   << R
+       << "   " << DGRY << "|" << R
+       << "  " << CYN << "Plasma Cannons Lv" << BCYN << civ.getWeaponTech().getLevel() << R
+       << CYN << " (+" << civ.getAttackBonus() << " Fighter ATK)" << R << "\n";
+    ui << DGRY << "----------------------------------------------------------------" << R << "\n";
+
+    // ── Fleet ─────────────────────────────────────────────────────────────────
+    ui << " " << BCYN << "YOUR FLEET:" << R << "\n";
     for (const int id : player.getShipIds()) {
         const Entity* e = map.getEntity(id);
         if (!e) continue;
-        // getDetailedInfo() is virtual — no cast needed
-        ui << "   " << e->getDetailedInfo()
-           << "  @" << map.toViewportCoord(e->getPosition())
-           << "  (sector " << map.sectorOf(e->getPosition()) << ")\n";
+
+        const Ship* s = e->asShip();
+        // Color HP: green if > 50%, yellow if > 25%, red if critical
+        std::string_view hp_color = BGRN;
+        if (s && s->getMaxHealth() > 0) {
+            const int pct = s->getHealth() * 100 / s->getMaxHealth();
+            if (pct <= 25) hp_color = BRED;
+            else if (pct <= 50) hp_color = BYEL;
+        }
+        // Color MP: green if full, yellow if partial, red if zero
+        std::string_view mp_color = BGRN;
+        if (s) {
+            if (s->getMovementPoints() == 0) mp_color = BRED;
+            else if (s->getMovementPoints() < s->getMovementRange()) mp_color = BYEL;
+        }
+
+        ui << "   " << BCYN << e->getName() << R
+           << " [" << DGRY << id << R << "]"
+           << "  " << hp_color << "HP " << e->getHealth() << "/" << e->getMaxHealth() << R;
+        if (s) {
+            ui << "  " << YEL << "ATK " << e->getAttackPower() << R
+               << "  " << mp_color << "MP " << s->getMovementPoints() << "/" << s->getMovementRange() << R;
+        }
+        ui << "  " << BYEL << "@" << map.toViewportCoord(e->getPosition()) << R
+           << "  " << DGRY << "(sector " << map.sectorOf(e->getPosition()) << ")" << R << "\n";
     }
-    ui << "----------------------------------------------------------------\n";
+    ui << DGRY << "----------------------------------------------------------------" << R << "\n";
 
     // ── Single pass: collect visible enemies and known planets ────────────────
     std::ostringstream enemy_buf, planet_buf;
@@ -137,55 +181,63 @@ void SubjectiveRender::drawUI(const Player& player, const Civilization& civ,
                 if (e->isAlive() && e->getCivOwner() && e->getCivOwner() != &civ) {
                     if (player.getPerception().isVisible(pos.x, pos.y, map.getWorldWidth())) {
                         anyEnemy = true;
-                        enemy_buf << "   [" << id << "] " << e->getName()
-                                  << "  " << e->getCivOwner()->getName();
-                        // Use virtual getters — no cast
-                        if (e->getMaxHealth() > 0)
-                            enemy_buf << "  HP:" << e->getHealth() << "/" << e->getMaxHealth();
-                        enemy_buf << "  @" << map.toViewportCoord(pos)
-                                  << "  (sector " << map.sectorOf(pos) << ")\n";
+                        enemy_buf << "   " << BRED << "[" << id << "] " << e->getName() << R
+                                  << "  " << RED << e->getCivOwner()->getName() << R;
+                        if (e->getMaxHealth() > 0) {
+                            const int pct = e->getHealth() * 100 / e->getMaxHealth();
+                            std::string_view hc = (pct <= 25) ? BRED : (pct <= 50) ? BYEL : BGRN;
+                            enemy_buf << "  " << hc << "HP:" << e->getHealth() << "/" << e->getMaxHealth() << R;
+                        }
+                        enemy_buf << "  " << YEL << "@" << map.toViewportCoord(pos) << R
+                                  << "  " << DGRY << "(sector " << map.sectorOf(pos) << ")" << R << "\n";
                     }
                 }
 
-                // Known planets — use asPlanet() self-cast
+                // Known planets
                 const Planet* p = e->asPlanet();
                 if (p && player.getPerception().isDiscovered(pos.x, pos.y, map.getWorldWidth())) {
                     anyPlanet = true;
-                    planet_buf << "   [" << id << "] " << p->getName()
-                               << "  @" << map.toViewportCoord(pos)
-                               << "  resources:" << p->getResourceCount()
-                               << "  (sector " << map.sectorOf(pos) << ")";
+                    // Planet name color matches planet symbol color (type-based)
+                    std::string_view pc = GRN;
+                    switch (p->getPlanetType()) {
+                        case PlanetType::MINERAL: pc = YEL; break;
+                        case PlanetType::ENERGY:  pc = CYN; break;
+                        default: break;
+                    }
+                    planet_buf << "   " << pc << "[" << id << "] " << p->getName() << R
+                               << "  " << BYEL << "@" << map.toViewportCoord(pos) << R
+                               << "  " << WHT << "res:" << BGRN << p->getResourceCount() << R
+                               << "  " << DGRY << "(sector " << map.sectorOf(pos) << ")" << R;
                     if (p->isColonized())
-                        planet_buf << "  [" << p->getCivOwner()->getName() << "]";
+                        planet_buf << "  " << CYN << "[" << p->getCivOwner()->getName() << "]" << R;
                     planet_buf << "\n";
                 }
             }
         }
     }
 
-    // Restore the sector the player was viewing
+    // Restore viewed sector
     const int sel = selected - 1;
     map.changeSelectedChunk(sel % map.getChunkCols(), sel / map.getChunkCols());
 
     if (anyEnemy) {
-        ui << " VISIBLE ENEMIES:\n" << enemy_buf.str();
-        ui << "----------------------------------------------------------------\n";
+        ui << " " << BRED << "VISIBLE ENEMIES:" << R << "\n" << enemy_buf.str();
+        ui << DGRY << "----------------------------------------------------------------" << R << "\n";
     }
     if (anyPlanet) {
-        ui << " KNOWN PLANETS:\n" << planet_buf.str();
-        ui << "----------------------------------------------------------------\n";
+        ui << " " << BYEL << "KNOWN PLANETS:" << R << "\n" << planet_buf.str();
+        ui << DGRY << "----------------------------------------------------------------" << R << "\n";
     }
 
     if (!last_message.empty())
-        ui << " > " << last_message << "\n----------------------------------------------------------------\n";
+        ui << " " << BCYN << ">" << R << " " << WHT << last_message << R
+           << "\n" << DGRY << "----------------------------------------------------------------" << R << "\n";
 
-    ui << " COMMANDS: move <id> <coord>  (e.g. A20 or T5 — relative to viewed sector)\n";
-    ui << "           attack <id> <target_id>  |  mine <transport_id>  |  research\n";
-    ui << "           build <fighter|cruiser|transport>  |  view <sector>  |  next\n";
-    ui << "           status <id>  |  help  |  quit\n";
-    ui << " LEGEND: ▲=Fighter  ◆=Cruiser  ■=Transport  ●=Planet (green/yellow/cyan)\n";
-    ui << "================================================================\n";
-    ui << " Input: ";
+    ui << DGRY << " move <id> <coord>  attack <id> <target>  mine <id>  research\n";
+    ui << " build <fighter|cruiser|transport>  view <sector>  next  status <id>  quit\n";
+    ui << " ▲=Fighter  ◆=Cruiser  ■=Transport  ●=Planet (green/yellow/cyan)\n";
+    ui << "================================================================" << R << "\n";
+    ui << WHT << " Input: " << R;
 
     std::cout << ui.str();
     std::cout.flush();
