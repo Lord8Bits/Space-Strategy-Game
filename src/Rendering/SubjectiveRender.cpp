@@ -20,6 +20,41 @@ namespace {
     constexpr std::string_view BGRN = "\x1b[1;32m";   // bold green
     constexpr std::string_view BRED = "\x1b[1;31m";   // bold red
     constexpr std::string_view DGRY = "\x1b[90m";     // dark gray
+    GameUI::Color relationCellColor(const Civilization* viewer, const Entity& entity) {
+        const Civilization* owner = entity.getCivOwner();
+        if (!viewer || !owner || owner == viewer) return entity.getDisplayColor();
+
+        switch (viewer->getRelationWith(*owner)) {
+            case Relation::ALLY:    return GameUI::Color::GREEN;
+            case Relation::NEUTRAL: return GameUI::Color::WHITE;
+            case Relation::ENEMY:   return GameUI::Color::RED;
+            default:                return entity.getDisplayColor();
+        }
+    }
+
+    std::string_view relationTextColor(const Civilization& viewer, const Civilization* owner) {
+        if (!owner) return WHT;
+        if (owner == &viewer) return CYN;
+
+        switch (viewer.getRelationWith(*owner)) {
+            case Relation::ALLY:    return GRN;
+            case Relation::NEUTRAL: return DGRY;
+            case Relation::ENEMY:   return RED;
+            default:                return WHT;
+        }
+    }
+
+    std::string_view relationBrightTextColor(const Civilization& viewer, const Civilization* owner) {
+        if (!owner) return WHT;
+        if (owner == &viewer) return BCYN;
+
+        switch (viewer.getRelationWith(*owner)) {
+            case Relation::ALLY:    return BGRN;
+            case Relation::NEUTRAL: return WHT;
+            case Relation::ENEMY:   return BRED;
+            default:                return WHT;
+        }
+    }
 }
 
 // ─── draw ─────────────────────────────────────────────────────────────────────
