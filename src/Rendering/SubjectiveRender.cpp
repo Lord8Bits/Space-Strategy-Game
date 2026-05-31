@@ -83,7 +83,9 @@ void SubjectiveRender::drawInternal(const Player& player, const Map& map, const 
         const Vec2 wp = entity->getPosition();
         if (!vp.isInViewport(wp.x, wp.y)) continue;
         if (classifyCell(perc, wp.x, wp.y, world_width) != CellVisibility::Visible) continue;
-        _viewport[vp.toIndex(wp.x, wp.y)] = Render::makeCell(*entity);
+        GameUI::Cell cell = Render::makeCell(*entity);
+        cell.color = relationCellColor(civ, *entity);
+        _viewport[vp.toIndex(wp.x, wp.y)] = cell;
     }
 
     // Step 3: Fog / memory overlay on empty cells
