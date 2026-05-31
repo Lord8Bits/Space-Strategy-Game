@@ -2,7 +2,7 @@
 
 #include "Perception.hpp"
 #include "Map.hpp"
-#include "../src/Utils/Enums.hpp"
+#include "Enums.hpp"
 #include <string>
 #include <set>
 

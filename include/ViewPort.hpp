@@ -5,8 +5,8 @@
 #ifndef SPACE_STRATEGY_GAME_VIEWPORT_H
 #define SPACE_STRATEGY_GAME_VIEWPORT_H
 
-#include "../src/Utils/Constants.hpp"
-#include "../src/Utils/Position.hpp"
+#include "Constants.hpp"
+#include "Position.hpp"
 
 
 class ViewPort {

@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
-#include "../src/Utils/Position.hpp"
-#include "../src/Utils/Enums.hpp"
+#include "Position.hpp"
+#include "Enums.hpp"
 #include "Civilization.hpp"
 
 class CombatSystem;

@@ -1,6 +1,6 @@
 #pragma once
 #include "Ship.hpp"
-#include "../src/Utils/Constants.hpp"
+#include "Constants.hpp"
 #include "Resource.hpp"
 
 /// @brief Non-combat logistics ship — mines planets and colonizes territories.

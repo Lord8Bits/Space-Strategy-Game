@@ -2,7 +2,7 @@
 
 #include <bitset>
 #include <cstdlib>
-#include "../src/Utils/Constants.hpp"
+#include "Constants.hpp"
 
 /// @brief Tracks which world cells a player can see this turn and has ever explored.
 ///

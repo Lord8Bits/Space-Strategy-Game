@@ -5,7 +5,7 @@
 #include "Player.hpp"
 #include "Perception.hpp"
 #include "ViewPort.hpp"
-#include "../src/Utils/Constants.hpp"
+#include "Constants.hpp"
 #include <array>
 #include <string>
 

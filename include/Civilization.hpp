@@ -2,8 +2,8 @@
 #include "Updatable.hpp"
 #include "Resource.hpp"
 #include "Technology.hpp"
-#include "../src/Utils/Enums.hpp"
-#include "../src/Utils/Constants.hpp"
+#include "Enums.hpp"
+#include "Constants.hpp"
 #include <unordered_map>
 #include <set>
 #include <string>

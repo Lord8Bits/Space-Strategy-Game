@@ -1,5 +1,5 @@
 #pragma once
-#include "../src/Utils/Enums.hpp"
+#include "Enums.hpp"
 #include "Entity.hpp"
 #include "CombatResult.hpp"
 

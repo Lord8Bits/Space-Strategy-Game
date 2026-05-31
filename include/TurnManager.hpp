@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../src/Utils/Action.hpp"
+#include "Action.hpp"
 #include "Map.hpp"
 #include "Render.hpp"
 #include "SubjectiveRender.hpp"

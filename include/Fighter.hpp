@@ -1,6 +1,6 @@
 #pragma once
 #include "Ship.hpp"
-#include "../src/Utils/Constants.hpp"
+#include "Constants.hpp"
 
 /// @brief Fast melee combat ship — high damage, short range, evasion ability.
 ///

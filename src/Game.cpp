@@ -3,7 +3,7 @@
 #include "../include/Cruiser.hpp"
 #include "../include/Transport.hpp"
 #include "../include/Planet.hpp"
-#include "../src/Utils/Constants.hpp"
+#include "../include/Constants.hpp"
 #include <iostream>
 #include <sstream>
 

@@ -2,7 +2,7 @@
 
 #include "Entity.hpp"
 #include "Resource.hpp"
-#include "../src/Utils/Enums.hpp"
+#include "Enums.hpp"
 #include <string>
 
 /// @brief Represents a planet in the game world.

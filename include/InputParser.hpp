@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../src/Utils/Action.hpp"
-#include "../src/Utils/Position.hpp"
+#include "Action.hpp"
+#include "Position.hpp"
 #include <string>
 #include <vector>
 #include <unordered_map>

@@ -1,6 +1,6 @@
 #pragma once
 #include "Ship.hpp"
-#include "../src/Utils/Constants.hpp"
+#include "Constants.hpp"
 
 /// @brief Heavy ranged warship — durable hull, energy shield, 3-tile attack range.
 ///
