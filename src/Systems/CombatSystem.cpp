@@ -34,6 +34,14 @@ CombatResult CombatSystem::resolveCombat(Ship& attacker, Entity& defender) {
         return result;
     }
 
+    const int dist = attacker.getPosition().distanceTo(defender.getPosition());
+    if (dist > attacker.getAttackRange()) {
+        addLog(result, attacker.getName() + " is out of range (range "
+               + std::to_string(attacker.getAttackRange())
+               + ", distance " + std::to_string(dist) + ")!");
+        return result;
+    }
+
     attacker.setState(ShipState::ATTACKING);
     attacker.setMovementPoints(0);   // attacking costs all remaining movement
     addLog(result, attacker.getName() + " attacks " + defender.getName() + "!");
@@ -69,8 +77,10 @@ CombatResult CombatSystem::resolveCombat(Ship& attacker, Entity& defender) {
         }
     }
 
-    // ── Counter-attack (if defender survived and can fight back) ──────────────
-    if (!result.isDestroyed && !result.dodged && defender.canCounterAttack() && attacker.isAlive()) {
+    // ── Counter-attack — only at melee range (dist <= 1) ─────────────────────
+    // Ranged attackers (Cruiser range 3) deal damage safely from afar.
+    if (!result.isDestroyed && !result.dodged && defender.canCounterAttack()
+        && attacker.isAlive() && dist <= 1) {
         const int counterPow = defender.getAttackPower();
         if (counterPow > 0) {
             addLog(result, defender.getName() + " counter-attacks!");

@@ -9,7 +9,10 @@ Cruiser::Cruiser(const std::string& Name, const Vec2& Pos, Civilization* Owner) 
         GameConstants::CRUISER_VISION_RANGE,
         GameConstants::CRUISER_ATTACK,
         ShipType::CRUISER),
-        _shieldStrength(GameConstants::CRUISER_SHIELD) {}
+        _shieldStrength(GameConstants::CRUISER_SHIELD)
+{
+    _attackRange = GameConstants::CRUISER_ATTACK_RANGE;
+}
 
 int Cruiser::absorbDamage(int damage) {
     if (damage <= 0) return 0;

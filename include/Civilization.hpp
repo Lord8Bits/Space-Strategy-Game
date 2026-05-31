@@ -39,6 +39,7 @@ private:
     void aiActAggressive  (Ship& ship, Map& map, CombatSystem& combat);
     void aiActExpansionist(Ship& ship, Map& map, CombatSystem& combat);
     void aiActNeutral     (Ship& ship, Map& map, CombatSystem& combat);
+    void aiRoam           (Ship& ship, Map& map);
 
 public:
 

@@ -5,6 +5,16 @@
 #include <iostream>
 #include <sstream>
 
+// Returns RED for any entity whose owner is currently an enemy of playerCiv,
+// otherwise falls back to the entity's own display color.
+static GameUI::Color resolveEntityColor(const Entity& entity, const Civilization& playerCiv) {
+    const Civilization* owner = entity.getCivOwner();
+    if (owner && owner != &playerCiv
+        && playerCiv.getRelationWith(*owner) == Relation::ENEMY)
+        return GameUI::Color::RED;
+    return entity.getDisplayColor();
+}
+
 // ── Compact ANSI palette for the UI panel ─────────────────────────────────────
 namespace {
     constexpr std::string_view R    = "\x1b[0m";      // reset
@@ -59,15 +69,7 @@ namespace {
 
 // ─── draw ─────────────────────────────────────────────────────────────────────
 
-void SubjectiveRender::draw(const Player& player, const Map& map) {
-    drawInternal(player, map, nullptr);
-}
-
-void SubjectiveRender::draw(const Player& player, const Map& map, const Civilization& civ) {
-    drawInternal(player, map, &civ);
-}
-
-void SubjectiveRender::drawInternal(const Player& player, const Map& map, const Civilization* civ) {
+void SubjectiveRender::draw(const Player& player, const Map& map, const Civilization* playerCiv) {
     const Chunk&      chunk       = map.getSelectedChunk();
     const int         world_width = map.getWorldWidth();
     const ViewPort    vp(chunk.getXStart(), chunk.getYStart());
@@ -84,7 +86,7 @@ void SubjectiveRender::drawInternal(const Player& player, const Map& map, const 
         if (!vp.isInViewport(wp.x, wp.y)) continue;
         if (classifyCell(perc, wp.x, wp.y, world_width) != CellVisibility::Visible) continue;
         GameUI::Cell cell = Render::makeCell(*entity);
-        cell.color = relationCellColor(civ, *entity);
+        if (playerCiv) cell.color = resolveEntityColor(*entity, *playerCiv);
         _viewport[vp.toIndex(wp.x, wp.y)] = cell;
     }
 
@@ -152,7 +154,7 @@ void SubjectiveRender::drawInternal(const Player& player, const Map& map, const 
 void SubjectiveRender::drawUI(const Player& player, const Civilization& civ,
                                Map& map, int turn, const std::string& last_message) {
     Render::clearScreen();
-    draw(player, map, civ);
+    draw(player, map, &civ);
 
     const int       selected = map.getSelectedChunkIndex() + 1;
     const int       total    = map.getChunkRows() * map.getChunkCols();
@@ -281,9 +283,9 @@ void SubjectiveRender::drawUI(const Player& player, const Civilization& civ,
         ui << " " << BCYN << ">" << R << " " << WHT << last_message << R
            << "\n" << DGRY << "----------------------------------------------------------------" << R << "\n";
 
-    ui << DGRY << " move <id> <coord>  attack <id> <target>  mine <id>  research\n";
-    ui << " build <fighter|cruiser|transport>  view <sector>  next  status <id>  quit\n";
-    ui << " ▲=Fighter  ◆=Cruiser  ■=Transport  ●=Planet (green/yellow/cyan)\n";
+    ui << DGRY << " move <id> <coord>  attack <id> <target>  cancel <id>  mine <id>  research\n";
+    ui << " build <fighter|cruiser|transport>  colonize <id>  view <sector>  next  status <id>  quit\n";
+    ui << " ▲=Fighter(ATK50 rng1)  ◆=Cruiser(ATK25 rng3,no-retaliation)  ■=Transport  ●=Planet\n";
     ui << "================================================================" << R << "\n";
     ui << WHT << " Input: " << R;
 

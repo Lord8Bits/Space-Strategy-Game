@@ -3,6 +3,7 @@
 #include "../../include/CombatSystem.hpp"
 #include "../../include/Ship.hpp"
 #include "../../include/Planet.hpp"
+#include <cstdlib>
 
 Civilization::Civilization(const std::string& name, CivilizationType type, Resource startingResources)
     : _name(name)
@@ -88,37 +89,46 @@ void Civilization::takeTurn(Map& map, CombatSystem& combat) {
     }
 }
 
-// ── AGGRESSIVE — chase and attack the nearest enemy ──────────────────────────
+// ── ROAM — wander randomly when no enemy is visible ──────────────────────────
 //
-// Step 1: locate nearest enemy.
-// Step 2: move toward it (spending movement points).
-// Step 3: attack it (costs remaining movement points → 0).
-// Reasoning: move first so we close distance, then attack from the new position.
-void Civilization::aiActAggressive(Ship& ship, Map& map, CombatSystem& combat) {
-    Entity* target = map.findNearestEnemy(ship.getPosition(), *this);
-    if (!target) return;
+// Picks a new random patrol destination each time the previous one is reached.
+// This makes AI ships explore the map rather than standing still.
+void Civilization::aiRoam(Ship& ship, Map& map) {
+    if (!ship.hasDestination() || ship.reachedDestination()) {
+        const Vec2 patrol{
+            rand() % map.getWorldWidth(),
+            rand() % map.getWorldHeight()
+        };
+        ship.setDestination(patrol);
+    }
+    if (ship.getMovementPoints() > 0)
+        ship.advanceTowardDestination();
+}
 
-    // Move closer if we have movement points and aren't already there
-    if (ship.getMovementPoints() > 0 && ship.getPosition() != target->getPosition()) {
+// ── AGGRESSIVE — roam until an enemy enters vision range, then chase & attack ─
+void Civilization::aiActAggressive(Ship& ship, Map& map, CombatSystem& combat) {
+    Entity* target = map.findNearestEnemyInRange(ship.getPosition(), *this, ship.getVisionRange());
+    if (!target) { aiRoam(ship, map); return; }
+
+    const int dist = ship.getPosition().distanceTo(target->getPosition());
+
+    // Close the gap if not yet within attack range
+    if (ship.getMovementPoints() > 0 && dist > ship.getAttackRange()) {
         ship.setDestination(target->getPosition());
         ship.advanceTowardDestination();
     }
 
-    // Attack if we still have movement points left (attack costs all of them)
-    if (ship.canAttack())
+    // Attack if in range and MP remain
+    if (ship.canAttack()
+        && ship.getPosition().distanceTo(target->getPosition()) <= ship.getAttackRange())
         ship.attack(*target, combat);
 }
 
-// ── EXPANSIONIST — claim planets first, fight second ─────────────────────────
-//
-// If there is an uncolonized planet within reach, head for it and colonize.
-// If a closer enemy is in the way, attack opportunistically.
-// If no unclaimed planets exist, fall back to aggressive behaviour.
+// ── EXPANSIONIST — claim planets first; fight enemies only when visible ───────
 void Civilization::aiActExpansionist(Ship& ship, Map& map, CombatSystem& combat) {
     Entity* planet_target = map.findNearestUncolonizedPlanet(ship.getPosition());
-    Entity* enemy_target  = map.findNearestEnemy(ship.getPosition(), *this);
+    Entity* enemy_target  = map.findNearestEnemyInRange(ship.getPosition(), *this, ship.getVisionRange());
 
-    // Decide primary target: unclaimed planet if it exists and isn't further than the enemy
     Entity* primary = nullptr;
     if (planet_target && enemy_target) {
         const int dp = ship.getPosition().distanceTo(planet_target->getPosition());
@@ -128,38 +138,34 @@ void Civilization::aiActExpansionist(Ship& ship, Map& map, CombatSystem& combat)
         primary = planet_target ? planet_target : enemy_target;
     }
 
-    if (!primary) return;
+    if (!primary) { aiRoam(ship, map); return; }
 
-    // Move toward primary target
-    if (ship.getMovementPoints() > 0 && ship.getPosition() != primary->getPosition()) {
+    if (ship.getMovementPoints() > 0
+        && ship.getPosition().distanceTo(primary->getPosition()) > ship.getAttackRange()) {
         ship.setDestination(primary->getPosition());
         ship.advanceTowardDestination();
     }
 
-    // If we reached an uncolonized planet, colonize it
+    // Colonize if standing on an uncolonized planet
     Planet* p = map.findPlanetAt(ship.getPosition()) ?
                 map.findPlanetAt(ship.getPosition())->asPlanet() : nullptr;
     if (p && !p->isColonized()) {
         p->colonize(this);
         addEntity(p->getId());
-        return;  // colonized — no need to attack this turn
+        return;
     }
 
-    // Otherwise attack any enemy that is here or adjacent
     if (enemy_target && ship.canAttack()
-        && ship.getPosition().distanceTo(enemy_target->getPosition()) <= 1)
+        && ship.getPosition().distanceTo(enemy_target->getPosition()) <= ship.getAttackRange())
         ship.attack(*enemy_target, combat);
 }
 
-// ── NEUTRAL — pure defender: only retaliates when enemy is adjacent ───────────
-//
-// The neutral civ does not seek out enemies.
-// It only fights if a hostile ship has already moved next to it (dist == 0 or 1).
+// ── NEUTRAL — stand still; only attack enemies that enter attack range ────────
 void Civilization::aiActNeutral(Ship& ship, Map& map, CombatSystem& combat) {
-    Entity* nearby = map.findNearestEnemy(ship.getPosition(), *this);
+    Entity* nearby = map.findNearestEnemyInRange(ship.getPosition(), *this, ship.getVisionRange());
     if (!nearby) return;
     const int dist = ship.getPosition().distanceTo(nearby->getPosition());
-    if (dist <= 1 && ship.canAttack())
+    if (dist <= ship.getAttackRange() && ship.canAttack())
         ship.attack(*nearby, combat);
 }
 

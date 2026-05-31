@@ -134,6 +134,22 @@ const std::unordered_map<std::string, InputParser::CommandDef> InputParser::_com
             return Action(Action::Type::VIEW_SECTOR, -1, Vec2{0,0}, -1, 0, sector);
         }
     }},
+
+    {"cancel", {
+        "cancel {entity_id}  (stop pending movement or action)",
+        [](const std::vector<std::string>& t) {
+            if (t.size() != 2) throw std::invalid_argument("cancel: expected entity_id");
+            return Action(Action::Type::CANCEL, parseId(t[1]));
+        }
+    }},
+
+    {"devfog", {
+        "devfog  [DEV] reveal entire world for demo/testing",
+        [](const std::vector<std::string>& t) {
+            if (t.size() != 1) throw std::invalid_argument("devfog: no arguments needed");
+            return Action(Action::Type::DEVFOG);
+        }
+    }},
 };
 
 

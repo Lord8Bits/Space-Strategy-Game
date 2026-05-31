@@ -7,6 +7,13 @@
 #include <iostream>
 #include <sstream>
 
+// ─── Vision helper ────────────────────────────────────────────────────────────
+
+void Game::applyVision() {
+    _player.refreshFogOfWar(_map, _player_civ);
+    if (_devFogEnabled) _player.getPerception().revealAll();
+}
+
 // ─── Constructor ──────────────────────────────────────────────────────────────
 
 Game::Game()
@@ -56,7 +63,7 @@ void Game::initWorld() {
     // ── Pre-discover the home sector entirely (radius 51 covers full 80×20 chunk) ──
     _player.getPerception().updateVisibility(
         40, 10, 51, _map.getWorldWidth(), _map.getWorldHeight());
-    _player.refreshFogOfWar(_map);
+    applyVision();
 }
 
 // ─── Turn advance ─────────────────────────────────────────────────────────────
@@ -64,39 +71,58 @@ void Game::initWorld() {
 void Game::advanceTurn() {
     const int saved = _map.getSelectedChunkIndex();
 
-    // Step 1: tick every entity (resets movement points, advances auto-travel)
+    // Step 1: Reset all entities (movement points, states) — no movement yet.
+    // AI must act with full MP before any auto-travel consumes the budget.
     for (int r = 0; r < _map.getChunkRows(); ++r) {
         for (int c = 0; c < _map.getChunkCols(); ++c) {
             _map.changeSelectedChunk(c, r);
-            std::vector<int> ids(_map.getSelectedChunk().getEntityIDs().begin(),
-                                 _map.getSelectedChunk().getEntityIDs().end());
-            for (int id : ids) {
+            for (int id : _map.getSelectedChunk().getEntityIDs()) {
                 Entity* e = _map.getEntity(id);
-                if (e) { e->update(); _map.updateEntityChunk(id); }
+                if (e) e->update();
             }
         }
     }
 
-    // Step 2: run enemy AI turns
+    // Step 2: Enemy AI acts — each ship has full MP, so it can move AND attack.
     _enemy_civ.takeTurn(_map, _combat);
 
-    // Step 3: clean up player ships destroyed by enemy AI this turn
+    // Step 3: Auto-advance player ships that have a pending destination.
+    // Enemy ships moved themselves in step 2; only player ships need this.
+    for (int id : _player.getShipIds()) {
+        Entity* e = _map.getEntity(id);
+        Ship*   s = e ? e->asShip() : nullptr;
+        if (s) { s->advancePendingMovement(); _map.updateEntityChunk(id); }
+    }
+
+    // Step 3: clean up ships destroyed this turn (both sides)
     {
-        std::vector<int> killed;
+        // Player ships killed by AI attacks
+        std::vector<int> player_killed;
         for (int id : _player.getShipIds()) {
             Entity* e = _map.getEntity(id);
-            if (e && !e->isAlive()) killed.push_back(id);
+            if (e && !e->isAlive()) player_killed.push_back(id);
         }
-        for (int id : killed) {
+        for (int id : player_killed) {
             _player.removeShipId(id);
             _player_civ.removeEntity(id);
+            _map.removeEntity(id);
+        }
+
+        // Enemy ships killed by player counter-attacks during the AI turn
+        std::vector<int> enemy_killed;
+        for (int id : _enemy_civ.getEntityIDs()) {
+            Entity* e = _map.getEntity(id);
+            if (e && e->asShip() && !e->isAlive()) enemy_killed.push_back(id);
+        }
+        for (int id : enemy_killed) {
+            _enemy_civ.removeEntity(id);
             _map.removeEntity(id);
         }
     }
 
     _map.changeSelectedChunk(saved % _map.getChunkCols(), saved / _map.getChunkCols());
     ++_turn;
-    _player.refreshFogOfWar(_map);
+    applyVision();
 }
 
 // ─── Action execution ─────────────────────────────────────────────────────────
@@ -126,7 +152,7 @@ std::string Game::executeAction(const Action& a) {
             s->setDestination(world_pos);
             s->advanceTowardDestination();
             _map.updateEntityChunk(a.entity_id);
-            _player.refreshFogOfWar(_map);
+            applyVision();
 
             const char y_letter = static_cast<char>('A' + a.target_position.y);
             const std::string coord = std::string(1, y_letter) + std::to_string(a.target_position.x);
@@ -168,7 +194,7 @@ std::string Game::executeAction(const Action& a) {
                 _player_civ.removeEntity(a.entity_id);
                 _map.removeEntity(a.entity_id);
             }
-            _player.refreshFogOfWar(_map);
+            applyVision();
             return log.str();
         }
 
@@ -215,7 +241,7 @@ std::string Game::executeAction(const Action& a) {
             const int new_id = _map.addEntity(std::move(new_ship));
             _player.addShipId(new_id);
             _player_civ.addEntity(new_id);
-            _player.refreshFogOfWar(_map);
+            applyVision();
             return type_name + " [" + std::to_string(new_id) + "] built at Terra.";
         }
 
@@ -237,7 +263,7 @@ std::string Game::executeAction(const Action& a) {
 
             p->colonize(&_player_civ);
             _player_civ.addEntity(pe->getId());
-            _player.refreshFogOfWar(_map);
+            applyVision();
             return p->getName() + " colonized for " + _player_civ.getName() + "!";
         }
 
@@ -277,6 +303,24 @@ std::string Game::executeAction(const Action& a) {
                  + std::to_string(_player_civ.getWeaponTech().getLevel())
                  + "! Fighter ATK bonus: +" + std::to_string(_player_civ.getAttackBonus());
         }
+
+        // ── CANCEL ────────────────────────────────────────────────────────────
+        case Action::Type::CANCEL: {
+            Entity* e = _map.getEntity(a.entity_id);
+            Ship*   s = e ? e->asShip() : nullptr;
+            if (!s || !s->isAlive()) return "No controllable ship with that id.";
+            if (!s->hasDestination())
+                return s->getName() + " has no pending action to cancel.";
+            s->cancelAction();
+            return s->getName() + " stopped — now Idle at " + _map.toViewportCoord(s->getPosition()) + ".";
+        }
+
+        // ── DEVFOG ────────────────────────────────────────────────────────────
+        case Action::Type::DEVFOG:
+            _devFogEnabled = !_devFogEnabled;
+            applyVision();
+            return _devFogEnabled ? "[DEV] Full visibility ON  — type devfog again to disable."
+                                  : "[DEV] Full visibility OFF — fog of war restored.";
 
         default:
             return "That command isn't wired in yet.";

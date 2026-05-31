@@ -13,6 +13,7 @@ protected:
     int _movementPoints;  ///< Current budget this turn (resets each turn)
     int _visionRange;
     int _attackPower;
+    int _attackRange;     ///< Max tiles away the ship can attack (1 = melee)
     int _level;
     int _xp;
     EntityType _entityType;
@@ -58,6 +59,10 @@ public:
         _destination = dest; _hasDestination = true; _state = ShipState::MOVING;
     }
     bool advanceTowardDestination();
+    /// Called each turn after AI acts — auto-advances ships still mid-travel.
+    void advancePendingMovement();
+    /// Cancels any pending movement or action and returns the ship to Idle.
+    void cancelAction();
     bool hasDestination()     const { return _hasDestination; }
     Vec2 getDestination()     const { return _destination; }
     bool reachedDestination() const { return _position == _destination; }
@@ -66,6 +71,7 @@ public:
     int  getMovementPoints()     const { return _movementPoints; }
     int  getMovementRange()      const { return _movementRange; }
     void setMovementPoints(int v)      { _movementPoints = v; }
+    int  getAttackRange()        const { return _attackRange; }
     bool canAttack()             const { return _movementPoints > 0 && isAlive(); }
 
     // ── XP / level ────────────────────────────────────────────────────────────

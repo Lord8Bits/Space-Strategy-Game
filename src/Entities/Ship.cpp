@@ -9,6 +9,7 @@ Ship::Ship(const std::string& Name, const Vec2& Pos, Civilization* Owner,
     , _health(maxHp), _maxHealth(maxHp)
     , _movementRange(Movement), _movementPoints(Movement)
     , _visionRange(Vision), _attackPower(Attack)
+    , _attackRange(1)
     , _level(1), _xp(0)
     , _entityType(EntityType::SHIP), _shipType(Type)
     , _state(ShipState::IDLE)
@@ -17,10 +18,22 @@ Ship::Ship(const std::string& Name, const Vec2& Pos, Civilization* Owner,
 
 void Ship::update() {
     if (_health <= 0) { _state = ShipState::DESTROYED; return; }
-    _movementPoints = _movementRange;          // reset movement budget each turn
+    _movementPoints = _movementRange;   // reset movement budget each turn
     if (_state == ShipState::ATTACKING) _state = ShipState::IDLE;
-    if (_hasDestination && !reachedDestination())
-        advanceTowardDestination();
+    // Auto-movement is handled by advancePendingMovement(), called from
+    // Game::advanceTurn() AFTER AI acts — so AI always gets full MP.
+}
+
+void Ship::advancePendingMovement() {
+    if (!isAlive() || !_hasDestination || reachedDestination()) return;
+    advanceTowardDestination();
+}
+
+void Ship::cancelAction() {
+    _hasDestination = false;
+    _destination    = _position;
+    if (_state != ShipState::DESTROYED)
+        _state = ShipState::IDLE;
 }
 
 bool Ship::moveTo(const Vec2& target) {
