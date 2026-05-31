@@ -33,6 +33,7 @@ public:
 
     /// @brief Draw the selected chunk filtered through the player's fog of war.
     void draw(const Player& player, const Map& map);
+    void draw(const Player& player, const Map& map, const Civilization& civ);
 
     /// @brief Draw the complete game UI: world viewport + status panel + input prompt.
     /// @param player       The active player (fleet, FoW state)
