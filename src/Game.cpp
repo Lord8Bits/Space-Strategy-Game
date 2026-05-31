@@ -64,21 +64,28 @@ void Game::initWorld() {
 void Game::advanceTurn() {
     const int saved = _map.getSelectedChunkIndex();
 
-    // Step 1: tick every entity (resets movement points, advances auto-travel)
+    // Step 1: Reset all entities (movement points, states) — no movement yet.
+    // AI must act with full MP before any auto-travel consumes the budget.
     for (int r = 0; r < _map.getChunkRows(); ++r) {
         for (int c = 0; c < _map.getChunkCols(); ++c) {
             _map.changeSelectedChunk(c, r);
-            std::vector<int> ids(_map.getSelectedChunk().getEntityIDs().begin(),
-                                 _map.getSelectedChunk().getEntityIDs().end());
-            for (int id : ids) {
+            for (int id : _map.getSelectedChunk().getEntityIDs()) {
                 Entity* e = _map.getEntity(id);
-                if (e) { e->update(); _map.updateEntityChunk(id); }
+                if (e) e->update();
             }
         }
     }
 
-    // Step 2: run enemy AI turns
+    // Step 2: Enemy AI acts — each ship has full MP, so it can move AND attack.
     _enemy_civ.takeTurn(_map, _combat);
+
+    // Step 3: Auto-advance player ships that have a pending destination.
+    // Enemy ships moved themselves in step 2; only player ships need this.
+    for (int id : _player.getShipIds()) {
+        Entity* e = _map.getEntity(id);
+        Ship*   s = e ? e->asShip() : nullptr;
+        if (s) { s->advancePendingMovement(); _map.updateEntityChunk(id); }
+    }
 
     // Step 3: clean up ships destroyed this turn (both sides)
     {
@@ -288,6 +295,17 @@ std::string Game::executeAction(const Action& a) {
             return "Plasma Cannons upgraded to level "
                  + std::to_string(_player_civ.getWeaponTech().getLevel())
                  + "! Fighter ATK bonus: +" + std::to_string(_player_civ.getAttackBonus());
+        }
+
+        // ── CANCEL ────────────────────────────────────────────────────────────
+        case Action::Type::CANCEL: {
+            Entity* e = _map.getEntity(a.entity_id);
+            Ship*   s = e ? e->asShip() : nullptr;
+            if (!s || !s->isAlive()) return "No controllable ship with that id.";
+            if (!s->hasDestination())
+                return s->getName() + " has no pending action to cancel.";
+            s->cancelAction();
+            return s->getName() + " stopped — now Idle at " + _map.toViewportCoord(s->getPosition()) + ".";
         }
 
         default:

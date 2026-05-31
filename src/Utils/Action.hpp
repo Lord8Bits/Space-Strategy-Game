@@ -13,7 +13,8 @@ struct Action {
         RESEARCH,
         BUILD,
         COLONIZE,
-        VIEW_SECTOR
+        VIEW_SECTOR,
+        CANCEL
     };
 
     Type action_type;

@@ -58,6 +58,10 @@ public:
         _destination = dest; _hasDestination = true; _state = ShipState::MOVING;
     }
     bool advanceTowardDestination();
+    /// Called each turn after AI acts — auto-advances ships still mid-travel.
+    void advancePendingMovement();
+    /// Cancels any pending movement or action and returns the ship to Idle.
+    void cancelAction();
     bool hasDestination()     const { return _hasDestination; }
     Vec2 getDestination()     const { return _destination; }
     bool reachedDestination() const { return _position == _destination; }
