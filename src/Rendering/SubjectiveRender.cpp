@@ -222,7 +222,7 @@ void SubjectiveRender::drawUI(const Player& player, const Civilization& civ,
                 if (!e) continue;
                 const Vec2 pos = e->getPosition();
 
-                // Visible enemies
+                // Visible contacts grouped by current relation.
                 if (e->isAlive() && e->getCivOwner() && e->getCivOwner() != &civ) {
                     if (player.getPerception().isVisible(pos.x, pos.y, map.getWorldWidth())) {
                         anyEnemy = true;
@@ -242,19 +242,22 @@ void SubjectiveRender::drawUI(const Player& player, const Civilization& civ,
                 const Planet* p = e->asPlanet();
                 if (p && player.getPerception().isDiscovered(pos.x, pos.y, map.getWorldWidth())) {
                     anyPlanet = true;
-                    // Planet name color matches planet symbol color (type-based)
-                    std::string_view pc = GRN;
-                    switch (p->getPlanetType()) {
-                        case PlanetType::MINERAL: pc = YEL; break;
-                        case PlanetType::ENERGY:  pc = CYN; break;
-                        default: break;
+                    std::string_view pc = relationBrightTextColor(civ, p->getCivOwner());
+                    if (!p->getCivOwner()) {
+                        pc = GRN;
+                        switch (p->getPlanetType()) {
+                            case PlanetType::MINERAL: pc = YEL; break;
+                            case PlanetType::ENERGY:  pc = CYN; break;
+                            default: break;
+                        }
                     }
                     planet_buf << "   " << pc << "[" << id << "] " << p->getName() << R
                                << "  " << BYEL << "@" << map.toViewportCoord(pos) << R
                                << "  " << WHT << "res:" << BGRN << p->getResourceCount() << R
                                << "  " << DGRY << "(sector " << map.sectorOf(pos) << ")" << R;
                     if (p->isColonized())
-                        planet_buf << "  " << CYN << "[" << p->getCivOwner()->getName() << "]" << R;
+                        planet_buf << "  " << relationTextColor(civ, p->getCivOwner())
+                                   << "[" << p->getCivOwner()->getName() << "]" << R;
                     planet_buf << "\n";
                 }
             }
