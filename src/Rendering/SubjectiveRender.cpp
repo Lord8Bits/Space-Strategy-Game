@@ -60,6 +60,14 @@ namespace {
 // ─── draw ─────────────────────────────────────────────────────────────────────
 
 void SubjectiveRender::draw(const Player& player, const Map& map) {
+    drawInternal(player, map, nullptr);
+}
+
+void SubjectiveRender::draw(const Player& player, const Map& map, const Civilization& civ) {
+    drawInternal(player, map, &civ);
+}
+
+void SubjectiveRender::drawInternal(const Player& player, const Map& map, const Civilization* civ) {
     const Chunk&      chunk       = map.getSelectedChunk();
     const int         world_width = map.getWorldWidth();
     const ViewPort    vp(chunk.getXStart(), chunk.getYStart());
