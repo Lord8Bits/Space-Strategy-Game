@@ -1,5 +1,6 @@
 #include "../include/Player.hpp"
 #include "../include/Map.hpp"
+#include "../include/Civilization.hpp"
 #include <iostream>
 #include <iomanip>
 #include <sstream>
@@ -12,6 +13,19 @@ void Player::refreshFogOfWar(const Map& map) {
         _perception.updateVisibility(
             e->getPosition().x, e->getPosition().y,
             e->getVisionRange(), map.getWorldWidth(), map.getWorldHeight());
+    }
+}
+
+void Player::refreshFogOfWar(const Map& map, const Civilization& civ) {
+    resetFogOfWar();
+    for (const int id : civ.getEntityIDs()) {
+        const Entity* e = map.getEntity(id);
+        if (!e || !e->isAlive()) continue;
+        const int vr = e->getVisionRange();
+        if (vr <= 0) continue;
+        _perception.updateVisibility(
+            e->getPosition().x, e->getPosition().y,
+            vr, map.getWorldWidth(), map.getWorldHeight());
     }
 }
 

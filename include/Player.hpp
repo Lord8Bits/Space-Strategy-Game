@@ -6,6 +6,8 @@
 #include <string>
 #include <set>
 
+class Civilization;
+
 /// @brief Represents a human or AI player in the game.
 ///
 /// Ownership model (consistent with Map/Civilization/Chunk):
@@ -66,9 +68,12 @@ public:
     /// @brief Reset this turn's visibility (call at start of each turn).
     void resetFogOfWar() { _perception.resetVisibility(); }
 
-    /// @brief Recompute visibility from all living ships in this player's fleet.
-    /// Resets current visibility then marks every cell within each ship's vision range.
+    /// @brief Recompute visibility from ships only (used by TurnManager).
     void refreshFogOfWar(const Map& map);
+
+    /// @brief Recompute visibility from all civ entities — ships AND colonized planets.
+    /// Use this overload from Game so that colonized planets always illuminate their sector.
+    void refreshFogOfWar(const Map& map, const Civilization& civ);
 
 private:
     int         _numericId;

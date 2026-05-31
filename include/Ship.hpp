@@ -13,6 +13,7 @@ protected:
     int _movementPoints;  ///< Current budget this turn (resets each turn)
     int _visionRange;
     int _attackPower;
+    int _attackRange;     ///< Max tiles away the ship can attack (1 = melee)
     int _level;
     int _xp;
     EntityType _entityType;
@@ -70,6 +71,7 @@ public:
     int  getMovementPoints()     const { return _movementPoints; }
     int  getMovementRange()      const { return _movementRange; }
     void setMovementPoints(int v)      { _movementPoints = v; }
+    int  getAttackRange()        const { return _attackRange; }
     bool canAttack()             const { return _movementPoints > 0 && isAlive(); }
 
     // ── XP / level ────────────────────────────────────────────────────────────

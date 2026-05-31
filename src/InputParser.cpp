@@ -142,6 +142,14 @@ const std::unordered_map<std::string, InputParser::CommandDef> InputParser::_com
             return Action(Action::Type::CANCEL, parseId(t[1]));
         }
     }},
+
+    {"devfog", {
+        "devfog  [DEV] reveal entire world for demo/testing",
+        [](const std::vector<std::string>& t) {
+            if (t.size() != 1) throw std::invalid_argument("devfog: no arguments needed");
+            return Action(Action::Type::DEVFOG);
+        }
+    }},
 };
 
 

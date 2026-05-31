@@ -10,7 +10,10 @@ Fighter::Fighter(const std::string& Name, const Vec2& Pos, Civilization* Owner) 
         GameConstants::FIGHTER_VISION_RANGE,
         GameConstants::FIGHTER_ATTACK,
         ShipType::FIGHTER),
-        _agility(GameConstants::FIGHTER_AGILITY) {}
+        _agility(GameConstants::FIGHTER_AGILITY)
+{
+    _attackRange = GameConstants::FIGHTER_ATTACK_RANGE;
+}
 
 bool Fighter::tryDodge(const Ship& attacker) const {
     const int roll        = rand() % 100;

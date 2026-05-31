@@ -51,18 +51,20 @@ constexpr GameUI::Color civToColor(CivilizationType type) {
 
 namespace GameConstants {
     //Fighter Constants
-    constexpr int FIGHTER_MAX_HEALTH    = 100;
-    constexpr int FIGHTER_ATTACK        = 25;
+    constexpr int FIGHTER_MAX_HEALTH     = 100;
+    constexpr int FIGHTER_ATTACK         = 50;   // high damage, close range brawler
+    constexpr int FIGHTER_ATTACK_RANGE   = 1;
     constexpr int FIGHTER_MOVEMENT_RANGE = 9;
-    constexpr int FIGHTER_VISION_RANGE  = 6;
-    constexpr int FIGHTER_AGILITY       = 40;
+    constexpr int FIGHTER_VISION_RANGE   = 6;
+    constexpr int FIGHTER_AGILITY        = 40;
 
     //Cruiser Constants
-    constexpr int CRUISER_MAX_HEALTH    = 300;
-    constexpr int CRUISER_ATTACK        = 50;
+    constexpr int CRUISER_MAX_HEALTH     = 300;
+    constexpr int CRUISER_ATTACK         = 25;   // lower damage, safe ranged attacker
+    constexpr int CRUISER_ATTACK_RANGE   = 3;
     constexpr int CRUISER_MOVEMENT_RANGE = 7;
-    constexpr int CRUISER_VISION_RANGE  = 6;
-    constexpr int CRUISER_SHIELD        = 50;
+    constexpr int CRUISER_VISION_RANGE   = 6;
+    constexpr int CRUISER_SHIELD         = 50;
 
     //Transport Constants
     constexpr int TRANSPORT_MAX_HEALTH   = 150;

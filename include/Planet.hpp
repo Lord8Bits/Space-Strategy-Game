@@ -51,6 +51,8 @@ public:
     // ── Stat virtuals overridden from Entity ──────────────────────────────────
     int  getResourceCount() const override { return _resources.total(); }
     bool isColonized()      const override { return _colonized; }
+    // Colonized planets illuminate their full sector (radius 51 covers 80x20).
+    int  getVisionRange()   const override { return _colonized ? 51 : 0; }
     void update()                override {}
 
     /// @brief Planets do not initiate combat — no-op.

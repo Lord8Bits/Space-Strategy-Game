@@ -125,6 +125,19 @@ Entity* Map::findNearestEnemy(const Vec2& from, const Civilization& myCiv) const
     return nearest;
 }
 
+Entity* Map::findNearestEnemyInRange(const Vec2& from, const Civilization& myCiv, int range) const {
+    Entity* nearest = nullptr;
+    int minDist = range + 1;
+    for (const auto& [id, entity] : _all_entities) {
+        if (!entity->isAlive()) continue;
+        if (!entity->canBeAttacked()) continue;
+        if (!entity->getCivOwner() || entity->getCivOwner() == &myCiv) continue;
+        const int dist = entity->getPosition().distanceTo(from);
+        if (dist <= range && dist < minDist) { minDist = dist; nearest = entity.get(); }
+    }
+    return nearest;
+}
+
 Entity* Map::findNearestUncolonizedPlanet(const Vec2& from) const {
     Entity* nearest = nullptr;
     int minDist = std::numeric_limits<int>::max();

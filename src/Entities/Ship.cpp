@@ -9,6 +9,7 @@ Ship::Ship(const std::string& Name, const Vec2& Pos, Civilization* Owner,
     , _health(maxHp), _maxHealth(maxHp)
     , _movementRange(Movement), _movementPoints(Movement)
     , _visionRange(Vision), _attackPower(Attack)
+    , _attackRange(1)
     , _level(1), _xp(0)
     , _entityType(EntityType::SHIP), _shipType(Type)
     , _state(ShipState::IDLE)

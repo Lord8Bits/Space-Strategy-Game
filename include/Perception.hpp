@@ -19,6 +19,9 @@ public:
     /// @brief Clear active visibility — call at the start of every turn.
     void resetVisibility() { _visible.reset(); }
 
+    /// @brief Reveal the entire world — dev/demo tool only.
+    void revealAll() { _visible.set(); _discovered.set(); }
+
     /// @brief Mark all cells within Manhattan distance `radius` of (cx, cy) as visible.
     /// @param cx      World X of the observing ship
     /// @param cy      World Y of the observing ship

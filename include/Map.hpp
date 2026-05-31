@@ -90,12 +90,14 @@ public:
     /// @brief Find the first Planet entity at the given world position, or nullptr.
     Entity* findPlanetAt(const Vec2& pos) const;
 
-    /// @brief Find the nearest alive entity that belongs to a civilization other than `myCiv`.
-    /// Used by the AI to locate the closest enemy target.
+    /// @brief Find the nearest alive enemy entity (ships only, canBeAttacked).
     Entity* findNearestEnemy(const Vec2& from, const Civilization& myCiv) const;
 
+    /// @brief Same as findNearestEnemy but capped to Manhattan distance `range`.
+    /// Returns nullptr if no enemy is within that range — used for AI vision.
+    Entity* findNearestEnemyInRange(const Vec2& from, const Civilization& myCiv, int range) const;
+
     /// @brief Find the nearest planet that has not yet been colonized.
-    /// Used by the expansionist AI to pick a colonization target.
     Entity* findNearestUncolonizedPlanet(const Vec2& from) const;
 };
 

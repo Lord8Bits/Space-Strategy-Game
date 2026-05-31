@@ -14,7 +14,8 @@ struct Action {
         BUILD,
         COLONIZE,
         VIEW_SECTOR,
-        CANCEL
+        CANCEL,
+        DEVFOG
     };
 
     Type action_type;

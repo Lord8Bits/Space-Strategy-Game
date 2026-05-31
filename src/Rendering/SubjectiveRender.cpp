@@ -247,7 +247,7 @@ void SubjectiveRender::drawUI(const Player& player, const Civilization& civ,
 
     ui << DGRY << " move <id> <coord>  attack <id> <target>  cancel <id>  mine <id>  research\n";
     ui << " build <fighter|cruiser|transport>  colonize <id>  view <sector>  next  status <id>  quit\n";
-    ui << " ▲=Fighter  ◆=Cruiser  ■=Transport  ●=Planet (green/yellow/cyan)\n";
+    ui << " ▲=Fighter(ATK50 rng1)  ◆=Cruiser(ATK25 rng3,no-retaliation)  ■=Transport  ●=Planet\n";
     ui << "================================================================" << R << "\n";
     ui << WHT << " Input: " << R;
 
