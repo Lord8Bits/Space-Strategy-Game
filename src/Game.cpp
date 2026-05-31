@@ -7,6 +7,13 @@
 #include <iostream>
 #include <sstream>
 
+// ─── Vision helper ────────────────────────────────────────────────────────────
+
+void Game::applyVision() {
+    _player.refreshFogOfWar(_map, _player_civ);
+    if (_devFogEnabled) _player.getPerception().revealAll();
+}
+
 // ─── Constructor ──────────────────────────────────────────────────────────────
 
 Game::Game()
@@ -56,7 +63,7 @@ void Game::initWorld() {
     // ── Pre-discover the home sector entirely (radius 51 covers full 80×20 chunk) ──
     _player.getPerception().updateVisibility(
         40, 10, 51, _map.getWorldWidth(), _map.getWorldHeight());
-    _player.refreshFogOfWar(_map, _player_civ);
+    applyVision();
 }
 
 // ─── Turn advance ─────────────────────────────────────────────────────────────
@@ -115,7 +122,7 @@ void Game::advanceTurn() {
 
     _map.changeSelectedChunk(saved % _map.getChunkCols(), saved / _map.getChunkCols());
     ++_turn;
-    _player.refreshFogOfWar(_map, _player_civ);
+    applyVision();
 }
 
 // ─── Action execution ─────────────────────────────────────────────────────────
@@ -145,7 +152,7 @@ std::string Game::executeAction(const Action& a) {
             s->setDestination(world_pos);
             s->advanceTowardDestination();
             _map.updateEntityChunk(a.entity_id);
-            _player.refreshFogOfWar(_map, _player_civ);
+            applyVision();
 
             const char y_letter = static_cast<char>('A' + a.target_position.y);
             const std::string coord = std::string(1, y_letter) + std::to_string(a.target_position.x);
@@ -187,7 +194,7 @@ std::string Game::executeAction(const Action& a) {
                 _player_civ.removeEntity(a.entity_id);
                 _map.removeEntity(a.entity_id);
             }
-            _player.refreshFogOfWar(_map, _player_civ);
+            applyVision();
             return log.str();
         }
 
@@ -234,7 +241,7 @@ std::string Game::executeAction(const Action& a) {
             const int new_id = _map.addEntity(std::move(new_ship));
             _player.addShipId(new_id);
             _player_civ.addEntity(new_id);
-            _player.refreshFogOfWar(_map, _player_civ);
+            applyVision();
             return type_name + " [" + std::to_string(new_id) + "] built at Terra.";
         }
 
@@ -256,7 +263,7 @@ std::string Game::executeAction(const Action& a) {
 
             p->colonize(&_player_civ);
             _player_civ.addEntity(pe->getId());
-            _player.refreshFogOfWar(_map, _player_civ);
+            applyVision();
             return p->getName() + " colonized for " + _player_civ.getName() + "!";
         }
 
@@ -310,8 +317,10 @@ std::string Game::executeAction(const Action& a) {
 
         // ── DEVFOG ────────────────────────────────────────────────────────────
         case Action::Type::DEVFOG:
-            _player.getPerception().revealAll();
-            return "[DEV] Full world visibility enabled.";
+            _devFogEnabled = !_devFogEnabled;
+            applyVision();
+            return _devFogEnabled ? "[DEV] Full visibility ON  — type devfog again to disable."
+                                  : "[DEV] Full visibility OFF — fog of war restored.";
 
         default:
             return "That command isn't wired in yet.";

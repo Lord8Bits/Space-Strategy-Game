@@ -31,9 +31,10 @@ class Game {
     InputParser    _parser;
 
     // ── Game state ────────────────────────────────────────────────────────────
-    int  _turn       = 1;
-    int  _ship_count = 0;    ///< Tracks built ships for naming (F-4, C-5, …)
-    int  _home_id    = -1;   ///< Entity ID of the player's home planet
+    int  _turn         = 1;
+    int  _ship_count   = 0;     ///< Tracks built ships for naming (F-4, C-5, …)
+    int  _home_id      = -1;    ///< Entity ID of the player's home planet
+    bool _devFogEnabled = false; ///< Dev mode: reveal entire world until toggled off
 
 public:
     Game();
@@ -43,4 +44,5 @@ private:
     void        initWorld();
     std::string executeAction(const Action& a);
     void        advanceTurn();
+    void        applyVision();  ///< refreshFogOfWar + re-apply devfog if enabled
 };
