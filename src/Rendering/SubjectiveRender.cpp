@@ -160,12 +160,11 @@ void SubjectiveRender::drawUI(const Player& player, const Civilization& civ,
 
     // ── Resources ─────────────────────────────────────────────────────────────
     ui << " " << WHT << "Resources:" << R
-       << "  " << YEL << "Gold "     << BYEL << res.getGold()      << R
-       << "   " << CYN << "Titanium " << BCYN << res.getTitanium()  << R
-       << "   " << GRN << "Cadmium "  << BGRN << res.getCadmium()   << R
-       << "   " << DGRY << "|" << R
-       << "  " << CYN << "Plasma Cannons Lv" << BCYN << civ.getWeaponTech().getLevel() << R
-       << CYN << " (+" << civ.getAttackBonus() << " Fighter ATK)" << R << "\n";
+       << "  " << YEL << "Gold "     << BYEL << res.getGold()     << R
+       << "  " << CYN << "Titanium " << BCYN << res.getTitanium() << R
+       << "  " << GRN << "Cadmium "  << BGRN << res.getCadmium()  << R << "\n";
+    ui << " " << CYN << "Tech: Plasma Cannons Lv" << BCYN << civ.getWeaponTech().getLevel() << R
+       << CYN << "  (+" << civ.getAttackBonus() << " Fighter ATK)" << R << "\n";
     ui << DGRY << "----------------------------------------------------------------" << R << "\n";
 
     // ── Fleet ─────────────────────────────────────────────────────────────────
@@ -272,9 +271,10 @@ void SubjectiveRender::drawUI(const Player& player, const Civilization& civ,
         ui << " " << BCYN << ">" << R << " " << WHT << last_message << R
            << "\n" << DGRY << "----------------------------------------------------------------" << R << "\n";
 
-    ui << DGRY << " move <id> <coord>  attack <id> <target>  cancel <id>  mine <id>  research\n";
-    ui << " build <fighter|cruiser|transport>  colonize <id>  view <sector>  next  status <id>  quit\n";
-    ui << " ▲=Fighter(ATK50 rng1)  ◆=Cruiser(ATK25 rng3,no-retaliation)  ■=Transport  ●=Planet\n";
+    ui << DGRY << " move <id> <coord>  attack <id> <tgt>  cancel <id>\n";
+    ui << " mine <id>  colonize <id>  build <type>  research\n";
+    ui << " view <n>  next  status <id>  devfog  quit\n";
+    ui << " ▲=Fighter(50atk,r1)  ◆=Cruiser(25atk,r3)  ■=Transport  ●=Planet\n";
     ui << "================================================================" << R << "\n";
     const int map_width = VIEWPORT_WIDTH + 4;
     const int panel_col = map_width + 4;
