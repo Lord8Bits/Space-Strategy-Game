@@ -1,5 +1,13 @@
-#include "../../include/Resource.hpp"
-#include <algorithm> // std::max
+#include "Systems/Resource.hpp"
+#include <algorithm>
+
+// friend — accesses _gold, _titanium, _cadmium directly (no getters needed)
+std::ostream& operator<<(std::ostream& os, const Resource& r) {
+    os << "Gold:" << r._gold
+       << " Titanium:" << r._titanium
+       << " Cadmium:" << r._cadmium;
+    return os;
+}
 
 // CONSTRUCTOR
 

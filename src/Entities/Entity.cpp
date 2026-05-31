@@ -1,4 +1,4 @@
-#include "../../include/Entity.hpp"
+#include "Entities/Entity.hpp"
 #include <iostream>
 
 int Entity:: _next_id = 1;

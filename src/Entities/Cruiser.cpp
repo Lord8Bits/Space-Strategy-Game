@@ -1,6 +1,6 @@
 #include <sstream>
 #include <algorithm>
-#include "../../include/Cruiser.hpp"
+#include "Entities/Cruiser.hpp"
 
 Cruiser::Cruiser(const std::string& Name, const Vec2& Pos, Civilization* Owner) :
     Ship(Name, Pos, Owner,
@@ -9,17 +9,18 @@ Cruiser::Cruiser(const std::string& Name, const Vec2& Pos, Civilization* Owner) 
         GameConstants::CRUISER_VISION_RANGE,
         GameConstants::CRUISER_ATTACK,
         ShipType::CRUISER),
-        _shieldStrength(GameConstants::CRUISER_SHIELD) {}
+        _shieldStrength(GameConstants::CRUISER_SHIELD)
+{
+    _attackRange = GameConstants::CRUISER_ATTACK_RANGE;
+}
 
-int Cruiser::absorbDamage(int damage){
+int Cruiser::absorbDamage(int damage) {
     if (damage <= 0) return 0;
     if (_shieldStrength <= 0) return damage;
 
-    int absorbed = std::min(_shieldStrength, damage);
+    const int absorbed = std::min(_shieldStrength, damage);
     _shieldStrength -= absorbed;
-    damage -= absorbed;
-    
-    return damage;
+    return damage - absorbed;
 }
 
 void Cruiser::levelUp(){
