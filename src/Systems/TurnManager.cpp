@@ -1,6 +1,6 @@
-#include "../include/TurnManager.hpp"
-#include "../include/Ship.hpp"
-#include "../include/Transport.hpp"
+#include "Systems/TurnManager.hpp"
+#include "Entities/Ship.hpp"
+#include "Entities/Transport.hpp"
 #include <stdexcept>
 
 // ─── Constructor ─────────────────────────────────────────────────────────────

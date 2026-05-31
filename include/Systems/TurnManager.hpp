@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Action.hpp"
-#include "Map.hpp"
-#include "Render.hpp"
-#include "SubjectiveRender.hpp"
-#include "CombatSystem.hpp"
-#include "Player.hpp"
+#include "Utils/Action.hpp"
+#include "Rendering/Map.hpp"
+#include "Rendering/Render.hpp"
+#include "Rendering/SubjectiveRender.hpp"
+#include "Systems/CombatSystem.hpp"
+#include "Systems/Player.hpp"
 #include <vector>
 #include <iostream>
 

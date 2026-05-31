@@ -1,7 +1,7 @@
 #include <sstream>
 #include <cstdlib>
-#include "../../include/Fighter.hpp"
-#include "../../include/CombatSystem.hpp"
+#include "Entities/Fighter.hpp"
+#include "Systems/CombatSystem.hpp"
 
 Fighter::Fighter(const std::string& Name, const Vec2& Pos, Civilization* Owner) :
     Ship(Name, Pos, Owner,

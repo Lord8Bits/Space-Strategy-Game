@@ -1,6 +1,6 @@
-#include "../include/Player.hpp"
-#include "../include/Map.hpp"
-#include "../include/Civilization.hpp"
+#include "Systems/Player.hpp"
+#include "Rendering/Map.hpp"
+#include "AI/Civilization.hpp"
 #include <iostream>
 #include <iomanip>
 #include <sstream>

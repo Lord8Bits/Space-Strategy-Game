@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Civilization.hpp"
-#include "Map.hpp"
-#include "Player.hpp"
-#include "CombatSystem.hpp"
-#include "Render.hpp"
-#include "SubjectiveRender.hpp"
-#include "InputParser.hpp"
+#include "AI/Civilization.hpp"
+#include "Rendering/Map.hpp"
+#include "Systems/Player.hpp"
+#include "Systems/CombatSystem.hpp"
+#include "Rendering/Render.hpp"
+#include "Rendering/SubjectiveRender.hpp"
+#include "Systems/InputParser.hpp"
 #include <string>
 
 /// @brief Top-level game object.  Owns all game state and contains the REPL loop.

@@ -1,5 +1,5 @@
-#include "../../include/CombatSystem.hpp"
-#include "../../include/Ship.hpp"
+#include "Systems/CombatSystem.hpp"
+#include "Entities/Ship.hpp"
 #include <string>
 
 void CombatSystem::addLog(CombatResult& result, const std::string& msg) const {

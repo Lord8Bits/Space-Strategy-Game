@@ -2,8 +2,8 @@
 // Created by ilyasse-ch7 on 05/05/2026.
 //
 
-#include "../include/ViewPort.hpp"
-#include "../include/Entity.hpp"
+#include "Rendering/ViewPort.hpp"
+#include "Entities/Entity.hpp"
 #include <stdexcept>
 
 ViewPort::ViewPort(const int offset_x, const int offset_y) {

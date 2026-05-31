@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Resource.hpp"
-#include "Enums.hpp"
+#include "Systems/Resource.hpp"
+#include "Utils/Enums.hpp"
 #include <string>
 
 /// @brief Represents a single researchable technology owned by a Civilization.

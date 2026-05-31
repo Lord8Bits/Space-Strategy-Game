@@ -3,8 +3,8 @@
 #include <string>
 #include <vector>
 
-#include "Entity.hpp"
-#include "CombatResult.hpp"
+#include "Entities/Entity.hpp"
+#include "Systems/CombatResult.hpp"
 
 class Ship;
 

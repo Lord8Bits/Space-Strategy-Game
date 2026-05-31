@@ -3,9 +3,9 @@
 
 #include <array>
 #include <string>
-#include "Map.hpp"
-#include "ViewPort.hpp"
-#include "Constants.hpp"
+#include "Rendering/Map.hpp"
+#include "Rendering/ViewPort.hpp"
+#include "Utils/Constants.hpp"
 
 /// @brief Handles all rendering of the game world to the terminal
 ///

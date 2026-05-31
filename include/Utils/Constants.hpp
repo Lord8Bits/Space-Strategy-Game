@@ -1,5 +1,5 @@
 #pragma once
-#include "Enums.hpp"
+#include "Utils/Enums.hpp"
 #include <string>
 
 static constexpr int VIEWPORT_WIDTH  = 80;

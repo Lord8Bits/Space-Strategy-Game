@@ -1,9 +1,9 @@
-#include "../include/Game.hpp"
-#include "../include/Fighter.hpp"
-#include "../include/Cruiser.hpp"
-#include "../include/Transport.hpp"
-#include "../include/Planet.hpp"
-#include "../include/Constants.hpp"
+#include "Game.hpp"
+#include "Entities/Fighter.hpp"
+#include "Entities/Cruiser.hpp"
+#include "Entities/Transport.hpp"
+#include "Entities/Planet.hpp"
+#include "Utils/Constants.hpp"
 #include <iostream>
 #include <sstream>
 

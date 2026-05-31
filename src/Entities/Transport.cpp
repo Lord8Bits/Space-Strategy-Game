@@ -1,4 +1,4 @@
-#include "../../include/Transport.hpp"
+#include "Entities/Transport.hpp"
 #include <sstream>
 
 Transport::Transport(const std::string& Name, const Vec2& Pos, Civilization* Owner) :

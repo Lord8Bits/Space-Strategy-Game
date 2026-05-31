@@ -1,4 +1,4 @@
-#include "../../include/Resource.hpp"
+#include "Systems/Resource.hpp"
 #include <algorithm>
 
 // friend — accesses _gold, _titanium, _cadmium directly (no getters needed)

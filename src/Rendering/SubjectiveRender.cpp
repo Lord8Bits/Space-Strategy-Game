@@ -1,7 +1,7 @@
-#include "../../include/SubjectiveRender.hpp"
-#include "../../include/Civilization.hpp"
-#include "../../include/Ship.hpp"
-#include "../../include/Planet.hpp"
+#include "Rendering/SubjectiveRender.hpp"
+#include "AI/Civilization.hpp"
+#include "Entities/Ship.hpp"
+#include "Entities/Planet.hpp"
 #include <iostream>
 #include <sstream>
 

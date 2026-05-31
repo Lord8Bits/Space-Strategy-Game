@@ -1,7 +1,7 @@
 #include <string>
-#include "../../include/Render.hpp"
-#include "../../include/Map.hpp"
-#include "../../include/ViewPort.hpp"
+#include "Rendering/Render.hpp"
+#include "Rendering/Map.hpp"
+#include "Rendering/ViewPort.hpp"
 #include <iostream>
 
 void Render::clearScreen() {

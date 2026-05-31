@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Entity.hpp"
-#include "Resource.hpp"
-#include "Enums.hpp"
+#include "Entities/Entity.hpp"
+#include "Systems/Resource.hpp"
+#include "Utils/Enums.hpp"
 #include <string>
 
 /// @brief Represents a planet in the game world.

@@ -1,9 +1,9 @@
 #pragma once
-#include "Updatable.hpp"
-#include "Resource.hpp"
-#include "Technology.hpp"
-#include "Enums.hpp"
-#include "Constants.hpp"
+#include "Utils/Updatable.hpp"
+#include "Systems/Resource.hpp"
+#include "Systems/Technology.hpp"
+#include "Utils/Enums.hpp"
+#include "Utils/Constants.hpp"
 #include <unordered_map>
 #include <set>
 #include <string>

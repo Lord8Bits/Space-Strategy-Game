@@ -1,5 +1,5 @@
-#include "../include/InputParser.hpp"
-#include "../include/Constants.hpp"
+#include "Systems/InputParser.hpp"
+#include "Utils/Constants.hpp"
 #include <sstream>
 #include <algorithm>
 #include <cctype>

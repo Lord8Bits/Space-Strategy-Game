@@ -1,8 +1,8 @@
-#include "../../include/Civilization.hpp"
-#include "../../include/Map.hpp"
-#include "../../include/CombatSystem.hpp"
-#include "../../include/Ship.hpp"
-#include "../../include/Planet.hpp"
+#include "AI/Civilization.hpp"
+#include "Rendering/Map.hpp"
+#include "Systems/CombatSystem.hpp"
+#include "Entities/Ship.hpp"
+#include "Entities/Planet.hpp"
 #include <cstdlib>
 
 Civilization::Civilization(const std::string& name, CivilizationType type, Resource startingResources)

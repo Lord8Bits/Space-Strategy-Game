@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
-#include "Position.hpp"
-#include "Enums.hpp"
-#include "Civilization.hpp"
+#include "Utils/Position.hpp"
+#include "Utils/Enums.hpp"
+#include "AI/Civilization.hpp"
 
 class CombatSystem;
 class Ship;

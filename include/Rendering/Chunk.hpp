@@ -2,7 +2,7 @@
 #define SPACE_STRATEGY_GAME_SECTOR_H
 
 #include <set>
-#include "Entity.hpp"
+#include "Entities/Entity.hpp"
 
 /// @brief Represents a bounded region of the game world
 ///

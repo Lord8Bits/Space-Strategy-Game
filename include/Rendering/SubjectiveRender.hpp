@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Render.hpp"
-#include "Map.hpp"
-#include "Player.hpp"
-#include "Perception.hpp"
-#include "ViewPort.hpp"
-#include "Constants.hpp"
+#include "Rendering/Render.hpp"
+#include "Rendering/Map.hpp"
+#include "Systems/Player.hpp"
+#include "Systems/Perception.hpp"
+#include "Rendering/ViewPort.hpp"
+#include "Utils/Constants.hpp"
 #include <array>
 #include <string>
 

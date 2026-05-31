@@ -1,7 +1,7 @@
 #include <sstream>
 #include <algorithm>
-#include "../../include/Ship.hpp"
-#include "../../include/CombatSystem.hpp"
+#include "Entities/Ship.hpp"
+#include "Systems/CombatSystem.hpp"
 
 Ship::Ship(const std::string& Name, const Vec2& Pos, Civilization* Owner,
            int maxHp, int Movement, int Vision, int Attack, ShipType Type)

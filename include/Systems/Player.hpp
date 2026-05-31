@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Perception.hpp"
-#include "Map.hpp"
-#include "Enums.hpp"
+#include "Systems/Perception.hpp"
+#include "Rendering/Map.hpp"
+#include "Utils/Enums.hpp"
 #include <string>
 #include <set>
 

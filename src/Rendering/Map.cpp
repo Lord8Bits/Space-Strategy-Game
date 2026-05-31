@@ -1,5 +1,5 @@
-#include "../../include/Map.hpp"
-#include "../../include/Planet.hpp"
+#include "Rendering/Map.hpp"
+#include "Entities/Planet.hpp"
 #include <stdexcept>
 #include <limits>
 

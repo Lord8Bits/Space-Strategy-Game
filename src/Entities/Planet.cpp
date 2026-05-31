@@ -1,5 +1,5 @@
-#include "../../include/Planet.hpp"
-#include "../../include/Constants.hpp"
+#include "Entities/Planet.hpp"
+#include "Utils/Constants.hpp"
 #include <sstream>
 
 Planet::Planet(const std::string& name, const Vec2& pos, PlanetType type,

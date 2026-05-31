@@ -1,7 +1,7 @@
 #pragma once
-#include "Enums.hpp"
-#include "Entity.hpp"
-#include "CombatResult.hpp"
+#include "Utils/Enums.hpp"
+#include "Entities/Entity.hpp"
+#include "Systems/CombatResult.hpp"
 
 class CombatSystem;
 

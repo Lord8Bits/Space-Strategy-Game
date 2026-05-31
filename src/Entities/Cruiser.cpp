@@ -1,6 +1,6 @@
 #include <sstream>
 #include <algorithm>
-#include "../../include/Cruiser.hpp"
+#include "Entities/Cruiser.hpp"
 
 Cruiser::Cruiser(const std::string& Name, const Vec2& Pos, Civilization* Owner) :
     Ship(Name, Pos, Owner,
