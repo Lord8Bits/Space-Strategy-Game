@@ -50,6 +50,8 @@ public:
     }
 
 private:
+    void drawInternal(const Player& player, const Map& map, const Civilization* civ);
+
     Render& _render;
     std::array<GameUI::Cell, CHUNK_SIZE> _viewport{};
     std::string _frame_buffer;
