@@ -11,6 +11,8 @@ Planet::Planet(const std::string& name, const Vec2& pos, PlanetType type,
 {}
 
 GameUI::Color Planet::getDisplayColor() const {
+    if (_colonized && _owner)
+        return _owner->getColor();
     switch (_planet_type) {
         case PlanetType::TERRAIN : return GameUI::Color::GREEN;
         case PlanetType::MINERAL : return GameUI::Color::YELLOW;
