@@ -32,7 +32,8 @@ public:
     explicit SubjectiveRender(Render& render) : _render(render) {}
 
     /// @brief Draw the selected chunk filtered through the player's fog of war.
-    void draw(const Player& player, const Map& map);
+    /// @param playerCiv When provided, enemy entities are colored red by live relation.
+    void draw(const Player& player, const Map& map, const Civilization* playerCiv = nullptr);
 
     /// @brief Draw the complete game UI: world viewport + status panel + input prompt.
     /// @param player       The active player (fleet, FoW state)

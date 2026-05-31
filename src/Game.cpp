@@ -80,16 +80,28 @@ void Game::advanceTurn() {
     // Step 2: run enemy AI turns
     _enemy_civ.takeTurn(_map, _combat);
 
-    // Step 3: clean up player ships destroyed by enemy AI this turn
+    // Step 3: clean up ships destroyed this turn (both sides)
     {
-        std::vector<int> killed;
+        // Player ships killed by AI attacks
+        std::vector<int> player_killed;
         for (int id : _player.getShipIds()) {
             Entity* e = _map.getEntity(id);
-            if (e && !e->isAlive()) killed.push_back(id);
+            if (e && !e->isAlive()) player_killed.push_back(id);
         }
-        for (int id : killed) {
+        for (int id : player_killed) {
             _player.removeShipId(id);
             _player_civ.removeEntity(id);
+            _map.removeEntity(id);
+        }
+
+        // Enemy ships killed by player counter-attacks during the AI turn
+        std::vector<int> enemy_killed;
+        for (int id : _enemy_civ.getEntityIDs()) {
+            Entity* e = _map.getEntity(id);
+            if (e && e->asShip() && !e->isAlive()) enemy_killed.push_back(id);
+        }
+        for (int id : enemy_killed) {
+            _enemy_civ.removeEntity(id);
             _map.removeEntity(id);
         }
     }

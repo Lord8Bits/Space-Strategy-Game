@@ -5,6 +5,16 @@
 #include <iostream>
 #include <sstream>
 
+// Returns RED for any entity whose owner is currently an enemy of playerCiv,
+// otherwise falls back to the entity's own display color.
+static GameUI::Color resolveEntityColor(const Entity& entity, const Civilization& playerCiv) {
+    const Civilization* owner = entity.getCivOwner();
+    if (owner && owner != &playerCiv
+        && playerCiv.getRelationWith(*owner) == Relation::ENEMY)
+        return GameUI::Color::RED;
+    return entity.getDisplayColor();
+}
+
 // ── Compact ANSI palette for the UI panel ─────────────────────────────────────
 namespace {
     constexpr std::string_view R    = "\x1b[0m";      // reset
@@ -24,7 +34,7 @@ namespace {
 
 // ─── draw ─────────────────────────────────────────────────────────────────────
 
-void SubjectiveRender::draw(const Player& player, const Map& map) {
+void SubjectiveRender::draw(const Player& player, const Map& map, const Civilization* playerCiv) {
     const Chunk&      chunk       = map.getSelectedChunk();
     const int         world_width = map.getWorldWidth();
     const ViewPort    vp(chunk.getXStart(), chunk.getYStart());
@@ -40,7 +50,9 @@ void SubjectiveRender::draw(const Player& player, const Map& map) {
         const Vec2 wp = entity->getPosition();
         if (!vp.isInViewport(wp.x, wp.y)) continue;
         if (classifyCell(perc, wp.x, wp.y, world_width) != CellVisibility::Visible) continue;
-        _viewport[vp.toIndex(wp.x, wp.y)] = Render::makeCell(*entity);
+        GameUI::Cell cell = Render::makeCell(*entity);
+        if (playerCiv) cell.color = resolveEntityColor(*entity, *playerCiv);
+        _viewport[vp.toIndex(wp.x, wp.y)] = cell;
     }
 
     // Step 3: Fog / memory overlay on empty cells
@@ -107,7 +119,7 @@ void SubjectiveRender::draw(const Player& player, const Map& map) {
 void SubjectiveRender::drawUI(const Player& player, const Civilization& civ,
                                Map& map, int turn, const std::string& last_message) {
     Render::clearScreen();
-    draw(player, map);
+    draw(player, map, &civ);
 
     const int       selected = map.getSelectedChunkIndex() + 1;
     const int       total    = map.getChunkRows() * map.getChunkCols();

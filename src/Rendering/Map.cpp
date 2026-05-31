@@ -117,6 +117,7 @@ Entity* Map::findNearestEnemy(const Vec2& from, const Civilization& myCiv) const
     int minDist = std::numeric_limits<int>::max();
     for (const auto& [id, entity] : _all_entities) {
         if (!entity->isAlive()) continue;
+        if (!entity->canBeAttacked()) continue;  // ignore planets and unkillable entities
         if (!entity->getCivOwner() || entity->getCivOwner() == &myCiv) continue;
         const int dist = entity->getPosition().distanceTo(from);
         if (dist < minDist) { minDist = dist; nearest = entity.get(); }
