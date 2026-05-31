@@ -152,7 +152,7 @@ void SubjectiveRender::drawInternal(const Player& player, const Map& map, const 
 void SubjectiveRender::drawUI(const Player& player, const Civilization& civ,
                                Map& map, int turn, const std::string& last_message) {
     Render::clearScreen();
-    draw(player, map);
+    draw(player, map, civ);
 
     const int       selected = map.getSelectedChunkIndex() + 1;
     const int       total    = map.getChunkRows() * map.getChunkCols();
