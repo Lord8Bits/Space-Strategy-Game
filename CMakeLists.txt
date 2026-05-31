@@ -9,5 +9,9 @@ file(GLOB_RECURSE SOURCES "src/*.cpp")
 
 add_executable(Space_Game "src/main.cpp" ${SOURCES})
 
-target_compile_options(Space_Game PRIVATE -Wall -O2)
+if(MSVC)
+    target_compile_options(Space_Game PRIVATE /W4 /FS)
+else()
+    target_compile_options(Space_Game PRIVATE -Wall -O2)
+endif()
 target_include_directories(Space_Game PRIVATE include)
