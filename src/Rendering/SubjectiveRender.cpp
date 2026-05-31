@@ -276,8 +276,16 @@ void SubjectiveRender::drawUI(const Player& player, const Civilization& civ,
     ui << " build <fighter|cruiser|transport>  colonize <id>  view <sector>  next  status <id>  quit\n";
     ui << " ▲=Fighter(ATK50 rng1)  ◆=Cruiser(ATK25 rng3,no-retaliation)  ■=Transport  ●=Planet\n";
     ui << "================================================================" << R << "\n";
-    ui << WHT << " Input: " << R;
+    const int map_width = VIEWPORT_WIDTH + 4;
+    const int panel_col = map_width + 4;
+    const int input_row = VIEWPORT_HEIGHT + 3;
 
-    std::cout << ui.str();
+    std::istringstream panel(ui.str());
+    std::string line;
+    for (int row = 1; std::getline(panel, line); ++row) {
+        std::cout << "\033[" << row << ";" << panel_col << "H" << line;
+    }
+
+    std::cout << "\033[" << input_row << ";1H" << WHT << " Input: " << R;
     std::cout.flush();
 }
